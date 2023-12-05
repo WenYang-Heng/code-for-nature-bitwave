@@ -1,0 +1,12 @@
+merch1
+50
+merch2
+25
+merch3
+30
+merch4
+40
+merch5
+60
+merch6
+100

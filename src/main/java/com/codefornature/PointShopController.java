@@ -11,7 +11,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 
 public class PointShopController {
     @FXML
@@ -20,38 +23,44 @@ public class PointShopController {
     @FXML
     public void initialize() throws IOException {
         System.out.println("parent flow pane loaded");
-        VBox vbox = new VBox();
-        vbox.setPrefSize(252, 268);
-        String imageUrl = "@../../assets/images/";
-        ImageView merchImage = new ImageView(new Image(imageUrl + "shirt.jpg"));
-        merchImage.setFitWidth(252);
-        merchImage.setFitHeight(200);
-
-        Label itemName = new Label("Item Name");
-        Label itemPrice = new Label("$50");
-        itemName.setStyle("-fx-text-fill: #E4EAF1");
-        itemPrice.setStyle("-fx-text-fill: #E4EAF1");
-        itemPrice.setFont(new Font(20));
-        Region region = new Region();
-        HBox.setHgrow(region, Priority.ALWAYS);
-        HBox labelBox = new HBox(
-                itemName,
-                region,
-                itemPrice
-        );
-        labelBox.setAlignment(Pos.CENTER);
-        labelBox.setPadding(new Insets(0, 5, 0 ,5));
-
-        HBox buttonBox = new HBox(
-                createStyledButton("Buy Now"),
-                createStyledButton("Add to Cart"),
-                createCounterBox()
-        );
-        buttonBox.setPadding(new Insets(0, 5, 0 ,5));
-        buttonBox.setSpacing(10);
-        vbox.getChildren().addAll(merchImage, labelBox, buttonBox);
-        vbox.setSpacing(10);
-        merchContent.getChildren().add(vbox);
+        String rootPath = System.getProperty("user.dir");
+        BufferedReader in = new BufferedReader(new FileReader(rootPath + "/src/main/resources/assets/text/merchandise.txt"));
+        String line;
+        while((line = in.readLine()) != null){
+            VBox vbox = new VBox();
+            vbox.setPrefSize(252, 268);
+            String imageUrl = "@../../assets/images/";
+            Label itemName = new Label(line);
+            String price = in.readLine();
+            Label itemPrice = new Label("$" + price);
+            itemName.setStyle("-fx-text-fill: #E4EAF1");
+            itemPrice.setStyle("-fx-text-fill: #E4EAF1");
+            itemPrice.setFont(new Font(20));
+            String imageName = in.readLine();
+            ImageView merchImage = new ImageView(new Image(imageUrl + imageName));
+            merchImage.setFitWidth(252);
+            merchImage.setFitHeight(200);
+            Region region = new Region();
+            HBox.setHgrow(region, Priority.ALWAYS);
+            HBox labelBox = new HBox(
+                    itemName,
+                    region,
+                    itemPrice
+            );
+            labelBox.setAlignment(Pos.CENTER);
+            labelBox.setPadding(new Insets(0, 5, 0 ,5));
+            HBox buttonBox = new HBox(
+                    createStyledButton("Buy Now"),
+                    createStyledButton("Add to Cart"),
+                    createCounterBox()
+            );
+            buttonBox.setPadding(new Insets(0, 5, 0 ,5));
+            buttonBox.setSpacing(10);
+            vbox.getChildren().addAll(merchImage, labelBox, buttonBox);
+            vbox.setSpacing(10);
+            merchContent.getChildren().add(vbox);
+        }
+        in.close();
     }
 
     private Button createStyledButton(String text) {

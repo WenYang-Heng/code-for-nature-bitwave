@@ -42,13 +42,10 @@ public class PointShopController {
             merchImage.setFitHeight(200);
             Region region = new Region();
             HBox.setHgrow(region, Priority.ALWAYS);
-            HBox labelBox = new HBox(
-                    itemName,
-                    region,
-                    itemPrice
-            );
+            HBox labelBox = new HBox(itemName, region, itemPrice);
             labelBox.setAlignment(Pos.CENTER);
             labelBox.setPadding(new Insets(0, 5, 0 ,5));
+
             HBox buttonBox = new HBox(
                     createStyledButton("Buy Now"),
                     createStyledButton("Add to Cart"),

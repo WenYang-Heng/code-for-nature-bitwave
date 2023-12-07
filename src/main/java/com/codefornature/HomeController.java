@@ -5,6 +5,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
@@ -34,7 +35,7 @@ public class HomeController {
         HBox dateTimeContainer = new HBox(date, region, time);
         dateTimeContainer.setPadding(new Insets(0, 0, 5, 0));
 
-        //create the news image
+        //create news image
         ImageView newsImage = new ImageView(rootPath + "images/news/FWG_2560x1440.jpg");
         newsImage.setFitWidth(300);
         newsImage.setFitHeight(300);
@@ -56,7 +57,7 @@ public class HomeController {
         icon.setFitWidth(15);
         icon.setFitHeight(15);
         ColorAdjust colorAdjust = new ColorAdjust();
-        colorAdjust.setBrightness(1); // Hue adjustment to give a gray color
+        colorAdjust.setBrightness(1);
         icon.setEffect(colorAdjust);
         Label label = new Label(details);
         label.setFont(new Font(12));

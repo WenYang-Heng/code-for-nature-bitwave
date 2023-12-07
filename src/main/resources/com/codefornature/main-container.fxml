@@ -9,7 +9,7 @@
    <left>
       <VBox prefHeight="800.0" prefWidth="200.0" style="-fx-border-width: 0 2 0 0; -fx-border-color: #BCCBDC;" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="190.0" style="-fx-background-radius: 15; -fx-cursor: hand;" text="Home">
+            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="190.0" onAction="#toHome" style="-fx-background-radius: 15; -fx-cursor: hand;" text="Home">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>

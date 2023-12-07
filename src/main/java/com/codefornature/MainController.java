@@ -30,4 +30,8 @@ public class MainController {
         System.out.println("point shop button clicked");
         loadPage("point-shop.fxml");
     }
+
+    public void toHome(ActionEvent actionEvent) throws IOException {
+        loadPage("home-view.fxml");
+    }
 }

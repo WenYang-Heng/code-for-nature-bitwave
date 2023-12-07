@@ -1,0 +1,7 @@
+#sidebar Button{
+    -fx-background-color: transparent;
+}
+
+#sidebar Button:hover {
+    -fx-background-color: #1c2835;
+}

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.PointShopController">
+   <children>
+      <FlowPane fx:id="merchContent" hgap="65.0" layoutX="57.0" layoutY="95.0" prefHeight="610.0" prefWidth="887.0" rowValignment="TOP" vgap="40.0">
+<!--         <children>-->
+<!--            <VBox prefHeight="268.0" prefWidth="252.0">-->
+<!--               <children>-->
+<!--                  <ImageView fitHeight="200.0" fitWidth="252.0" pickOnBounds="true">-->
+<!--                     <image>-->
+<!--                        <Image url="@../../assets/images/shirt.jpg" />-->
+<!--                     </image>-->
+<!--                  </ImageView>-->
+<!--                  <HBox prefHeight="28.0" prefWidth="252.0">-->
+<!--                     <children>-->
+<!--                        <Label id="itemName" text="Item Name">-->
+<!--                           <font>-->
+<!--                              <Font size="14.0" />-->
+<!--                           </font>-->
+<!--                           <HBox.margin>-->
+<!--                              <Insets bottom="5.0" top="5.0" />-->
+<!--                           </HBox.margin>-->
+<!--                        </Label>-->
+<!--                        <Region prefHeight="52.0" prefWidth="142.0" HBox.hgrow="ALWAYS" />-->
+<!--                        <Label id="price" prefHeight="15.0" prefWidth="31.0" text="\$50">-->
+<!--                           <font>-->
+<!--                              <Font size="19.0" />-->
+<!--                           </font>-->
+<!--                        </Label>-->
+<!--                     </children>-->
+<!--                     <padding>-->
+<!--                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />-->
+<!--                     </padding>-->
+<!--                  </HBox>-->
+<!--                  <HBox prefHeight="52.0" prefWidth="252.0" spacing="10.0">-->
+<!--                     <children>-->
+<!--                        <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="146.0" style="-fx-background-radius: 20;" text="Buy Now">-->
+<!--                           <padding>-->
+<!--                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />-->
+<!--                           </padding>-->
+<!--                        </Button>-->
+<!--                        <Button layoutX="15.0" layoutY="15.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="146.0" style="-fx-background-radius: 20;" text="Add to Cart">-->
+<!--                           <padding>-->
+<!--                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />-->
+<!--                           </padding>-->
+<!--                        </Button>-->
+<!--                        <HBox prefHeight="28.0" prefWidth="25.0">-->
+<!--                           <children>-->
+<!--                              <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="0.0" style="-fx-background-color: transparent;">-->
+<!--                                 <graphic>-->
+<!--                                    <ImageView fitHeight="13.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                       <image>-->
+<!--                                          <Image url="@../../assets/icons/minus.png" />-->
+<!--                                       </image>-->
+<!--                                    </ImageView>-->
+<!--                                 </graphic>-->
+<!--                              </Button>-->
+<!--                              <Label text="0">-->
+<!--                                 <HBox.margin>-->
+<!--                                    <Insets bottom="5.0" top="5.0" />-->
+<!--                                 </HBox.margin>-->
+<!--                              </Label>-->
+<!--                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="0.0" style="-fx-background-color: transparent;">-->
+<!--                                 <graphic>-->
+<!--                                    <ImageView fitHeight="13.0" fitWidth="74.0" pickOnBounds="true" preserveRatio="true">-->
+<!--                                       <image>-->
+<!--                                          <Image url="@../../assets/icons/plus.png" />-->
+<!--                                       </image>-->
+<!--                                    </ImageView>-->
+<!--                                 </graphic>-->
+<!--                              </Button>-->
+<!--                           </children>-->
+<!--                        </HBox>-->
+<!--                     </children>-->
+<!--                     <padding>-->
+<!--                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />-->
+<!--                     </padding>-->
+<!--                  </HBox>-->
+<!--               </children>-->
+<!--            </VBox>-->
+<!--         </children>-->
+      </FlowPane>
+      <Label layoutX="57.0" layoutY="64.0" text="Shop" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

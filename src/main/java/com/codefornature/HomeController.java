@@ -21,11 +21,35 @@ public class HomeController {
     }
 
     public void createNewsUI(){
+        int numberOfColumnsToShow = 3;
         String rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
         //create the containers
-        FlowPane newsContainer = new FlowPane();
+        GridPane newsContainer = new GridPane();
+        newsContainer.setStyle("-fx-border-color: green");
+        newsContainer.setAlignment(Pos.CENTER);
+        newsContainer.setHgap(30);
+        newsContainer.getStyleClass().add("label");
+
+        for(int i = 0; i < 3; i++){
+            VBox newsChild = createNewsVbox(rootPath);
+            GridPane.setColumnIndex(newsChild, i);
+            newsContainer.getChildren().add(newsChild);
+        }
+
+        // Hide subsequent columns
+        for (int i = numberOfColumnsToShow; i < 6; i++) {
+            ColumnConstraints columnConstraints = new ColumnConstraints();
+            columnConstraints.setPercentWidth(0);
+            newsContainer.getColumnConstraints().add(columnConstraints);
+        }
+
+        homeContainer.getChildren().add(newsContainer);
+    }
+
+    private VBox createNewsVbox(String rootPath){
         VBox newsChild = new VBox();
-        newsChild.setPrefSize(300, 400);
+        newsChild.setPrefWidth(280);
+        newsChild.setStyle("-fx-border-color: white");
 
         //create date and time
         HBox date = createNewsTimeStamp(rootPath + "icons/calendar.png", "6 November 2023");
@@ -37,8 +61,8 @@ public class HomeController {
 
         //create news image
         ImageView newsImage = new ImageView(rootPath + "images/news/FWG_2560x1440.jpg");
-        newsImage.setFitWidth(300);
-        newsImage.setFitHeight(300);
+        newsImage.setFitWidth(280);
+        newsImage.setFitHeight(250);
 
         //create news title
         Label newsTitle = new Label("Climate change: Rise in Google searches around ‘anxiety’");
@@ -47,9 +71,7 @@ public class HomeController {
 
         //adding nodes to respective containers
         newsChild.getChildren().addAll(dateTimeContainer, newsImage, newsTitle);
-        newsContainer.getChildren().add(newsChild);
-        newsContainer.getStyleClass().add("label");
-        homeContainer.getChildren().add(newsContainer);
+        return newsChild;
     }
     private HBox createNewsTimeStamp(String iconPath, String details){
         HBox hbox = new HBox();

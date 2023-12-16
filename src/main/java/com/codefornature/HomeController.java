@@ -3,6 +3,7 @@ package com.codefornature;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -15,14 +16,15 @@ import java.io.IOException;
 public class HomeController {
     @FXML
     VBox homeContainer;
+    private String rootPath;
 
     public void initialize() throws IOException{
+        rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
         createNewsUI();
     }
 
     public void createNewsUI(){
         int numberOfColumnsToShow = 3;
-        String rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
         //create the containers
         GridPane newsContainer = new GridPane();
         newsContainer.setStyle("-fx-border-color: green");
@@ -30,8 +32,18 @@ public class HomeController {
         newsContainer.setHgap(30);
         newsContainer.getStyleClass().add("label");
 
+        HBox newsHeader = new HBox();
+        Label newsHeaderTitle = new Label("News");
+        Region region = new Region();
+        HBox.setHgrow(region, Priority.ALWAYS);
+        Button leftBtn = createCarouselButtons("left-arrow.png");
+        Button rightBtn = createCarouselButtons("right-arrow.png");
+        newsHeader.getChildren().addAll(newsHeaderTitle, region, leftBtn, rightBtn);
+        newsHeader.setAlignment(Pos.CENTER);
+        newsHeader.setPadding(new Insets(0, 45, 5, 45));
+
         for(int i = 0; i < 3; i++){
-            VBox newsChild = createNewsVbox(rootPath);
+            VBox newsChild = createNewsVbox();
             GridPane.setColumnIndex(newsChild, i);
             newsContainer.getChildren().add(newsChild);
         }
@@ -43,10 +55,24 @@ public class HomeController {
             newsContainer.getColumnConstraints().add(columnConstraints);
         }
 
-        homeContainer.getChildren().add(newsContainer);
+        homeContainer.getChildren().addAll(newsHeader, newsContainer);
     }
 
-    private VBox createNewsVbox(String rootPath){
+    private Button createCarouselButtons(String iconPath){
+        ImageView imageView = new ImageView(rootPath + "icons/" + iconPath);
+        imageView.setFitWidth(12);
+        imageView.setFitHeight(12);
+        ColorAdjust white = new ColorAdjust();
+        white.setBrightness(1.0);
+        imageView.setEffect(white);
+        Button button = new Button();
+        button.setStyle("-fx-background-color: transparent");
+        button.setGraphic(imageView);
+
+        return button;
+    }
+
+    private VBox createNewsVbox(){
         VBox newsChild = new VBox();
         newsChild.setPrefWidth(280);
         newsChild.setStyle("-fx-border-color: white");

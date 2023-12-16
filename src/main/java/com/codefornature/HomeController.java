@@ -32,6 +32,7 @@ public class HomeController {
         newsContainer.setHgap(30);
         newsContainer.getStyleClass().add("label");
 
+        //create news header
         HBox newsHeader = new HBox();
         Label newsHeaderTitle = new Label("News");
         Region region = new Region();
@@ -42,8 +43,8 @@ public class HomeController {
         newsHeader.setAlignment(Pos.CENTER);
         newsHeader.setPadding(new Insets(0, 45, 5, 45));
 
-        for(int i = 0; i < 3; i++){
-            VBox newsChild = createNewsVbox();
+        for(int i = 0; i < 6; i++){
+            VBox newsChild = createNewsVbox(i);
             GridPane.setColumnIndex(newsChild, i);
             newsContainer.getChildren().add(newsChild);
         }
@@ -72,7 +73,7 @@ public class HomeController {
         return button;
     }
 
-    private VBox createNewsVbox(){
+    private VBox createNewsVbox(int index){
         VBox newsChild = new VBox();
         newsChild.setPrefWidth(280);
         newsChild.setStyle("-fx-border-color: white");
@@ -91,10 +92,13 @@ public class HomeController {
         newsImage.setFitHeight(250);
 
         //create news title
-        Label newsTitle = new Label("Climate change: Rise in Google searches around ‘anxiety’");
+        Label newsTitle = new Label(Integer.toString(index));
         newsTitle.getStyleClass().add("newsTitle");
         newsTitle.setPadding(new Insets(10, 5, 0, 5));
 
+        if(index >= 3){
+            newsChild.setManaged(false); //ignore size and layout
+        }
         //adding nodes to respective containers
         newsChild.getChildren().addAll(dateTimeContainer, newsImage, newsTitle);
         return newsChild;

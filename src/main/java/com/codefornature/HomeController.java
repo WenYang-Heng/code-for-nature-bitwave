@@ -20,6 +20,10 @@ public class HomeController {
     VBox homeContainer;
     private String rootPath;
     private int visibleColumns = 3;
+    private Node firstItem;
+    private Node lastItem;
+    private Button leftBtn;
+    private Button rightBtn;
 
     public void initialize() throws IOException{
         rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
@@ -39,10 +43,11 @@ public class HomeController {
         Label newsHeaderTitle = new Label("News");
         Region region = new Region();
         HBox.setHgrow(region, Priority.ALWAYS);
-        Button leftBtn = createCarouselButtons("left-arrow.png");
+        leftBtn = createCarouselButtons("left-arrow.png");
         leftBtn.setOnAction(e -> shiftRight(newsContainer));
+        leftBtn.setDisable(true);
 
-        Button rightBtn = createCarouselButtons("right-arrow.png");
+        rightBtn = createCarouselButtons("right-arrow.png");
         rightBtn.setOnAction(e -> shiftLeft(newsContainer));
 
         newsHeader.getChildren().addAll(newsHeaderTitle, region, leftBtn, rightBtn);
@@ -66,7 +71,15 @@ public class HomeController {
 //            newsContainer.getColumnConstraints().add(columnConstraints);
 //        }
 
+        firstItem = getNodeFromGridPane(newsContainer, 0, 0);
+        lastItem = getNodeFromGridPane(newsContainer,newsContainer.getChildren().size() - 1, 0);
+
         homeContainer.getChildren().addAll(newsHeader, newsContainer);
+    }
+
+    private void updateCarouselButtonStates(GridPane gridPane){
+        leftBtn.setDisable(GridPane.getColumnIndex(firstItem) == 0);
+        rightBtn.setDisable(GridPane.getColumnIndex(lastItem) == 2);
     }
 
     private void shiftRight(GridPane gridPane){
@@ -89,6 +102,8 @@ public class HomeController {
             lastNode.setManaged(true);
         }
 
+        updateCarouselButtonStates(gridPane);
+
     }
 
     private void shiftLeft(GridPane gridPane){
@@ -110,6 +125,8 @@ public class HomeController {
 
         if(firstNode != null)
             GridPane.setColumnIndex(firstNode, gridPane.getChildren().size() - 1);
+
+        updateCarouselButtonStates(gridPane);
     }
 
     private Button createCarouselButtons(String iconPath){

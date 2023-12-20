@@ -44,5 +44,8 @@ public class UserDAO {
         return false;
     }
 
+    public void updatePoints(int points){
+
+    }
 
 }

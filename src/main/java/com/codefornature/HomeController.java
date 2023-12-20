@@ -1,5 +1,6 @@
 package com.codefornature;
 
+import com.codefornature.model.UserModel;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,6 +17,7 @@ import javafx.scene.text.Font;
 import java.io.IOException;
 
 public class HomeController {
+    UserModel user;
     @FXML
     VBox homeContainer;
     private String rootPath;
@@ -25,15 +27,101 @@ public class HomeController {
     private Button leftBtn;
     private Button rightBtn;
 
+    public void setUser(UserModel user){
+        this.user = user;
+        createDashboardUI();
+        createNewsUI();
+    }
+
     public void initialize() throws IOException{
         rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
-        createNewsUI();
+    }
+
+    public void createDashboardUI(){
+        Label pointsLabel = new Label("Points");
+        pointsLabel.setTextFill(javafx.scene.paint.Color.WHITE);
+        pointsLabel.setFont(new Font("System Bold", 26));
+        pointsLabel.setPadding(new Insets(10, 0, 0, 0));
+
+        Label pointsValue = new Label(Integer.toString(user.getPoints()));
+        pointsValue.setTextFill(javafx.scene.paint.Color.WHITE);
+        pointsValue.setFont(new Font(24));
+        pointsValue.setPadding(new Insets(45, 0, 0, 0));
+
+        ImageView coinIcon = new ImageView(new Image(rootPath + "images/home/coin.png"));
+        coinIcon.setFitHeight(71);
+        coinIcon.setFitWidth(71);
+        coinIcon.setPickOnBounds(true);
+        coinIcon.setPreserveRatio(true);
+
+        Region region = new Region();
+        HBox.setHgrow(region, Priority.ALWAYS);
+
+        VBox pointsContainer = new VBox(pointsLabel, pointsValue);
+
+        HBox pointsHBox = new HBox(pointsContainer, region, coinIcon);
+        pointsHBox.setAlignment(Pos.CENTER);
+        pointsHBox.setStyle("-fx-border-color: #ffffff");
+        HBox.setHgrow(pointsHBox, Priority.ALWAYS);
+
+        // Daily Rewards Section
+        Label dailyRewardsLabel = new Label("Daily Rewards");
+        dailyRewardsLabel.setTextFill(javafx.scene.paint.Color.WHITE);
+        dailyRewardsLabel.setFont(new Font("System Bold", 26));
+        dailyRewardsLabel.setPadding(new Insets(10, 0, 0, 0));
+
+        ImageView giftboxIcon = new ImageView(new Image(rootPath + "images/home/giftbox.png"));
+        giftboxIcon.setFitHeight(55);
+        giftboxIcon.setFitWidth(51);
+        giftboxIcon.setPickOnBounds(true);
+        giftboxIcon.setPreserveRatio(true);
+
+        Button claimRewardButton = new Button("Claim Your Reward");
+        claimRewardButton.setPrefSize(133, 32);
+        claimRewardButton.setStyle("-fx-background-radius: 50; -fx-background-color: #40B52C;");
+        claimRewardButton.setTextFill(javafx.scene.paint.Color.WHITE);
+
+        VBox dailyRewardsVBox = new VBox(dailyRewardsLabel, giftboxIcon, claimRewardButton);
+        dailyRewardsVBox.setAlignment(Pos.TOP_CENTER);
+        dailyRewardsVBox.setSpacing(15);
+        dailyRewardsVBox.setStyle("-fx-border-color: #ffffff");
+        HBox.setHgrow(dailyRewardsVBox, Priority.ALWAYS);
+
+        // Plant a Tree Section
+        Label plantTreeLabel = new Label("Plant a Tree");
+        plantTreeLabel.setTextFill(javafx.scene.paint.Color.WHITE);
+        plantTreeLabel.setFont(new Font("System Bold", 26));
+        plantTreeLabel.setPadding(new Insets(10, 0, 0, 0));
+
+        ImageView treeIcon = new ImageView(new Image(rootPath + "images/home/tree.png"));
+        treeIcon.setFitHeight(57);
+        treeIcon.setFitWidth(50);
+        treeIcon.setPickOnBounds(true);
+        treeIcon.setPreserveRatio(true);
+
+        Button plantNowButton = new Button("Plant Now");
+        plantNowButton.setPrefSize(133, 32);
+        plantNowButton.setStyle("-fx-background-radius: 50; -fx-background-color: #40B52C;");
+        plantNowButton.setTextFill(javafx.scene.paint.Color.WHITE);
+
+        VBox plantTreeVBox = new VBox(plantTreeLabel, treeIcon, plantNowButton);
+        plantTreeVBox.setAlignment(Pos.TOP_CENTER);
+        plantTreeVBox.setSpacing(15);
+        plantTreeVBox.setStyle("-fx-border-color: #ffffff");
+        HBox.setHgrow(plantTreeVBox, Priority.ALWAYS);
+
+        // Main HBox
+        HBox homeDashboard = new HBox(pointsHBox, dailyRewardsVBox, plantTreeVBox);
+        homeDashboard.setSpacing(20);
+        homeDashboard.setAlignment(Pos.CENTER);
+        homeDashboard.setPadding(new Insets(45));
+        homeContainer.getChildren().add(homeDashboard);
     }
 
     public void createNewsUI(){
         //create the containers
         GridPane newsContainer = new GridPane();
-        newsContainer.setStyle("-fx-border-color: green");
+//        newsContainer.setStyle("-fx-border-color: green");
         newsContainer.setAlignment(Pos.CENTER);
         newsContainer.setHgap(30);
         newsContainer.getStyleClass().add("label");
@@ -45,7 +133,7 @@ public class HomeController {
         HBox.setHgrow(region, Priority.ALWAYS);
         leftBtn = createCarouselButtons("left-arrow.png");
         leftBtn.setOnAction(e -> shiftRight(newsContainer));
-        leftBtn.setDisable(true);
+        leftBtn.setDisable(true); // first item is already displayed, no need for user to cycle left
 
         rightBtn = createCarouselButtons("right-arrow.png");
         rightBtn.setOnAction(e -> shiftLeft(newsContainer));
@@ -56,20 +144,12 @@ public class HomeController {
 
         for(int i = 0; i < 7; i++){
             VBox newsChild = createNewsVbox(i);
-            ColumnConstraints column = new ColumnConstraints();
             if(i >= 3) {
                 newsChild.setManaged(false);
                 newsChild.setVisible(false);
             }
             newsContainer.add(newsChild, i, 0);
         }
-
-        // Hide subsequent columns
-//        for (int i = visibleColumns; i < 6; i++) {
-//            ColumnConstraints columnConstraints = new ColumnConstraints();
-//            columnConstraints.setPercentWidth(0);
-//            newsContainer.getColumnConstraints().add(columnConstraints);
-//        }
 
         firstItem = getNodeFromGridPane(newsContainer, 0, 0);
         lastItem = getNodeFromGridPane(newsContainer,newsContainer.getChildren().size() - 1, 0);
@@ -89,6 +169,7 @@ public class HomeController {
             Node node = getNodeFromGridPane(gridPane, i, 0);
             if(node != null){
                 GridPane.setColumnIndex(node, i + 1);
+                //shifting 3rd node to 4th column
                 if(i == 2 && node.isVisible() == true){
                     node.setVisible(false);
                     node.setManaged(false);
@@ -116,6 +197,7 @@ public class HomeController {
             Node node = getNodeFromGridPane(gridPane, i, 0);
             if(node != null){
                 GridPane.setColumnIndex(node, i - 1);
+                //shifting 4th node to 3rd column
                 if(i == 3 && node.isVisible() == false){
                     node.setManaged(true);
                     node.setVisible(true);

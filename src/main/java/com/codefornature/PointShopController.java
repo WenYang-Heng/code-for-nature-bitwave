@@ -1,5 +1,7 @@
 package com.codefornature;
 
+import com.codefornature.dao.MerchandiseDAO;
+import com.codefornature.model.MerchandiseModel;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,29 +17,33 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.List;
 
 public class PointShopController {
+    private List<MerchandiseModel> merchList;
     @FXML
     FlowPane merchContent;
 
     @FXML
-    public void initialize() throws IOException {
-        System.out.println("parent flow pane loaded");
+    public void initialize() throws IOException, SQLException {
         String rootPath = System.getProperty("user.dir");
-        BufferedReader in = new BufferedReader(new FileReader(rootPath + "/src/main/resources/assets/text/merchandise.txt"));
-        String line;
-        while((line = in.readLine()) != null){
+        MerchandiseDAO merchDAO = new MerchandiseDAO();
+        merchList = merchDAO.getAllMerchandise();
+//        BufferedReader in = new BufferedReader(new FileReader(rootPath + "/src/main/resources/assets/text/merchandise.txt"));
+//        String line;
+        for(int i = 0; i < merchList.size(); i++){
             VBox vbox = new VBox();
             vbox.setPrefSize(252, 268);
             String imageUrl = "@../../assets/images/";
-            Label itemName = new Label(line);
-            String price = in.readLine();
-            Label itemPrice = new Label("$" + price);
+            Label itemName = new Label(merchList.get(i).getMerchandise_name());
+//            String price = in.readLine();
+            Label itemPrice = new Label("$" + merchList.get(i).getCost());
             itemName.setStyle("-fx-text-fill: #E4EAF1");
             itemPrice.setStyle("-fx-text-fill: #E4EAF1");
             itemPrice.setFont(new Font(20));
-            String imageName = in.readLine();
-            ImageView merchImage = new ImageView(new Image(imageUrl + imageName));
+//            String imageName = in.readLine();
+            ImageView merchImage = new ImageView(new Image(imageUrl + merchList.get(i).getImage_name()));
             merchImage.setFitWidth(252);
             merchImage.setFitHeight(200);
             Region region = new Region();
@@ -57,7 +63,7 @@ public class PointShopController {
             vbox.setSpacing(10);
             merchContent.getChildren().add(vbox);
         }
-        in.close();
+//        in.close();
     }
 
     private Button createStyledButton(String text) {

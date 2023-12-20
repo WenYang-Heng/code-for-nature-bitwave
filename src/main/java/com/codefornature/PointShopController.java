@@ -53,8 +53,8 @@ public class PointShopController {
             labelBox.setPadding(new Insets(0, 5, 0 ,5));
 
             HBox buttonBox = new HBox(
-                    createStyledButton("Buy Now"),
-                    createStyledButton("Add to Cart"),
+                    createStyledButton("Buy Now", merchList.get(i)),
+                    createStyledButton("Add to Cart", merchList.get(i)),
                     createCounterBox()
             );
             buttonBox.setPadding(new Insets(0, 5, 0 ,5));
@@ -66,7 +66,7 @@ public class PointShopController {
 //        in.close();
     }
 
-    private Button createStyledButton(String text) {
+    private Button createStyledButton(String text, MerchandiseModel merch) {
         Button button = new Button(text);
         button.setFont(new Font(11));
         button.setStyle(
@@ -74,7 +74,22 @@ public class PointShopController {
                 (text.equals("Buy Now")? "-fx-background-color: #359424;-fx-text-fill: #ffffff;" : "-fx-background-color: #A9E79C; -fx-text-fill: #1E4B15")
         );
         button.setPrefSize(200, 27);
+
+        if(text.equals("Buy Now")){
+            button.setOnAction(event -> buyNow(merch));
+        }
+        else{
+            button.setOnAction((event -> addToCart(merch)));
+        }
         return button;
+    }
+
+    private void addToCart(MerchandiseModel merch) {
+        System.out.println("Add now: " + merch.getMerchandise_name());
+    }
+
+    private void buyNow(MerchandiseModel merch) {
+        System.out.println("Buy now: " + merch.getMerchandise_name());
     }
 
     private HBox createCounterBox() {
@@ -83,6 +98,18 @@ public class PointShopController {
         Label counterLabel = new Label("0");
         counterLabel.setStyle("-fx-text-fill: #ffffff");
         Button plusButton = createImageButton(iconUrl + "plus.png");
+
+        minusButton.setOnAction(event -> {
+            int count = Integer.parseInt(counterLabel.getText());
+            if(count > 0){
+                counterLabel.setText(Integer.toString(--count));
+            }
+        });
+
+        plusButton.setOnAction(event -> {
+            int count = Integer.parseInt(counterLabel.getText());
+            counterLabel.setText(Integer.toString(++count));
+        });
 
         HBox counterBox = new HBox(minusButton, counterLabel, plusButton);
         counterBox.setAlignment(Pos.CENTER);

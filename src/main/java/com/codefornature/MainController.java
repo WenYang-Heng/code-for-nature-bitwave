@@ -50,4 +50,8 @@ public class MainController {
         this.user = user;
         loadPage("home-view.fxml");
     }
+
+    public void toShoppingCart(ActionEvent actionEvent) throws IOException {
+        loadPage("shopping-cart-view.fxml");
+    }
 }

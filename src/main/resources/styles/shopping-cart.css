@@ -1,0 +1,12 @@
+.cart-item{
+    -fx-text-fill: "#ffffff";
+    -fx-font-size: 15px;
+}
+
+.scroll-pane > .viewport{
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}

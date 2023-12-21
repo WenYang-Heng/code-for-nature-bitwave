@@ -10,6 +10,8 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class ShoppingCartController {
@@ -20,24 +22,73 @@ public class ShoppingCartController {
     @FXML
     public void initialize(){
         rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
+        VBox carItemsContainer = new VBox();
+        carItemsContainer.setPrefHeight(500);
+        carItemsContainer.setSpacing(20);
+        HBox cartHeader = new HBox();
+        Label merchHeader = new Label("Merchandise");
+        Label quantityHeader =  new Label("Quantity");
+        Label costHeader = new Label("Cost");
+        Label totalHeader = new Label("Total");
+        Region region1 = new Region();
+        Region region2 = new Region();
+        Region region3 = new Region();
+        region1.setPrefWidth(380); //space between merchandise and quantity
+        region2.setPrefWidth(120); //space between quantity and cost
+        region3.setPrefWidth(70); //space between cost and total
+        cartHeader.getChildren().addAll(merchHeader, region1, quantityHeader, region2, costHeader, region3, totalHeader);
+        cartHeader.setPadding(new Insets(20, 20, 5, 20));
+        cartHeader.getStyleClass().add("cart-header");
+
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.getStylesheets().add(getClass().getResource("/styles/shopping-cart.css").toExternalForm());
-        HBox merchContent = new HBox();
-        merchContent.setStyle("-fx-background-color: #1C2835; -fx-background-radius: 20;");
-        merchContent.setPadding(new Insets(20));
-        ImageView merchImage = new ImageView(rootPath + "images/eco-tote-bag.jpg");
-        merchImage.setFitHeight(200);
-        merchImage.setFitWidth(200);
-        Label merchName = new Label("Save the earth T-shirt");
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+        for(int i = 0; i < 0; i++){
+            HBox merchContent = new HBox();
+            merchContent.setSpacing(20);
+            merchContent.setStyle("-fx-background-color: #1C2835; -fx-background-radius: 20;");
+            merchContent.setPadding(new Insets(20));
+            ImageView merchImage = new ImageView(rootPath + "images/eco-tote-bag.jpg");
+            merchImage.setFitHeight(170);
+            merchImage.setFitWidth(170);
+            Label merchName = new Label("Save the earth T-shirt");
+            merchName.setMinWidth(300);
+            merchName.setStyle("fx-background-color: green");
+            merchName.setWrapText(true);
 
-        HBox quantityContainer = createCounterBox();
-        Label merchCost = new Label("100");
-        Label totalCost = new Label("100");
+            HBox quantityContainer = createCounterBox();
+            Label merchCost = new Label("1000");
+            Label totalCost = new Label("1000");
+            merchCost.setMinWidth(100);
+            merchCost.setAlignment(Pos.CENTER);
+            totalCost.setMinWidth(100);
+            totalCost.setAlignment(Pos.CENTER);
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
 
-        merchContent.getChildren().addAll(merchImage, merchName, quantityContainer, merchCost, totalCost);
+            merchContent.getChildren().addAll(merchImage, merchName, quantityContainer, spacer, merchCost, totalCost);
+            carItemsContainer.getChildren().add(merchContent);
+        }
+        scrollPane.setContent(carItemsContainer);
 
-        scrollPane.setContent(merchContent);
-        shoppingCartContainer.getChildren().add(scrollPane);
+        HBox grandTotalContainer = new HBox();
+        Label grandTotalLabel = new Label("Grand Total:");
+        Label grandTotal = new Label("200");
+        grandTotal.setMinWidth(100);
+        grandTotal.setStyle("-fx-font-weight: bold");
+        grandTotalContainer.setSpacing(20);
+        grandTotalContainer.setPadding(new Insets(20, 0, 0, 0));
+        grandTotalContainer.setAlignment(Pos.CENTER_RIGHT);
+        grandTotalContainer.getChildren().addAll(grandTotalLabel, grandTotal);
+
+        Button checkoutBtn = new Button("Checkout");
+        checkoutBtn.getStyleClass().add("checkout-btn");
+        HBox checkoutBtnContainer = new HBox(checkoutBtn);
+        checkoutBtnContainer.setAlignment(Pos.CENTER_RIGHT);
+        checkoutBtnContainer.setPadding(new Insets(20, 20, 0 , 0));
+
+        shoppingCartContainer.getChildren().addAll(cartHeader, scrollPane, grandTotalContainer, checkoutBtnContainer);
+        shoppingCartContainer.getStylesheets().add(getClass().getResource("/styles/shopping-cart.css").toExternalForm());
     }
 
     private HBox createCounterBox() {
@@ -60,7 +111,7 @@ public class ShoppingCartController {
         });
 
         HBox counterBox = new HBox(minusButton, counterLabel, plusButton);
-        counterBox.setAlignment(Pos.CENTER);
+        counterBox.setAlignment(Pos.TOP_CENTER);
         return counterBox;
     }
 

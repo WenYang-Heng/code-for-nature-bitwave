@@ -1,5 +1,7 @@
 #sidebar Button{
     -fx-background-color: transparent;
+    -fx-text-fill: "#ffffff";
+    -fx-font-size: 20px;
 }
 
 #sidebar Button:hover {

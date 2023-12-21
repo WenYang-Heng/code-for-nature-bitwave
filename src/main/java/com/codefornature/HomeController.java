@@ -61,7 +61,7 @@ public class HomeController {
 
         HBox pointsHBox = new HBox(pointsContainer, region, coinIcon);
         pointsHBox.setAlignment(Pos.CENTER);
-        pointsHBox.setStyle("-fx-border-color: #ffffff");
+//        pointsHBox.setStyle("-fx-border-color: #ffffff");
         HBox.setHgrow(pointsHBox, Priority.ALWAYS);
 
         // Daily Rewards Section
@@ -84,7 +84,7 @@ public class HomeController {
         VBox dailyRewardsVBox = new VBox(dailyRewardsLabel, giftboxIcon, claimRewardButton);
         dailyRewardsVBox.setAlignment(Pos.TOP_CENTER);
         dailyRewardsVBox.setSpacing(15);
-        dailyRewardsVBox.setStyle("-fx-border-color: #ffffff");
+//        dailyRewardsVBox.setStyle("-fx-border-color: #ffffff");
         HBox.setHgrow(dailyRewardsVBox, Priority.ALWAYS);
 
         // Plant a Tree Section
@@ -107,7 +107,7 @@ public class HomeController {
         VBox plantTreeVBox = new VBox(plantTreeLabel, treeIcon, plantNowButton);
         plantTreeVBox.setAlignment(Pos.TOP_CENTER);
         plantTreeVBox.setSpacing(15);
-        plantTreeVBox.setStyle("-fx-border-color: #ffffff");
+//        plantTreeVBox.setStyle("-fx-border-color: #ffffff");
         HBox.setHgrow(plantTreeVBox, Priority.ALWAYS);
 
         // Main HBox

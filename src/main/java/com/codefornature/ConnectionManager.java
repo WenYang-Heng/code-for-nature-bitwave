@@ -2,6 +2,7 @@ package com.codefornature;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
 public class ConnectionManager {
     private static String url = "jdbc:mysql://127.0.0.1:3306/code_for_nature";

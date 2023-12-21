@@ -1,7 +1,10 @@
 package com.codefornature;
 
+import com.codefornature.dao.CartDAO;
 import com.codefornature.dao.MerchandiseDAO;
+import com.codefornature.model.CartModel;
 import com.codefornature.model.MerchandiseModel;
+import com.codefornature.model.UserModel;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,10 +21,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PointShopController {
+    private UserModel user;
+    private CartModel cart;
+    private CartDAO cartDAO = new CartDAO();
     private List<MerchandiseModel> merchList;
+    private Map<Integer, Label> counterLabels = new HashMap<>();
     @FXML
     FlowPane merchContent;
 
@@ -55,7 +64,7 @@ public class PointShopController {
             HBox buttonBox = new HBox(
                     createStyledButton("Buy Now", merchList.get(i)),
                     createStyledButton("Add to Cart", merchList.get(i)),
-                    createCounterBox()
+                    createCounterBox(merchList.get(i).getMerchandise_id())
             );
             buttonBox.setPadding(new Insets(0, 5, 0 ,5));
             buttonBox.setSpacing(10);
@@ -79,25 +88,76 @@ public class PointShopController {
             button.setOnAction(event -> buyNow(merch));
         }
         else{
-            button.setOnAction((event -> addToCart(merch)));
+            button.setOnAction((event -> {
+                try {
+                    addToCart(merch);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }));
         }
         return button;
     }
 
-    private void addToCart(MerchandiseModel merch) {
-        System.out.println("Add now: " + merch.getMerchandise_name());
+    public void setCart(CartModel cart){
+        this.cart = cart;
+    }
+
+    public void createCart() throws SQLException {
+        cartDAO.addNewCart(user.getUser_id());
+        cart = cartDAO.getCart(user.getUser_id());
+    }
+
+    public int getQuantity(int merchandise_id){
+        Label label = counterLabels.get(merchandise_id);
+        if(label != null){
+            return Integer.parseInt(label.getText());
+        }
+        return 0;
+    }
+
+    private void addToCart(MerchandiseModel merch) throws SQLException {
+        int quantity = getQuantity(merch.getMerchandise_id());
+
+        if(quantity == 0){
+            System.out.println("Please indicate the quantity of the items");
+            return;
+        }
+
+        if(cart == null){
+            createCart();
+        }
+
+        System.out.println(merch);
+        System.out.printf("Add %d %s%n", quantity, merch.getMerchandise_name());
+        if (cartDAO.itemExist(merch.getMerchandise_id())) {
+            // Update existing item quantity
+            System.out.println(merch.getMerchandise_name() + " exists, update quantity");
+            cartDAO.updateItemQuantity(merch.getMerchandise_id(), CartModel.getCart_id(), quantity);
+        } else {
+            // Add new cart item
+            System.out.println("Item does not exists, add into database");
+            boolean success = cartDAO.addCartItems(CartModel.getCart_id(), merch.getMerchandise_id(), quantity);
+            if (success) {
+                System.out.println("Items added to cart");
+            } else {
+                System.out.println("Items not added");
+            }
+        }
     }
 
     private void buyNow(MerchandiseModel merch) {
         System.out.println("Buy now: " + merch.getMerchandise_name());
     }
 
-    private HBox createCounterBox() {
+    private HBox createCounterBox(int merchandise_id) {
         String iconUrl = "@../../assets/icons/";
         Button minusButton = createImageButton(iconUrl + "minus.png");
         Label counterLabel = new Label("0");
         counterLabel.setStyle("-fx-text-fill: #ffffff");
         Button plusButton = createImageButton(iconUrl + "plus.png");
+
+        counterLabels.put(merchandise_id, counterLabel);
 
         minusButton.setOnAction(event -> {
             int count = Integer.parseInt(counterLabel.getText());
@@ -128,5 +188,9 @@ public class PointShopController {
         button.setGraphic(imageView);
 
         return button;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 }

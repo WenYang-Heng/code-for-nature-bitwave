@@ -1,5 +1,9 @@
 package com.codefornature;
 
+import com.codefornature.dao.CartDAO;
+import com.codefornature.dao.CartItemsModel;
+import com.codefornature.model.CartModel;
+import com.codefornature.model.MerchandiseModel;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,13 +18,19 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+import java.sql.SQLException;
+import java.util.List;
+
 public class ShoppingCartController {
     @FXML
     private VBox shoppingCartContainer;
     private String rootPath;
+    private CartDAO cartDAO = new CartDAO();
+    private int totalItemCost;
+    private int grandTotalCost = 0;
 
     @FXML
-    public void initialize(){
+    public void initialize() throws SQLException {
         rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
         VBox carItemsContainer = new VBox();
         carItemsContainer.setPrefHeight(500);
@@ -43,22 +53,33 @@ public class ShoppingCartController {
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
-        for(int i = 0; i < 0; i++){
+
+
+        if(CartModel.getCart_id() == 0){
+            System.out.println("no cart");
+        }
+        List<CartItemsModel> cartItems = cartDAO.getCartItems(CartModel.getCart_id());
+        for(int i = 0; i < cartItems.size(); i++){
+            int cost = cartItems.get(i).getCost();
+            int quantity = cartItems.get(i).getQuantity();
+
             HBox merchContent = new HBox();
             merchContent.setSpacing(20);
             merchContent.setStyle("-fx-background-color: #1C2835; -fx-background-radius: 20;");
             merchContent.setPadding(new Insets(20));
-            ImageView merchImage = new ImageView(rootPath + "images/eco-tote-bag.jpg");
+            ImageView merchImage = new ImageView(rootPath + "images/" + cartItems.get(i).getImage_name());
             merchImage.setFitHeight(170);
             merchImage.setFitWidth(170);
-            Label merchName = new Label("Save the earth T-shirt");
+            Label merchName = new Label(cartItems.get(i).getMerchandise_name());
             merchName.setMinWidth(300);
             merchName.setStyle("fx-background-color: green");
             merchName.setWrapText(true);
 
-            HBox quantityContainer = createCounterBox();
-            Label merchCost = new Label("1000");
-            Label totalCost = new Label("1000");
+            HBox quantityContainer = createCounterBox(quantity);
+            Label merchCost = new Label(Integer.toString(cost));
+            totalItemCost = cost * quantity;
+            grandTotalCost += totalItemCost;
+            Label totalCost = new Label(Integer.toString(totalItemCost));
             merchCost.setMinWidth(100);
             merchCost.setAlignment(Pos.CENTER);
             totalCost.setMinWidth(100);
@@ -73,7 +94,7 @@ public class ShoppingCartController {
 
         HBox grandTotalContainer = new HBox();
         Label grandTotalLabel = new Label("Grand Total:");
-        Label grandTotal = new Label("200");
+        Label grandTotal = new Label(Integer.toString(grandTotalCost));
         grandTotal.setMinWidth(100);
         grandTotal.setStyle("-fx-font-weight: bold");
         grandTotalContainer.setSpacing(20);
@@ -91,10 +112,10 @@ public class ShoppingCartController {
         shoppingCartContainer.getStylesheets().add(getClass().getResource("/styles/shopping-cart.css").toExternalForm());
     }
 
-    private HBox createCounterBox() {
+    private HBox createCounterBox(int quantity) {
         String iconUrl = "@../../assets/icons/";
         Button minusButton = createImageButton(iconUrl + "minus.png");
-        Label counterLabel = new Label("0");
+        Label counterLabel = new Label(Integer.toString(quantity));
         counterLabel.setStyle("-fx-text-fill: #ffffff");
         Button plusButton = createImageButton(iconUrl + "plus.png");
 

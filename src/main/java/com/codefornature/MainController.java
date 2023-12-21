@@ -16,10 +16,12 @@ import java.io.IOException;
 public class MainController {
     private UserModel user;
     @FXML private BorderPane mainContainer;
+    @FXML private VBox sidebar;
 
     @FXML
     public void initialize() throws IOException {
         System.out.println("root border pane loaded");
+        sidebar.getStylesheets().add(getClass().getResource("/styles/sidebar.css").toExternalForm());
     }
 
     public void loadPage(String page) throws IOException {
@@ -32,6 +34,7 @@ public class MainController {
                 break;
             case "point-shop.fxml":
                 PointShopController pointShopController = loader.getController();
+                pointShopController.setUser(user);
                 break;
         }
         mainContainer.setCenter(root);

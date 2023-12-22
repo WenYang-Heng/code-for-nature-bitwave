@@ -18,7 +18,7 @@ public class MainController {
     @FXML
     public void initialize() throws IOException {
         System.out.println("root border pane loaded");
-        loadPage("home-view.fxml");
+        //oadPage("home-view.fxml");
     }
 
     public void loadPage(String page) throws IOException {
@@ -33,5 +33,8 @@ public class MainController {
 
     public void toHome(ActionEvent actionEvent) throws IOException {
         loadPage("home-view.fxml");
+    }
+    public void toDonation(ActionEvent actionEvent) throws IOException {
+        loadPage("donation-view.fxml");
     }
 }

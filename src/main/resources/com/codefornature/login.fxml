@@ -10,29 +10,23 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #0C1117;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.LoginController">
    <children>
-      <HBox layoutX="1.0" layoutY="688.0" prefHeight="133.0" prefWidth="1194.0">
-         <children>
-            <ImageView fx:id="forestImageView" fitHeight="502.0" fitWidth="139.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../images/forest.png" />
-               </image>
-            </ImageView>
-            <Pane prefHeight="186.0" prefWidth="914.0" />
-            <ImageView fx:id="pineImageView" fitHeight="264.0" fitWidth="127.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../images/pine.png" />
-               </image>
-            </ImageView>
-         </children>
-      </HBox>
-      <VBox alignment="TOP_CENTER" layoutX="425.0" layoutY="169.0" prefHeight="582.0" prefWidth="399.0">
+      <ImageView fx:id="pineImageView" fitHeight="477.0" fitWidth="477.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/pinenew.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="forestImageView" fitHeight="286.0" fitWidth="286.0" layoutX="1068.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/forestnew.png" />
+         </image>
+      </ImageView>
+      <VBox alignment="TOP_CENTER" layoutX="405.0" layoutY="133.0" prefHeight="582.0" prefWidth="399.0">
          <children>
             <Label alignment="TOP_CENTER" text="Welcome" textFill="#73d960">
                <font>
@@ -43,7 +37,7 @@
                <font>
                   <Font size="13.0" />
                </font></Label>
-            <HBox fx:id="IDHbox" prefHeight="46.0" prefWidth="175.0" styleClass="textfield" stylesheets="@style.css">
+            <HBox fx:id="IDHbox" prefHeight="46.0" prefWidth="379.0" style="-fx-border-width: 0 0 2 0;" styleClass="textfield" stylesheets="@style.css">
                <children>
                   <ImageView fx:id="userImageView" fitHeight="34.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: transparent;">
                      <image>
@@ -53,7 +47,7 @@
                         <Insets right="10.0" top="10.0" />
                      </HBox.margin>
                   </ImageView>
-                  <TextField fx:id="userID" prefHeight="30.0" prefWidth="195.0" promptText="Email/Username" style="-fx-border-width: 0 0 1 0; -fx-background-color: transparent; -fx-text-fill: #73d960;" stylesheets="@style.css">
+                  <TextField fx:id="userID" prefHeight="30.0" prefWidth="195.0" promptText="Email/Username" style="-fx-border-width: 0 0 2 0; -fx-background-color: transparent; -fx-text-fill: #73d960;" stylesheets="@style.css">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
@@ -66,53 +60,65 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </HBox>
-            <HBox prefHeight="53.0" prefWidth="175.0">
+            <HBox fx:id="IDHbox2" prefHeight="46.0" prefWidth="399.0" style="-fx-border-width: 0 0 2 0;" styleClass="textfield" stylesheets="@style.css">
                <children>
                   <ImageView fx:id="passwordImageView" fitHeight="34.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-width: 0 0 1 0; -fx-border-color: #b5b5b5; -fx-background-color: transparent;">
                      <image>
                         <Image url="@../../../../images/password.png" />
                      </image>
                      <HBox.margin>
-                        <Insets bottom="20.0" right="10.0" top="20.0" />
+                        <Insets right="10.0" top="25.0" />
                      </HBox.margin>
                   </ImageView>
                   <StackPane prefHeight="150.0" prefWidth="234.0">
                      <children>
-                        <TextField fx:id="login_showPassword" prefWidth="195.0" promptText="Password" style="-fx-border-width: 0 0 1 0; -fx-background-color: transparent; -fx-border-color: #b5b5b5; -fx-text-fill: green;" visible="false">
-                           <font>
-                              <Font size="14.0" />
-                           </font></TextField>
-                        <PasswordField fx:id="password" promptText="Password" style="-fx-border-width: 0 0 1 0; -fx-background-color: transparent; -fx-text-fill: #73d960;" styleClass="textfield" stylesheets="@style.css">
+                        <TextField fx:id="login_showPassword" prefWidth="195.0" promptText="Password" style="-fx-border-width: 0 0 0 0; -fx-background-color: transparent; -fx-border-color: #b5b5b5; -fx-text-fill: #73d960;" visible="false">
                            <font>
                               <Font size="14.0" />
                            </font>
+                           <StackPane.margin>
+                              <Insets top="25.0" />
+                           </StackPane.margin></TextField>
+                        <PasswordField fx:id="password" prefHeight="30.0" prefWidth="195.0" promptText="Password" style="-fx-border-width: 0 0 1 0; -fx-background-color: transparent; -fx-text-fill: #73d960;" stylesheets="@style.css">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                           <StackPane.margin>
+                              <Insets top="25.0" />
+                           </StackPane.margin>
                         </PasswordField>
                      </children>
                   </StackPane>
                </children>
+               <VBox.margin>
+                  <Insets bottom="10.0" top="20.0" />
+               </VBox.margin>
             </HBox>
             <CheckBox fx:id="login_selectshowPassword" mnemonicParsing="false" onAction="#showPassword" text="Show Password" textFill="#b5b5b5">
                <font>
                   <Font size="14.0" />
                </font>
                <VBox.margin>
-                  <Insets right="90.0" />
+                  <Insets right="270.0" />
                </VBox.margin>
+               <padding>
+                  <Insets top="20.0" />
+               </padding>
             </CheckBox>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="132.0" style="-fx-background-color: transparent;" text="Forget Password?" textFill="#b5b5b5">
+            <Button fx:id="loginFgt" mnemonicParsing="false" prefHeight="30.0" prefWidth="132.0" style="-fx-background-color: transparent;" text="Forget Password?" textFill="#b5b5b5">
                <VBox.margin>
-                  <Insets left="90.0" top="30.0" />
+                  <Insets left="250.0" top="30.0" />
                </VBox.margin>
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="loginBtn" alignment="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="43.0" prefWidth="173.0" style="-fx-background-color: #73d960; -fx-background-radius: 30;" text="Log In" textFill="WHITE">
+            <Button fx:id="loginBtn" alignment="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="54.0" prefWidth="413.0" style="-fx-background-color: #40B52C; -fx-background-radius: 30;" text="Log In" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font></Button>
          </children>
       </VBox>
-      <Button layoutX="1033.0" layoutY="23.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="122.0" style="-fx-background-color: transparent;" text="Sign Up→" textFill="#73d960">
+      <Button fx:id="loginSignUp" layoutX="1033.0" layoutY="23.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="122.0" style="-fx-background-color: transparent;" text="Sign Up→" textFill="#73d960">
          <font>
             <Font size="20.0" />
          </font></Button>

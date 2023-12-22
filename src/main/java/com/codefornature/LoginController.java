@@ -30,6 +30,12 @@ public class LoginController implements Initializable {
     private Button loginBtn;
 
     @FXML
+    private Button loginFgt;
+
+    @FXML
+    private Button loginSignUp;
+
+    @FXML
     private Label myLabel;
 
     @FXML
@@ -39,7 +45,9 @@ public class LoginController implements Initializable {
     private PasswordField password;
 
     @FXML
-    private HBox IDHbox;
+    private HBox IDHbox,IDHbox2;
+
+
 
     @FXML
     private void login(ActionEvent event){
@@ -57,10 +65,7 @@ public class LoginController implements Initializable {
         }
     }
 
-    private void focus(ActionEvent event){
-        if(userID.isFocused())
-            IDHbox.setStyle("-fx-border-color:#73d960;");
-    }
+
     @FXML
     private ImageView userImageView;
 
@@ -89,10 +94,10 @@ public class LoginController implements Initializable {
             passwordImage = new Image(new FileInputStream(absPath+"\\src\\images\\password.png"));
             passwordImageView.setImage(passwordImage);
 
-            forestImage = new Image(new FileInputStream(absPath+"\\src\\images\\forest.png"));
+            forestImage = new Image(new FileInputStream(absPath+"\\src\\images\\forestnew.png"));
             forestImageView.setImage(forestImage);
 
-            pineImage = new Image(new FileInputStream(absPath+"\\src\\images\\pine.png"));
+            pineImage = new Image(new FileInputStream(absPath+"\\src\\images\\pinenew.png"));
             pineImageView.setImage(pineImage);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -106,6 +111,17 @@ public class LoginController implements Initializable {
                     IDHbox.setStyle("-fx-border-color:#73d960;");
                 }else{
                     IDHbox.setStyle("-fx-border-color:#b5b5b5;");
+                }
+            }
+        });
+
+        password.focusedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if(password.isFocused()){
+                    IDHbox2.setStyle("-fx-border-color:#73d960;");
+                }else{
+                    IDHbox2.setStyle("-fx-border-color:#b5b5b5;");
                 }
             }
         });

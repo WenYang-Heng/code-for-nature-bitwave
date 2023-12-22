@@ -1,6 +1,8 @@
 package com.codefornature;
 
+import com.codefornature.dao.CartDAO;
 import com.codefornature.dao.UserDAO;
+import com.codefornature.model.CartModel;
 import com.codefornature.model.UserModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,10 @@ public class Main extends Application {
 
         UserDAO userDAO = new UserDAO();
         UserModel user = userDAO.getUser("abc123@gmail.com", "test123");
+        CartDAO cartDAO = new CartDAO();
+        if(cartDAO.cartExists(user.getUser_id())){
+            CartModel cart = cartDAO.getCart(user.getUser_id());
+        }
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main-container.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         MainController mainController = fxmlLoader.getController();

@@ -14,26 +14,25 @@ import java.util.List;
 public class CartDAO {
 
     public boolean cartExists(int user_id) throws SQLException {
-        String query = "SELECT COUNT(*) FROM cart WHERE user_id = ?";
+        String query = "SELECT 1 FROM cart WHERE user_id = ?";
 
         try(Connection con = ConnectionManager.getConnection()){
             try(PreparedStatement ps = con.prepareStatement(query)){
                 ps.setInt(1, user_id);
                 try(ResultSet rs = ps.executeQuery()){
-                    if(rs.next())
-                        return true;
+                    return rs.next();
                 }
             }
         }
-        return false;
     }
 
-    public boolean itemExist(int merchandise_id) throws SQLException {
-        String query = "SELECT 1 FROM cart_items WHERE merchandise_id = ?";
+    public boolean itemExist(int merchandise_id, int cart_id) throws SQLException {
+        String query = "SELECT 1 FROM cart_items WHERE merchandise_id = ? AND cart_id = ?";
 
         try(Connection con = ConnectionManager.getConnection()){
             try(PreparedStatement ps = con.prepareStatement(query)){
                 ps.setInt(1, merchandise_id);
+                ps.setInt(2, cart_id);
                 try(ResultSet rs = ps.executeQuery()){
                     return rs.next();
                 }
@@ -49,6 +48,7 @@ public class CartDAO {
             try(PreparedStatement ps = con.prepareStatement(query)){
                 ps.setInt(1, user_id);
                 rowsUpdated = ps.executeUpdate();
+                System.out.printf("Rows affected %d%n", rowsUpdated);
             }
         }
         return rowsUpdated > 0;
@@ -104,6 +104,31 @@ public class CartDAO {
         }
     }
 
+    public boolean removeCart(int cart_id) throws SQLException {
+        String query = "DELETE FROM cart where cart_id = ?";
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setInt(1, cart_id);
+                int r = ps.executeUpdate();
+                System.out.printf("%d row(s) deleted%n", r);
+                return r > 0;
+            }
+        }
+    }
+
+    public boolean removeCartItems(int cart_id, int merchandise_id) throws SQLException {
+        String query = "DELETE FROM cart_items where cart_id = ? AND merchandise_id = ?";
+
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setInt(1, cart_id);
+                ps.setInt(2, merchandise_id);
+                int r = ps.executeUpdate();
+                return r > 0;
+            }
+        }
+    }
+
     public List<CartItemsModel> getCartItems(int cart_id) throws SQLException {
         String query = "SELECT * FROM merchandise m INNER JOIN cart_items c on m.merchandise_id = c.merchandise_id WHERE cart_id = ?";
 
@@ -125,6 +150,23 @@ public class CartDAO {
             }
         }
         return cartItems;
+    }
+
+    public int getItemQuantity(int merchandise_id, int cart_id) throws SQLException {
+        int quantity = 0;
+        String query = "SELECT quantity from cart_items where merchandise_id = ? AND cart_id = ?";
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setInt(1, merchandise_id);
+                ps.setInt(2, cart_id);
+                try(ResultSet rs = ps.executeQuery()){
+                    if(rs.next()){
+                        quantity = rs.getInt("quantity");
+                    }
+                }
+            }
+        }
+        return quantity;
     }
 
 }

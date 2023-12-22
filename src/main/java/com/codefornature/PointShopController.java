@@ -6,8 +6,10 @@ import com.codefornature.model.CartModel;
 import com.codefornature.model.MerchandiseModel;
 import com.codefornature.model.UserModel;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
@@ -33,6 +35,7 @@ public class PointShopController {
     private Map<Integer, Label> counterLabels = new HashMap<>();
     @FXML
     FlowPane merchContent;
+    @FXML private BorderPane mainContainer;
 
     @FXML
     public void initialize() throws IOException, SQLException {
@@ -85,7 +88,15 @@ public class PointShopController {
         button.setPrefSize(200, 27);
 
         if(text.equals("Buy Now")){
-            button.setOnAction(event -> buyNow(merch));
+            button.setOnAction(event -> {
+                try {
+                    buyNow(merch);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         }
         else{
             button.setOnAction((event -> {
@@ -103,8 +114,12 @@ public class PointShopController {
         this.cart = cart;
     }
 
-    public void createCart() throws SQLException {
-        cartDAO.addNewCart(user.getUser_id());
+    public void getCart() throws SQLException {
+        if(!cartDAO.cartExists(user.getUser_id())){
+            if(cartDAO.addNewCart(user.getUser_id())){
+                System.out.println("cart created");
+            }
+        }
         cart = cartDAO.getCart(user.getUser_id());
     }
 
@@ -124,16 +139,29 @@ public class PointShopController {
             return;
         }
 
-        if(cart == null){
-            createCart();
-        }
+        System.out.println(user.getUser_id());
+        getCart();
 
-        System.out.println(merch);
         System.out.printf("Add %d %s%n", quantity, merch.getMerchandise_name());
-        if (cartDAO.itemExist(merch.getMerchandise_id())) {
+        if (cartDAO.itemExist(merch.getMerchandise_id(), CartModel.getCart_id())) {
             // Update existing item quantity
             System.out.println(merch.getMerchandise_name() + " exists, update quantity");
-            cartDAO.updateItemQuantity(merch.getMerchandise_id(), CartModel.getCart_id(), quantity);
+            int quantityInDb = cartDAO.getItemQuantity(merch.getMerchandise_id(), CartModel.getCart_id());
+            if(quantityInDb == 5){
+                System.out.println("Maximum quantity for " + merch.getMerchandise_name() + " already in the cart. Cannot add more.");
+            }
+            else{
+                int allowedAdditionalQuantity = 5 - quantityInDb;
+
+                // If the requested addition does not exceed the maximum limit
+                if (quantity <= allowedAdditionalQuantity) {
+                    cartDAO.updateItemQuantity(merch.getMerchandise_id(), CartModel.getCart_id(), quantityInDb + quantity);
+                    System.out.println("Added " + quantity + " more of " + merch.getMerchandise_name() + " to the cart.");
+                }
+                else{
+                    System.out.println("Cannot add more than 5 items in the cart.");
+                }
+            }
         } else {
             // Add new cart item
             System.out.println("Item does not exists, add into database");
@@ -146,8 +174,17 @@ public class PointShopController {
         }
     }
 
-    private void buyNow(MerchandiseModel merch) {
+    private void buyNow(MerchandiseModel merch) throws SQLException, IOException {
         System.out.println("Buy now: " + merch.getMerchandise_name());
+
+        getCart();
+
+        if(!cartDAO.itemExist(merch.getMerchandise_id(), CartModel.getCart_id())){
+            cartDAO.addCartItems(cart.getCart_id(), merch.getMerchandise_id(), 1);
+        }
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("shopping-cart-view.fxml"));
+        Parent root = loader.load();
+        mainContainer.setCenter(root);
     }
 
     private HBox createCounterBox(int merchandise_id) {
@@ -192,5 +229,9 @@ public class PointShopController {
 
     public void setUser(UserModel user) {
         this.user = user;
+    }
+
+    public void setBorderPane(BorderPane mainContainer) {
+        this.mainContainer = mainContainer;
     }
 }

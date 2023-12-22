@@ -35,9 +35,14 @@ public class MainController {
             case "point-shop.fxml":
                 PointShopController pointShopController = loader.getController();
                 pointShopController.setUser(user);
+                pointShopController.setBorderPane(mainContainer);
                 break;
         }
         mainContainer.setCenter(root);
+    }
+
+    public BorderPane getMainContainer(){
+        return mainContainer;
     }
 
     public void toPointShop(ActionEvent actionEvent) throws IOException {

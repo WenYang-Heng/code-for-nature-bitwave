@@ -2,6 +2,7 @@ module com.codefornature {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
+    requires org.joda.time;
 
     opens com.codefornature to javafx.fxml;
     exports com.codefornature;

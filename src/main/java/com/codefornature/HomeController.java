@@ -1,5 +1,7 @@
 package com.codefornature;
 
+import com.codefornature.dao.CartDAO;
+import com.codefornature.dao.UserDAO;
 import com.codefornature.model.UserModel;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -13,34 +15,46 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import org.joda.time.DateTimeComparator;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class HomeController {
-    UserModel user;
+    private UserModel user;
+    private UserDAO userDAO = new UserDAO();
+    private CartDAO cartDAO = new CartDAO();
     @FXML
     VBox homeContainer;
+
+    @FXML Label testLabel;
     private String rootPath;
     private int visibleColumns = 3;
     private Node firstItem;
     private Node lastItem;
     private Button leftBtn;
     private Button rightBtn;
+    private Button claimRewardButton = null;
 
-    public void setUser(UserModel user){
+    public void setUser(UserModel user) throws SQLException, ParseException {
         this.user = user;
         createDashboardUI();
         createNewsUI();
     }
 
-    public void initialize() throws IOException{
+    public void initialize() throws IOException {
         rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
+
+        testLabel.setText("hello world");
     }
 
-    public void createDashboardUI(){
+    public void createDashboardUI() throws SQLException, ParseException {
         Label pointsLabel = new Label("Points");
         pointsLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        pointsLabel.setFont(new Font("System Bold", 26));
+        pointsLabel.setFont(new Font("System Bold", 22));
         pointsLabel.setPadding(new Insets(10, 0, 0, 0));
 
         Label pointsValue = new Label(Integer.toString(user.getPoints()));
@@ -67,19 +81,53 @@ public class HomeController {
         // Daily Rewards Section
         Label dailyRewardsLabel = new Label("Daily Rewards");
         dailyRewardsLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        dailyRewardsLabel.setFont(new Font("System Bold", 26));
+        dailyRewardsLabel.setFont(new Font("System Bold", 22));
         dailyRewardsLabel.setPadding(new Insets(10, 0, 0, 0));
 
-        ImageView giftboxIcon = new ImageView(new Image(rootPath + "images/home/giftbox.png"));
+        ImageView giftboxIcon = null;
+        giftboxIcon = new ImageView(new Image(rootPath + "images/home/giftbox.png"));
+        claimRewardButton = new Button("Claim Your Reward");
+
+        java.util.Date lastClaimDate = user.getLast_claim_date();
+        System.out.println(lastClaimDate);
+        //Get current date
+        final java.util.Date CURRENT_DATE = new java.util.Date();
+        if(lastClaimDate != null){
+            System.out.println("Gift claimed on: " + lastClaimDate);
+            //Check date and compare
+//            currentDate = sdf.parse(formattedDate);
+            if(compareDates(CURRENT_DATE, lastClaimDate) == 0){
+                System.out.println("You already claimed your reward today. Come back tomorrow!");
+                giftboxIcon = new ImageView(new Image(rootPath + "images/home/gift-box-with-a-bow.png"));
+                updateClaimRewardButtonStatus(claimRewardButton);
+            }
+        }
+
+
         giftboxIcon.setFitHeight(55);
         giftboxIcon.setFitWidth(51);
         giftboxIcon.setPickOnBounds(true);
         giftboxIcon.setPreserveRatio(true);
-
-        Button claimRewardButton = new Button("Claim Your Reward");
         claimRewardButton.setPrefSize(133, 32);
         claimRewardButton.setStyle("-fx-background-radius: 50; -fx-background-color: #40B52C;");
         claimRewardButton.setTextFill(javafx.scene.paint.Color.WHITE);
+
+
+        claimRewardButton.setOnAction(event -> {
+            //update last claim date in database
+            try {
+                if(userDAO.updateLastClaimDate(CURRENT_DATE, user.getUser_id())){
+                    System.out.println("last claim date updated");
+                    updateClaimRewardButtonStatus(claimRewardButton);
+                }
+                else{
+                    System.out.println("last claim date not updated");
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
 
         VBox dailyRewardsVBox = new VBox(dailyRewardsLabel, giftboxIcon, claimRewardButton);
         dailyRewardsVBox.setAlignment(Pos.TOP_CENTER);
@@ -90,7 +138,7 @@ public class HomeController {
         // Plant a Tree Section
         Label plantTreeLabel = new Label("Plant a Tree");
         plantTreeLabel.setTextFill(javafx.scene.paint.Color.WHITE);
-        plantTreeLabel.setFont(new Font("System Bold", 26));
+        plantTreeLabel.setFont(new Font("System Bold", 22));
         plantTreeLabel.setPadding(new Insets(10, 0, 0, 0));
 
         ImageView treeIcon = new ImageView(new Image(rootPath + "images/home/tree.png"));
@@ -116,6 +164,16 @@ public class HomeController {
         homeDashboard.setAlignment(Pos.CENTER);
         homeDashboard.setPadding(new Insets(45));
         homeContainer.getChildren().add(homeDashboard);
+    }
+
+    public void updateClaimRewardButtonStatus(Button claimRewardButton) {
+        if(claimRewardButton.isDisable()){
+            this.claimRewardButton.setDisable(false);
+        }
+        else{
+            this.claimRewardButton.setDisable(true);
+            this.claimRewardButton.setText("Claimed");
+        }
     }
 
     public void createNewsUI(){
@@ -155,6 +213,13 @@ public class HomeController {
         lastItem = getNodeFromGridPane(newsContainer,newsContainer.getChildren().size() - 1, 0);
 
         homeContainer.getChildren().addAll(newsHeader, newsContainer);
+    }
+
+    public int compareDates(java.util.Date currentDate, java.util.Date lastClaimDate){
+        DateTimeComparator dateTimeComparator = DateTimeComparator.getDateOnlyInstance();
+        int value = dateTimeComparator.compare(currentDate, lastClaimDate);
+
+        return value;
     }
 
     private void updateCarouselButtonStates(GridPane gridPane){

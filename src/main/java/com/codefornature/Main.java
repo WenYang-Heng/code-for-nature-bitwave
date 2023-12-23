@@ -14,10 +14,11 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 
 public class Main extends Application {
     @Override
-    public void start(Stage stage) throws IOException, SQLException {
+    public void start(Stage stage) throws IOException, SQLException, ParseException {
 
         UserDAO userDAO = new UserDAO();
         UserModel user = userDAO.getUser("abc123@gmail.com", "test123");

@@ -19,15 +19,19 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ShoppingCartController {
     @FXML
     private VBox shoppingCartContainer;
+    private Label grandTotal;
     private String rootPath;
     private CartDAO cartDAO = new CartDAO();
     private int totalItemCost;
     private int grandTotalCost = 0;
+    private Map<Integer, Label> totalCostLabels = new HashMap<>();
 
     @FXML
     public void initialize() throws SQLException {
@@ -98,11 +102,12 @@ public class ShoppingCartController {
                 merchName.setStyle("fx-background-color: green");
                 merchName.setWrapText(true);
 
-                HBox quantityContainer = createCounterBox(quantity, cartItems.get(i).getCost());
+                HBox quantityContainer = createCounterBox(quantity, cartItems.get(i).getCost(), cartItems.get(i).getMerchandise_id());
                 Label merchCost = new Label(Integer.toString(cost));
                 totalItemCost = cost * quantity;
                 grandTotalCost += totalItemCost;
                 Label totalCost = new Label(Integer.toString(totalItemCost));
+                totalCostLabels.put(cartItems.get(i).getMerchandise_id(), totalCost);
                 merchCost.setMinWidth(100);
                 merchCost.setAlignment(Pos.CENTER);
                 totalCost.setMinWidth(100);
@@ -118,7 +123,7 @@ public class ShoppingCartController {
 
         HBox grandTotalContainer = new HBox();
         Label grandTotalLabel = new Label("Grand Total:");
-        Label grandTotal = new Label(Integer.toString(grandTotalCost));
+        grandTotal = new Label(Integer.toString(grandTotalCost));
         grandTotal.setMinWidth(100);
         grandTotal.setStyle("-fx-font-weight: bold");
         grandTotalContainer.setSpacing(20);
@@ -136,7 +141,15 @@ public class ShoppingCartController {
         shoppingCartContainer.getStylesheets().add(getClass().getResource("/styles/shopping-cart.css").toExternalForm());
     }
 
-    private HBox createCounterBox(int quantity, int cost) {
+    public int getGrandTotalCost() {
+        return grandTotalCost;
+    }
+
+    public void setGrandTotalCost(int grandTotalCost) {
+        this.grandTotalCost = grandTotalCost;
+    }
+
+    private HBox createCounterBox(int quantity, int cost, int merch_id) {
         String iconUrl = "@../../assets/icons/";
         Button minusButton = createImageButton(iconUrl + "minus.png");
         Label counterLabel = new Label(Integer.toString(quantity));
@@ -145,14 +158,24 @@ public class ShoppingCartController {
 
         minusButton.setOnAction(event -> {
             int count = Integer.parseInt(counterLabel.getText());
-            if(count > 0){
-                counterLabel.setText(Integer.toString(cost * --count));
+            if(count > 1){
+                counterLabel.setText(Integer.toString(--count));
+                int total = cost * count;
+                totalCostLabels.get(merch_id).setText(Integer.toString(total));
+                setGrandTotalCost(grandTotalCost - cost);
+                grandTotal.setText(Integer.toString(getGrandTotalCost()));
             }
         });
 
         plusButton.setOnAction(event -> {
             int count = Integer.parseInt(counterLabel.getText());
-            counterLabel.setText(Integer.toString(cost * ++count));
+            if(count < 5){
+                counterLabel.setText(Integer.toString(++count));
+                int total = cost * count;
+                totalCostLabels.get(merch_id).setText(Integer.toString(total));
+                setGrandTotalCost(grandTotalCost + cost);
+                grandTotal.setText(Integer.toString(getGrandTotalCost()));
+            }
         });
 
         HBox counterBox = new HBox(minusButton, counterLabel, plusButton);

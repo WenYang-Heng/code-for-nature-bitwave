@@ -12,6 +12,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
 
 public class MainController {
     private UserModel user;
@@ -24,7 +26,7 @@ public class MainController {
         sidebar.getStylesheets().add(getClass().getResource("/styles/sidebar.css").toExternalForm());
     }
 
-    public void loadPage(String page) throws IOException {
+    public void loadPage(String page) throws IOException, SQLException, ParseException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(page));
         Parent root = loader.load();
         switch(page){
@@ -45,21 +47,21 @@ public class MainController {
         return mainContainer;
     }
 
-    public void toPointShop(ActionEvent actionEvent) throws IOException {
+    public void toPointShop(ActionEvent actionEvent) throws IOException, SQLException, ParseException {
         System.out.println("point shop button clicked");
         loadPage("point-shop.fxml");
     }
 
-    public void toHome(ActionEvent actionEvent) throws IOException {
+    public void toHome(ActionEvent actionEvent) throws IOException, SQLException, ParseException {
         loadPage("home-view.fxml");
     }
 
-    public void setUser(UserModel user) throws IOException {
+    public void setUser(UserModel user) throws IOException, SQLException, ParseException {
         this.user = user;
         loadPage("home-view.fxml");
     }
 
-    public void toShoppingCart(ActionEvent actionEvent) throws IOException {
+    public void toShoppingCart(ActionEvent actionEvent) throws IOException, SQLException, ParseException {
         loadPage("shopping-cart-view.fxml");
     }
 }

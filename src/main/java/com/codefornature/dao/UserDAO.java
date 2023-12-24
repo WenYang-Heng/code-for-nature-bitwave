@@ -52,9 +52,9 @@ public class UserDAO {
         return lastClaimDate;
     }
 
-    public boolean updateLastClaimDate(java.util.Date date, int user_id) throws SQLException {
+    public boolean updateLastClaimDate(java.util.Date date, int user_id, int pointsAwarded) throws SQLException {
         String query = "UPDATE user SET last_claim_date = ?, " +
-                "points = points + 100 + CASE WHEN total_check_in = 4, THEN 100 ELSE 0 END, " +
+                "points = points + ? + CASE WHEN total_check_in = 4 THEN ? ELSE 0 END, " +
                 "total_check_in = CASE WHEN total_check_in = 4 THEN 0 ELSE total_check_in + 1 END " +
                 "WHERE user_id = ?";
         int rowsUpdated;
@@ -63,7 +63,9 @@ public class UserDAO {
             try(PreparedStatement ps = con.prepareStatement(query)){
                 String currentDate = convertDateFormat(date);
                 ps.setString(1, currentDate);
-                ps.setInt(2, user_id);
+                ps.setInt(2, pointsAwarded);
+                ps.setInt(3, pointsAwarded);
+                ps.setInt(4, user_id);
                 rowsUpdated = ps.executeUpdate();
                 System.out.println("rows updated: " + rowsUpdated);
             }

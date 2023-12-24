@@ -33,16 +33,19 @@ public class HomeController {
     @FXML Label testLabel;
     private String rootPath;
     private int visibleColumns = 3;
+    private int pointsAwarded = 100;
     private Node firstItem;
     private Node lastItem;
     private Button leftBtn;
     private Button rightBtn;
+    private Label pointsValue;
     private Button claimRewardButton = null;
 
     public void setUser(UserModel user) throws SQLException, ParseException {
         this.user = user;
         createDashboardUI();
         createNewsUI();
+        System.out.println(user.getPoints());
     }
 
     public void initialize() throws IOException {
@@ -57,7 +60,7 @@ public class HomeController {
         pointsLabel.setFont(new Font("System Bold", 22));
         pointsLabel.setPadding(new Insets(10, 0, 0, 0));
 
-        Label pointsValue = new Label(Integer.toString(user.getPoints()));
+        pointsValue = new Label(Integer.toString(user.getPoints()));
         pointsValue.setTextFill(javafx.scene.paint.Color.WHITE);
         pointsValue.setFont(new Font(24));
         pointsValue.setPadding(new Insets(45, 0, 0, 0));
@@ -99,7 +102,7 @@ public class HomeController {
             if(compareDates(CURRENT_DATE, lastClaimDate) == 0){
                 System.out.println("You already claimed your reward today. Come back tomorrow!");
                 giftboxIcon = new ImageView(new Image(rootPath + "images/home/gift-box-with-a-bow.png"));
-                updateClaimRewardButtonStatus(claimRewardButton);
+                updateClaimRewardButtonStatus();
             }
         }
 
@@ -116,9 +119,10 @@ public class HomeController {
         claimRewardButton.setOnAction(event -> {
             //update last claim date in database
             try {
-                if(userDAO.updateLastClaimDate(CURRENT_DATE, user.getUser_id())){
+                if(userDAO.updateLastClaimDate(CURRENT_DATE, user.getUser_id(), pointsAwarded)){
                     System.out.println("last claim date updated");
-                    updateClaimRewardButtonStatus(claimRewardButton);
+                    updatePointsDisplay();
+                    updateClaimRewardButtonStatus();
                 }
                 else{
                     System.out.println("last claim date not updated");
@@ -166,7 +170,15 @@ public class HomeController {
         homeContainer.getChildren().add(homeDashboard);
     }
 
-    public void updateClaimRewardButtonStatus(Button claimRewardButton) {
+    public void updatePointsDisplay() {
+        if (user != null) {
+            int points = user.getPoints();
+            user.setPoints(points + (user.getTotal_check_in() == 4? pointsAwarded * 2 : pointsAwarded));
+            pointsValue.setText(Integer.toString(user.getPoints()));
+        }
+    }
+
+    public void updateClaimRewardButtonStatus() {
         if(claimRewardButton.isDisable()){
             this.claimRewardButton.setDisable(false);
         }

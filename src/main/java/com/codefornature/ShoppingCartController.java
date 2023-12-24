@@ -1,9 +1,8 @@
 package com.codefornature;
 
 import com.codefornature.dao.CartDAO;
-import com.codefornature.dao.CartItemsModel;
+import com.codefornature.model.CartItemsModel;
 import com.codefornature.model.CartModel;
-import com.codefornature.model.MerchandiseModel;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

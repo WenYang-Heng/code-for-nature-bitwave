@@ -1,8 +1,8 @@
 package com.codefornature.dao;
 
 import com.codefornature.ConnectionManager;
+import com.codefornature.model.CartItemsModel;
 import com.codefornature.model.CartModel;
-import com.codefornature.model.MerchandiseModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

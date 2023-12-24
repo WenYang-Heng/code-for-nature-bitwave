@@ -1,4 +1,4 @@
-package com.codefornature.dao;
+package com.codefornature.model;
 
 public class CartItemsModel {
     private int merchandise_id;

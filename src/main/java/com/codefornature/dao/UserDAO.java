@@ -87,10 +87,6 @@ public class UserDAO {
         return false;
     }
 
-    public void updatePoints(int points){
-
-    }
-
     public String convertDateFormat(java.util.Date date){
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String formattedDate = sdf.format(date);

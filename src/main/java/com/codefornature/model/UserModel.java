@@ -67,6 +67,7 @@ public class UserModel {
     }
 
     public java.util.Date convertDateFormat(java.util.Date date) throws ParseException {
+        if(date == null) return null;
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy");
         String formattedDate = sdf.format(date);
         java.util.Date last_claim_date = sdf.parse(formattedDate);

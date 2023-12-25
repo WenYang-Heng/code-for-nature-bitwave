@@ -6,6 +6,7 @@ import com.codefornature.model.UserModel;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 
 public class UserDAO {
 
@@ -24,7 +25,6 @@ public class UserDAO {
                         int points = rs.getInt("points");
                         int total_check_in = rs.getInt("total_check_in");
                         Timestamp last_claim_date = rs.getTimestamp("last_claim_date");
-                        System.out.println("Retrieving from db, last claim date = " + last_claim_date);
 
                         user = new UserModel(user_id, email, date, points, total_check_in, last_claim_date);
                     }
@@ -85,6 +85,19 @@ public class UserDAO {
             }
         }
         return false;
+    }
+
+    public Boolean updatePoints(int user_id, int points) throws SQLException {
+        String query = "UPDATE user SET points = ? WHERE user_id = ?";
+        int rowsUpdated;
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setInt(1, points);
+                ps.setInt(2, user_id);
+                rowsUpdated = ps.executeUpdate();
+            }
+        }
+        return rowsUpdated > 0;
     }
 
     public String convertDateFormat(java.util.Date date){

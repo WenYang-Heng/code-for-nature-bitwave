@@ -33,7 +33,7 @@ public class HomeController {
     @FXML Label testLabel;
     private String rootPath;
     private int visibleColumns = 3;
-    private int pointsAwarded = 100;
+    private int pointsAwarded = 1;
     private Node firstItem;
     private Node lastItem;
     private Button leftBtn;
@@ -41,7 +41,7 @@ public class HomeController {
     private Label pointsValue;
     private Button claimRewardButton = null;
 
-    public void setUser(UserModel user) throws SQLException, ParseException {
+    public void setUser(UserModel user) throws SQLException {
         this.user = user;
         createDashboardUI();
         createNewsUI();
@@ -50,11 +50,9 @@ public class HomeController {
 
     public void initialize() throws IOException {
         rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
-
-        testLabel.setText("hello world");
     }
 
-    public void createDashboardUI() throws SQLException, ParseException {
+    public void createDashboardUI() throws SQLException {
         Label pointsLabel = new Label("Points");
         pointsLabel.setTextFill(javafx.scene.paint.Color.WHITE);
         pointsLabel.setFont(new Font("System Bold", 22));
@@ -92,13 +90,11 @@ public class HomeController {
         claimRewardButton = new Button("Claim Your Reward");
 
         java.util.Date lastClaimDate = user.getLast_claim_date();
-        System.out.println(lastClaimDate);
         //Get current date
         final java.util.Date CURRENT_DATE = new java.util.Date();
         if(lastClaimDate != null){
             System.out.println("Gift claimed on: " + lastClaimDate);
             //Check date and compare
-//            currentDate = sdf.parse(formattedDate);
             if(compareDates(CURRENT_DATE, lastClaimDate) == 0){
                 System.out.println("You already claimed your reward today. Come back tomorrow!");
                 giftboxIcon = new ImageView(new Image(rootPath + "images/home/gift-box-with-a-bow.png"));

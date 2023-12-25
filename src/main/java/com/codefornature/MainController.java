@@ -22,11 +22,10 @@ public class MainController {
 
     @FXML
     public void initialize() throws IOException {
-        System.out.println("root border pane loaded");
         sidebar.getStylesheets().add(getClass().getResource("/styles/sidebar.css").toExternalForm());
     }
 
-    public void loadPage(String page) throws IOException, SQLException, ParseException {
+    public void loadPage(String page) throws IOException, SQLException{
         FXMLLoader loader = new FXMLLoader(getClass().getResource(page));
         Parent root = loader.load();
         switch(page){
@@ -39,6 +38,11 @@ public class MainController {
                 pointShopController.setUser(user);
                 pointShopController.setBorderPane(mainContainer);
                 break;
+            case "shopping-cart-view.fxml":
+                ShoppingCartController shoppingCartController = loader.getController();
+                shoppingCartController.setUser(user);
+                shoppingCartController.setMainContainer(mainContainer);
+
         }
         mainContainer.setCenter(root);
     }

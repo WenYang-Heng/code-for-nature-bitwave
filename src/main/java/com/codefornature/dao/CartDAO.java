@@ -116,13 +116,25 @@ public class CartDAO {
         }
     }
 
-    public boolean removeCartItems(int cart_id, int merchandise_id) throws SQLException {
+    public boolean removeCartItem(int cart_id, int merchandise_id) throws SQLException {
         String query = "DELETE FROM cart_items where cart_id = ? AND merchandise_id = ?";
 
         try(Connection con = ConnectionManager.getConnection()){
             try(PreparedStatement ps = con.prepareStatement(query)){
                 ps.setInt(1, cart_id);
                 ps.setInt(2, merchandise_id);
+                int r = ps.executeUpdate();
+                return r > 0;
+            }
+        }
+    }
+
+    public boolean removeAllCartItems(int cart_id) throws SQLException {
+        String query = "DELETE FROM cart_items where cart_id = ?";
+
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setInt(1, cart_id);
                 int r = ps.executeUpdate();
                 return r > 0;
             }

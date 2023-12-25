@@ -26,6 +26,7 @@ public class Main extends Application {
         if(cartDAO.cartExists(user.getUser_id())){
             CartModel cart = cartDAO.getCart(user.getUser_id());
         }
+        System.out.println(user);
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main-container.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         MainController mainController = fxmlLoader.getController();

@@ -184,6 +184,9 @@ public class PointShopController {
         }
         FXMLLoader loader = new FXMLLoader(getClass().getResource("shopping-cart-view.fxml"));
         Parent root = loader.load();
+        ShoppingCartController shoppingCartController = loader.getController();
+        shoppingCartController.setUser(user);
+        shoppingCartController.setMainContainer(mainContainer);
         mainContainer.setCenter(root);
     }
 

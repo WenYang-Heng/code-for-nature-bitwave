@@ -1,36 +1,46 @@
 package com.codefornature;
 
 import com.codefornature.dao.CartDAO;
+import com.codefornature.dao.UserDAO;
 import com.codefornature.model.CartItemsModel;
 import com.codefornature.model.CartModel;
+import com.codefornature.model.UserModel;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ShoppingCartController {
+
+    @FXML
+    private BorderPane mainContainer;
     @FXML
     private VBox shoppingCartContainer;
     private Label grandTotal;
     private String rootPath;
     private CartDAO cartDAO = new CartDAO();
+    private List<CartItemsModel> cartItems;
+    private UserModel user;
     private int totalItemCost;
     private int grandTotalCost = 0;
     private Map<Integer, Label> totalCostLabels = new HashMap<>();
+
 
     @FXML
     public void initialize() throws SQLException {
@@ -39,7 +49,7 @@ public class ShoppingCartController {
         carItemsContainer.setPrefHeight(500);
         carItemsContainer.setSpacing(20);
         HBox cartHeader = new HBox();
-        Label merchHeader = new Label("Mer`chandise");
+        Label merchHeader = new Label("Merchandise");
         Label quantityHeader =  new Label("Quantity");
         Label costHeader = new Label("Cost");
         Label totalHeader = new Label("Total");
@@ -60,13 +70,13 @@ public class ShoppingCartController {
 
         if(CartModel.getCart_id() == 0){
             System.out.println("no cart");
-            // Display a message in the UI indicating that the cart is empty
+            //Display a message in the UI indicating that the cart is empty
             Label emptyCartLabel = new Label("Your cart is empty.");
-            emptyCartLabel.getStyleClass().add("empty-cart-message"); // Add CSS class for styling
+            emptyCartLabel.getStyleClass().add("empty-cart-message");
             carItemsContainer.getChildren().add(emptyCartLabel);
         }
         else{
-            List<CartItemsModel> cartItems = cartDAO.getCartItems(CartModel.getCart_id());
+            cartItems = cartDAO.getCartItems(CartModel.getCart_id());
             for(int i = 0; i < cartItems.size(); i++){
                 int cost = cartItems.get(i).getCost();
                 int quantity = cartItems.get(i).getQuantity();
@@ -87,7 +97,7 @@ public class ShoppingCartController {
                 removeItemBtn.setOnAction(event -> {
                     carItemsContainer.getChildren().remove(merchContent);
                     try {
-                        cartDAO.removeCartItems(CartModel.getCart_id(), cartItems.get(finalIndex).getMerchandise_id());
+                        cartDAO.removeCartItem(CartModel.getCart_id(), cartItems.get(finalIndex).getMerchandise_id());
                         // Check if the cart is empty after removing the item
                         if (carItemsContainer.getChildren().isEmpty()) {
                             cartDAO.removeCart(CartModel.getCart_id());
@@ -131,13 +141,44 @@ public class ShoppingCartController {
         grandTotalContainer.getChildren().addAll(grandTotalLabel, grandTotal);
 
         Button checkoutBtn = new Button("Checkout");
+        checkoutBtn.setOnAction(event -> {
+            try {
+                onCheckoutClicked();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
         checkoutBtn.getStyleClass().add("checkout-btn");
         HBox checkoutBtnContainer = new HBox(checkoutBtn);
         checkoutBtnContainer.setAlignment(Pos.CENTER_RIGHT);
         checkoutBtnContainer.setPadding(new Insets(20, 20, 0 , 0));
 
+        if(cartItems == null){
+            checkoutBtn.setVisible(false);
+            checkoutBtn.setManaged(false);
+        }
+
         shoppingCartContainer.getChildren().addAll(cartHeader, scrollPane, grandTotalContainer, checkoutBtnContainer);
         shoppingCartContainer.getStylesheets().add(getClass().getResource("/styles/shopping-cart.css").toExternalForm());
+    }
+
+    public void onCheckoutClicked() throws IOException {
+        //Check if user has enough points to purchase the item
+        if(user.getPoints() >= grandTotalCost){
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("order-view.fxml"));
+            Parent root = loader.load();
+            OrderController orderController = loader.getController();
+            orderController.setCartItems(cartItems);
+            orderController.setUser(user);
+            orderController.setGrandTotal(getGrandTotalCost());
+            orderController.setMainContainer(mainContainer);
+            mainContainer.setCenter(root);
+        }
+        else{
+            //User does not have enough points
+            System.out.println("Not enough points");
+        }
+
     }
 
     public int getGrandTotalCost() {
@@ -194,5 +235,13 @@ public class ShoppingCartController {
         button.setGraphic(imageView);
 
         return button;
+    }
+
+    public void setMainContainer(BorderPane mainContainer){
+        this.mainContainer = mainContainer;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 }

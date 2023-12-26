@@ -1,0 +1,18 @@
+.label{
+    -fx-text-fill: "#B5B5B5";
+}
+
+.timestamp-icon{
+    -fx-fill: "#B5B5B5";
+}
+
+.newsTitle{
+    -fx-font-size: 15px;
+    -fx-text-fill: "#ffffff";
+    -fx-underline: true;
+    -fx-cursor: hand;
+    -fx-wrap-text: true;
+    -fx-line-spacing: -8;
+    -fx-max-width: Infinity;
+    -fx-content-display: center;
+}

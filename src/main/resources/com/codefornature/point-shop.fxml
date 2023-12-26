@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.PointShopController">
+   <children>
+      <FlowPane fx:id="merchContent" hgap="65.0" layoutX="57.0" layoutY="95.0" prefHeight="610.0" prefWidth="887.0" rowValignment="TOP" vgap="40.0">
+
+      </FlowPane>
+      <Label layoutX="57.0" layoutY="64.0" text="Shop" textFill="WHITE">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

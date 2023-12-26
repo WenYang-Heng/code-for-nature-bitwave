@@ -6,6 +6,7 @@ import com.codefornature.model.CartModel;
 import com.codefornature.model.UserModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -17,6 +18,8 @@ import java.sql.Statement;
 import java.text.ParseException;
 
 public class Main extends Application {
+
+
     @Override
     public void start(Stage stage) throws IOException, SQLException, ParseException {
 
@@ -27,6 +30,7 @@ public class Main extends Application {
             CartModel cart = cartDAO.getCart(user.getUser_id());
         }
         System.out.println(user);
+
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main-container.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         MainController mainController = fxmlLoader.getController();
@@ -37,7 +41,8 @@ public class Main extends Application {
         stage.show();
     }
 
+
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 }

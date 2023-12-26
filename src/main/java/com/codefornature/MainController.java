@@ -22,7 +22,12 @@ public class MainController {
 
     @FXML
     public void initialize() throws IOException {
+
+        System.out.println("root border pane loaded");
+        //oadPage("home-view.fxml");
+
         sidebar.getStylesheets().add(getClass().getResource("/styles/sidebar.css").toExternalForm());
+
     }
 
     public void loadPage(String page) throws IOException, SQLException{
@@ -60,6 +65,10 @@ public class MainController {
         loadPage("home-view.fxml");
     }
 
+    public void toDonation(ActionEvent actionEvent) throws IOException {
+        loadPage("donation-view.fxml");
+
+
     public void setUser(UserModel user) throws IOException, SQLException, ParseException {
         this.user = user;
         loadPage("home-view.fxml");
@@ -67,5 +76,6 @@ public class MainController {
 
     public void toShoppingCart(ActionEvent actionEvent) throws IOException, SQLException, ParseException {
         loadPage("shopping-cart-view.fxml");
+
     }
 }

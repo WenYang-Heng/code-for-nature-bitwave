@@ -1,6 +1,11 @@
 module com.codefornature {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.graphics;
+    requires java.sql;
+    //requires mysql.connector.java;
+
+
     requires java.sql;
     requires org.joda.time;
 

@@ -7,9 +7,9 @@
 
 <BorderPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #0C1117;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.MainController">
    <left>
-      <VBox prefHeight="800.0" prefWidth="200.0" style="-fx-border-width: 0 2 0 0; -fx-border-color: #BCCBDC;" BorderPane.alignment="CENTER">
+      <VBox fx:id="sidebar" prefHeight="800.0" prefWidth="200.0" style="-fx-border-width: 0 2 0 0; -fx-border-color: #BCCBDC;" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" prefHeight="37.0" prefWidth="190.0" onAction="#toHome" style="-fx-background-radius: 15; -fx-cursor: hand;" text="Home">
+            <Button mnemonicParsing="false" onAction="#toHome" prefHeight="37.0" prefWidth="190.0" style="-fx-background-radius: 15; -fx-cursor: hand;" text="Home">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
@@ -24,7 +24,10 @@
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>
             </Button>
+
             <Button layoutX="30.0" layoutY="134.0" mnemonicParsing="false" onAction="#toDonation" prefHeight="37.0" prefWidth="190.0" style="-fx-background-radius: 15; -fx-cursor: hand;" text="Donation">
+
+            <Button layoutX="30.0" layoutY="134.0" mnemonicParsing="false" onAction="#toShoppingCart" prefHeight="37.0" prefWidth="190.0" style="-fx-background-radius: 15; -fx-cursor: hand;" text="Cart">
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </padding>

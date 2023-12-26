@@ -37,6 +37,10 @@ dependencies {
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
+    // https://mvnrepository.com/artifact/joda-time/joda-time
+    implementation group: 'joda-time', name: 'joda-time', version: '2.12.5'
 }
 
 test {

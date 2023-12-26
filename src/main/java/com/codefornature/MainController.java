@@ -65,9 +65,9 @@ public class MainController {
         loadPage("home-view.fxml");
     }
 
-    public void toDonation(ActionEvent actionEvent) throws IOException {
-        loadPage("donation-view.fxml");
-
+//    public void toDonation(ActionEvent actionEvent) throws IOException, SQLException {
+//        loadPage("donation-view.fxml");
+//    }
 
     public void setUser(UserModel user) throws IOException, SQLException, ParseException {
         this.user = user;

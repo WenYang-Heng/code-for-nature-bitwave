@@ -23,14 +23,6 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException, SQLException, ParseException {
 
-//        UserDAO userDAO = new UserDAO();
-//        UserModel user = userDAO.getUser("abc123@gmail.com", "test123");
-//        CartDAO cartDAO = new CartDAO();
-//        if(cartDAO.cartExists(user.getUser_id())){
-//            CartModel cart = cartDAO.getCart(user.getUser_id());
-//        }
-//        System.out.println(user);
-
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         LoginController loginController = fxmlLoader.getController();

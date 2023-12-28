@@ -118,7 +118,7 @@
                </font></Button>
          </children>
       </VBox>
-      <Button fx:id="loginSignUp" layoutX="1033.0" layoutY="23.0" mnemonicParsing="false" prefHeight="43.0" prefWidth="122.0" style="-fx-background-color: transparent;" text="Sign Up→" textFill="#73d960">
+      <Button fx:id="loginSignUp" layoutX="1033.0" layoutY="23.0" mnemonicParsing="false" onAction="#onSignUpClicked" prefHeight="43.0" prefWidth="122.0" style="-fx-background-color: transparent;" text="Sign Up→" textFill="#73d960">
          <font>
             <Font size="20.0" />
          </font></Button>

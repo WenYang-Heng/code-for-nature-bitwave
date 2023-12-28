@@ -1,7 +1,12 @@
 package com.codefornature;
 
+import com.codefornature.dao.UserDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -11,7 +16,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-public class register3Controller {
+import java.io.IOException;
+import java.sql.SQLException;
+
+public class RegisterController {
 
     @FXML
     private ImageView emailImageView;
@@ -51,11 +59,29 @@ public class register3Controller {
     private Pane passwordPane;
     @FXML
     private Pane confirmPane;
+    private Stage stage;
 
-
-    private void register(ActionEvent event) {
+    private void register() {
         String email = emailTextField.getText();
         String username = usernameTextField.getText();
+        String password = confirmPasswordField.getText();
+        UserDAO userDAO = new UserDAO();
+
+        try{
+            if(userDAO.emailExists(email)){
+                registerMessageLabel.setText("Email already exists. Please use another email!");
+            }
+            else{
+                if(userDAO.insertUser(email, password, username)){
+                    registerMessageLabel.setText("User has been registered successfully!");
+                }
+                else{
+                    registerMessageLabel.setText("Registration failed. Please try again.");
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -80,33 +106,34 @@ public class register3Controller {
         pane.setStyle("-fx-border-color: " + (focused ? "transparent transparent #73d960 transparent; -fx-border-width: 0 0 3 0;" : "transparent transparent #b5b5b5 transparent; -fx-border-width: 0 0 3 0;"));
     }
 
-
     public void registerButtonOnAction(ActionEvent event) {
         if (emailTextField.getText().isEmpty() || usernameTextField.getText().isEmpty() || setPasswordField.getText().isEmpty() || confirmPasswordField.getText().isEmpty()) {
             confirmPasswordLabel.setText("Kindly complete all the blanks.");
-        } else {
-            if (setPasswordField.getText().equals(confirmPasswordField.getText())) {
-                confirmPasswordLabel.setText("");
-                registerMessageLabel.setText("User has been registered successfully!");
-            } else {
-                confirmPasswordLabel.setText("Password does not match!");
-            }
+        } else if (!setPasswordField.getText().equals(confirmPasswordField.getText())){
+            confirmPasswordLabel.setText("");
+        }else{
+            System.out.println("Fields are valid. Continue to register");
+            register();
         }
     }
 
 
     @FXML
-    private void closeButtonOnAction() {
-        Stage stage = (Stage) loginButton.getScene().getWindow();
-        stage.close();
+    private void onLoginClicked(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+        Parent root = loader.load();
+        //get the source of this event and cast it to a node, and then cast it to stage
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        LoginController loginController = loader.getController();
+        loginController.setStartingStage(stage);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
-    @FXML
-    private void arrowImageViewOnMouseClicked(MouseEvent event) {
-        // Call the same logic as loginButtonOnAction
-        closeButtonOnAction();
+    public void setStage(Stage stage) {
+        this.stage = stage;
     }
-
 }
 
 

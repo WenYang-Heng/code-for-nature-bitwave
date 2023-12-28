@@ -10,6 +10,23 @@ import java.time.format.DateTimeFormatter;
 
 public class UserDAO {
 
+    public boolean insertUser(String email, String password, String username) throws SQLException {
+        String query = "INSERT INTO user(email, password, username, register_date, points, total_check_in) " +
+                "VALUES(?, ?, ?, curdate(), ?, ?)";
+        int rowsUpdated;
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setString(1, email);
+                ps.setString(2, password);
+                ps.setString(3, username);
+                ps.setInt(4, 0);
+                ps.setInt(5, 0);
+                rowsUpdated = ps.executeUpdate();
+            }
+        }
+        return rowsUpdated > 0;
+    }
+
     public UserModel getUser(String emailTxt, String passwordTxt) throws SQLException {
         UserModel user = null;
         String query = "SELECT * FROM user WHERE email = ? AND password = ?";
@@ -74,17 +91,15 @@ public class UserDAO {
     }
 
     public Boolean emailExists(String email) throws SQLException {
-        String query = "SELECT COUNT(*) FROM user WHERE email = ?";
+        String query = "SELECT 1 FROM user WHERE email = ?";
         try(Connection con = ConnectionManager.getConnection()){
             try(PreparedStatement ps = con.prepareStatement(query)){
                 ps.setString(1, email);
                 try(ResultSet rs = ps.executeQuery()){
-                    if(rs.next())
-                        return true;
+                    return rs.next();
                 }
             }
         }
-        return false;
     }
 
     public Boolean updatePoints(int user_id, int points) throws SQLException {

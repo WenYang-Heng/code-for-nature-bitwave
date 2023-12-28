@@ -24,10 +24,7 @@ public class MainController {
     public void initialize() throws IOException {
 
         System.out.println("root border pane loaded");
-        //oadPage("home-view.fxml");
-
         sidebar.getStylesheets().add(getClass().getResource("/styles/sidebar.css").toExternalForm());
-
     }
 
     public void loadPage(String page) throws IOException, SQLException{

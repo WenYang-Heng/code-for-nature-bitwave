@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #0C1117;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.register3Controller">
+<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #0C1117;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.RegisterController">
    <children>
       <VBox layoutX="406.0" layoutY="125.0" prefHeight="560.0" prefWidth="400.0">
          <children>
@@ -156,15 +156,17 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <ImageView fx:id="arrowImageView" fitHeight="20.0" fitWidth="20.0" layoutX="32.0" layoutY="35.0" onMouseClicked="#arrowImageViewOnMouseClicked" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../assets/register/arrow.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="loginButton" layoutX="45.0" layoutY="24.0" mnemonicParsing="false" onAction="#closeButtonOnAction" prefHeight="39.0" prefWidth="78.0" style="-fx-background-color: transparent;" text="Login" textFill="#5dcf5b">
+      <Button fx:id="loginButton" layoutX="45.0" layoutY="24.0" mnemonicParsing="false" onAction="#onLoginClicked" prefHeight="44.0" prefWidth="111.0" style="-fx-background-color: transparent;" text="Login" textFill="#5dcf5b">
          <font>
             <Font size="20.0" />
          </font>
+         <graphic>
+            <ImageView fx:id="arrowImageView" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/register/arrow.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
    </children>
 </AnchorPane>

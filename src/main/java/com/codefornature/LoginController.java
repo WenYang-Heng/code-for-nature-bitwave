@@ -20,6 +20,8 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -189,6 +191,18 @@ public class LoginController implements Initializable {
 
     public void setStartingStage(Stage stage) {
         startStage = stage;
+    }
+
+    public void onSignUpClicked(ActionEvent event) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("register-view.fxml"));
+        Parent root = loader.load();
+        //get the source of this event and cast it to a node, and then cast it to stage
+        startStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        RegisterController registerController = loader.getController();
+        registerController.setStage(startStage);
+        Scene scene = new Scene(root);
+        startStage.setScene(scene);
+        startStage.show();
     }
 
 

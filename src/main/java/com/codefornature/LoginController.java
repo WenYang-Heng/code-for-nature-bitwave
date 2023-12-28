@@ -46,7 +46,7 @@ public class LoginController implements Initializable {
     private Button loginSignUp;
 
     @FXML
-    private Label myLabel;
+    private Label errorMessageLabel;
 
     @FXML
     private TextField userID;
@@ -55,29 +55,50 @@ public class LoginController implements Initializable {
     private PasswordField password;
 
     @FXML
+    private ImageView userImageView;
+
+    @FXML
+    private ImageView passwordImageView;
+
+    @FXML
+    private ImageView forestImageView;
+
+    @FXML
+    private ImageView pineImageView;
+
+    @FXML
     private HBox IDHbox,IDHbox2;
     private Stage homeStage;
     private Stage startStage;
+    private UserDAO userDAO;
+    private UserModel user;
 
 
 
     @FXML
     private void login(ActionEvent event) throws IOException, SQLException {
+//        userID.setText("abc123@gmail.com");
+//        password.setText("test123");
         String ID = userID.getText();
-
         String pw = password.getText();
-        System.out.println(ID);
-        System.out.println(pw);
-        if(ID.isEmpty()&&!pw.isEmpty()){
-            myLabel.setText("Kindly enter your username or email.");
-        }else if(!ID.isEmpty()&&pw.isEmpty()){
-            myLabel.setText("Kindly enter your password.");
-        }else if(ID.isEmpty()&&pw.isEmpty()){
-            myLabel.setText("Kindly enter your username/email and password");
+        if(ID.isEmpty() || pw.isEmpty()){
+            if(ID.isEmpty()){
+                errorMessageLabel.setText("Kindly enter your username or email.");
+            }else if(pw.isEmpty()){
+                errorMessageLabel.setText("Kindly enter your password.");
+            }else if(ID.isEmpty()&&pw.isEmpty()){
+                errorMessageLabel.setText("Kindly enter your username/email and password");
+            }
+            return;
         }
 
-        UserDAO userDAO = new UserDAO();
-        UserModel user = userDAO.getUser("abc123@gmail.com", "test123");
+        userDAO = new UserDAO();
+        user = userDAO.getUser(ID, pw);
+        if(user == null){
+            errorMessageLabel.setText("Your username or password is incorrect. Please try again!");
+            return;
+        }
+
         CartDAO cartDAO = new CartDAO();
         if(cartDAO.cartExists(user.getUser_id())){
             CartModel cart = cartDAO.getCart(user.getUser_id());
@@ -96,17 +117,6 @@ public class LoginController implements Initializable {
     }
 
 
-    @FXML
-    private ImageView userImageView;
-
-    @FXML
-    private ImageView passwordImageView;
-
-    @FXML
-    private ImageView forestImageView;
-
-    @FXML
-    private ImageView pineImageView;
 
     // You may have other methods and initialization code here
 

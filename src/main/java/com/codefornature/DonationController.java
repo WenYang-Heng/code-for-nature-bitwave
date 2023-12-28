@@ -4,11 +4,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.ImageCursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
@@ -27,81 +30,110 @@ import javafx.scene.layout.HBox;
 
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
+import java.util.concurrent.Flow;
 
-public class DonationController implements Initializable {
+public class DonationController {
     @FXML
     private Button donateButton;
     @FXML
-    private Button ciButton;
+    private AnchorPane donationContainer;
     @FXML
-    private Button edfButton;
+    private FlowPane organisationItems;
     @FXML
-    private Button tncButton;
-    @FXML
-    private Button wwfButton;
-    @FXML
-    private Button ocButton;
-    @FXML
-    private Button nrdcButton;
-    @FXML
-    private ImageView ciImageView;
-    @FXML
-    private ImageView edfImageView;
-    @FXML
-    private ImageView tncImageView;
-    @FXML
-    private ImageView wwfImageView;
-    @FXML
-    private ImageView ocImageView;
-    @FXML
-    private ImageView nrdcImageView;
+    private HBox amountContainer;
     @FXML
     private TextField amountDonate;
     @FXML
     private Label donateMessage;
+    private String organisation = null;
+    private HBox selectedOrganisation = null;
+    private Button selectedAmount = null;
+    private Double donateAmount = null;
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
-//        File ciFile = new File("./src/main/resources/assets/images/donations/CI.png");
-//        Image ciImage = new Image(ciFile.toURI().toString());
-//        ciImageView.setImage(ciImage);
-//
-//        File edfFile = new File("./src/main/resources/assets/images/donations/EDF.png");
-//        Image edfImage = new Image(edfFile.toURI().toString());
-//        edfImageView.setImage(edfImage);
-//
-//        File tncFile = new File("./src/main/resources/assets/images/donations/TNC.png");
-//        Image tncImage = new Image(tncFile.toURI().toString());
-//        tncImageView.setImage(tncImage);
-//
-//        File wwfFile = new File("./src/main/resources/assets/images/donations/WWF.png");
-//        Image wwfImage = new Image(wwfFile.toURI().toString());
-//        wwfImageView.setImage(wwfImage);
-//
-//        File ocFile = new File("./src/main/resources/assets/images/donations/OC.png");
-//        Image ocImage = new Image(ocFile.toURI().toString());
-//        ocImageView.setImage(ocImage);
-//
-//        File nrdcFile = new File("./src/main/resources/assets/images/donations/NRDC.png");
-//        Image nrdcImage = new Image(nrdcFile.toURI().toString());
-//        nrdcImageView.setImage(nrdcImage);
+    public void initialize(){
+        donationContainer.getStylesheets().add(getClass().getResource("/styles/donation.css").toExternalForm());
 
-//        Button button1 = ciButton;
-//        Button button2 = edfButton;
-//        Button button3 = tncButton;
-//        Button button4 = wwfButton;
-//        Button button5 = ocButton;
-//        Button button6 = nrdcButton;
-//
-//        setButtonClickAction(button1);
-//        setButtonClickAction(button2);
-//        setButtonClickAction(button3);
-//        setButtonClickAction(button4);
-//        setButtonClickAction(button5);
-//        setButtonClickAction(button6);
+        //retrieve children (hbox) from flowpane first, then retrieve the child of the hbox
+        for(Node item : organisationItems.getChildren()){
+            HBox organisationContainer = (HBox) item;
+            Label organisationNameLabel = null;
+            for(Node child : organisationContainer.getChildren()){
+                if(child instanceof Label){
+                    organisationNameLabel = (Label) child;
+                }
+            }
+            final Label finalOrganisationNameLabel = organisationNameLabel;
+            final HBox finalOranisationContainer = organisationContainer;
+            organisationContainer.setOnMouseClicked(event -> {
+                onOrganisationSelected(finalOrganisationNameLabel, finalOranisationContainer);
+            });
+        }
+
+        //retrieve the first 4 amount buttons
+        int i = 0;
+        for(Node item : amountContainer.getChildren()){
+            Button amountButton;
+            amountButton = (Button) item;
+            final Button finalAmountButton = amountButton;
+            amountButton.setOnAction(event -> {
+                onAmountSelected(finalAmountButton);
+            });
+            i++;
+            if(i == 4) break;
+        }
     }
-    public void ciOnAction(ActionEvent event){
-        System.out.println(ciButton.getText());
+
+    private void onAmountSelected(Button amountButton) {
+        if(amountButton.equals(selectedAmount)){
+            amountButton.getStyleClass().remove("on-selected");
+            selectedAmount = null;
+            setDonateAmount(null);
+        }
+        else{
+            if(selectedAmount != null){
+                selectedAmount.getStyleClass().remove("on-selected");
+            }
+            selectedAmount = amountButton;
+            selectedAmount.getStyleClass().add("on-selected");
+            String amountText = selectedAmount.getText().replaceAll("[^\\d.]", "");
+            setDonateAmount(Double.parseDouble(amountText));
+            System.out.println(getDonateAmount());
+        }
+    }
+
+    public String getOrganisation() {
+        return organisation;
+    }
+
+    public void setOrganisation(String organisation) {
+        this.organisation = organisation;
+    }
+
+    public Double getDonateAmount(){
+        return donateAmount;
+    }
+
+    public void setDonateAmount(Double donateAmount){
+        this.donateAmount = donateAmount;
+    }
+
+    public void onOrganisationSelected(Label organisationName, HBox organisationContainer){
+        //if clicking on the same organisation, deselect it
+        if (organisationContainer.equals(selectedOrganisation)) {
+            organisationContainer.getStyleClass().remove("on-selected");
+            selectedOrganisation = null;
+            setOrganisation(null);
+            System.out.println("Organisation deselected");
+        } else {
+            //select the organisation
+            if (selectedOrganisation != null) {
+                selectedOrganisation.getStyleClass().remove("on-selected");
+            }
+            selectedOrganisation = organisationContainer;
+            selectedOrganisation.getStyleClass().add("on-selected");
+            setOrganisation(organisationName.getText());
+            System.out.println(getOrganisation());
+        }
     }
 
     private double getDonationAmount() {
@@ -147,8 +179,6 @@ public class DonationController implements Initializable {
         }
     }
 
-
-
     private void writeToFile(String organizationName, double amount) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("donation.txt", true))) {
             //still need get userID and write to file
@@ -159,28 +189,4 @@ public class DonationController implements Initializable {
         }
     }
 
-    public void wwfOnAction(ActionEvent actionEvent) {
-        System.out.println(wwfButton.getText());
-        updateBackgroundOnSelect(wwfButton);
-    }
-
-    public void edfOnAction(ActionEvent actionEvent) {
-        System.out.println(edfButton.getText());
-    }
-
-    public void ocOnAction(ActionEvent actionEvent) {
-        System.out.println(ocButton.getText());
-    }
-
-    public void ncOnAction(ActionEvent actionEvent) {
-        System.out.println(tncButton.getText());
-    }
-
-    public void nrdcOnAction(ActionEvent actionEvent) {
-        System.out.println(nrdcButton.getText());
-    }
-
-    public void updateBackgroundOnSelect(Button button){
-        button.setStyle("fx-background-color: green");
-    }
 }

@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.DonationController">
+<AnchorPane fx:id="donationContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.DonationController">
     <children>
         <Pane layoutX="60.0" layoutY="99.0" prefHeight="434.0" prefWidth="885.0">
             <children>
-            <VBox layoutX="20.0" spacing="30.0">
+            <VBox id="organizationContainer" layoutX="20.0" spacing="30.0">
                <children>
                   <VBox spacing="5.0">
                      <children>
@@ -25,160 +26,159 @@
                                   <Font name="Mukta Malar SemiBold" size="20.0" />
                               </font>
                           </Label>
-                            <Label text="Select one or more from the following organisation: " textFill="#b5b5b5" />
+                            <Label text="Select one from the following organisation: " textFill="#b5b5b5" />
                      </children>
                   </VBox>
-                  <HBox spacing="30.0">
+                  <HBox prefHeight="55.0" prefWidth="850.0" spacing="30.0">
                      <children>
-                            <Group>
-                                <children>
-                                    <Button fx:id="ciButton" layoutX="-43.0" mnemonicParsing="false" onAction="#ciOnAction" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="  Conservation International" textAlignment="CENTER" textFill="WHITE">
-                                        <font>
-                                            <Font name="Mukta Malar Medium" size="20.0" />
-                                        </font>
-                                    </Button>
-                                    <ImageView fx:id="ciImageView" fitHeight="56.0" fitWidth="41.0" layoutX="-17.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../../assets/images/donations/CI.png" />
-                                        </image>
+                        <FlowPane fx:id="organisationItems" hgap="30.0" prefHeight="348.0" prefWidth="879.0" vgap="20.0" HBox.hgrow="ALWAYS">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="410.0" styleClass="organizationItem">
+                                 <children>
+                                          <ImageView fx:id="ciImageView" fitHeight="56.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                                              <image>
+                                                  <Image url="@../../assets/images/donations/CI.png" />
+                                              </image>
+                                          </ImageView>
+                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="384.0" text="Conservation International">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="410.0" styleClass="organizationItem">
+                                 <children>
+                                    <ImageView fx:id="ciImageView1" fitHeight="56.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../assets/images/donations/WWF.png" />
+                                       </image>
                                     </ImageView>
-                                </children>
-                            </Group>
-                            <Group>
-                                <children>
-                                    <Button fx:id="wwfButton" mnemonicParsing="false" onAction="#wwfOnAction" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="      World Wide Fund for Nature" textAlignment="RIGHT" textFill="WHITE">
-                                        <font>
-                                            <Font name="Mukta Malar Medium" size="20.0" />
-                                        </font>
-                                    </Button>
-                                    <ImageView fx:id="wwfImageView" fitHeight="56.0" fitWidth="41.0" layoutX="23.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../../assets/images/donations/WWF.png" />
-                                        </image>
+                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="384.0" text="World Wide Fund for Nature">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="410.0" styleClass="organizationItem">
+                                 <children>
+                                    <ImageView fx:id="ciImageView11" fitHeight="56.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../assets/images/donations/EDF.png" />
+                                       </image>
                                     </ImageView>
-                                </children>
-                            </Group>
+                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="384.0" text="Environmental Defense Fund">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="410.0" styleClass="organizationItem">
+                                 <children>
+                                    <ImageView fx:id="ciImageView111" fitHeight="56.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../assets/images/donations/OC.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="384.0" text="Ocean Conservancy">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="410.0" styleClass="organizationItem">
+                                 <children>
+                                    <ImageView fx:id="ciImageView112" fitHeight="56.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../assets/images/donations/TNC.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="384.0" text="The Nature Conservancy">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefHeight="58.0" prefWidth="410.0" styleClass="organizationItem">
+                                 <children>
+                                    <ImageView fx:id="ciImageView1121" fitHeight="56.0" fitWidth="41.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../assets/images/donations/NRDC.png" />
+                                       </image>
+                                    </ImageView>
+                                    <Label alignment="CENTER" prefHeight="30.0" prefWidth="384.0" text="Nature Resource Defense Council">
+                                       <font>
+                                          <Font size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </HBox>
+                           </children>
+                        </FlowPane>
                      </children>
                   </HBox>
-                  <HBox spacing="30.0">
+                  <VBox id="donateAmountContainer" spacing="10.0">
                      <children>
-                            <Group>
-                                <children>
-                                    <Button fx:id="edfButton" layoutX="-43.0" layoutY="-10.0" mnemonicParsing="false" onAction="#edfOnAction" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="    Environmental Defence Fund" textAlignment="CENTER" textFill="WHITE">
+                            <Label text="Amount to donate: " textFill="#b5b5b5">
+                                <font>
+                                    <Font name="Mukta Malar Regular" size="13.0" />
+                                </font>
+                            </Label>
+                        <HBox fx:id="amountContainer" alignment="CENTER" prefHeight="0.0" prefWidth="850.0" spacing="20.0">
+                           <children>
+                                    <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="120.0" style="-fx-border-color: #5F81AB; -fx-border-radius: 20;" styleClass="amountBtn" text="\$5" textFill="WHITE" HBox.hgrow="ALWAYS">
                                         <font>
-                                            <Font name="Mukta Malar Medium" size="20.0" />
+                                            <Font name="Mukta Malar Medium" size="16.0" />
                                         </font>
                                     </Button>
-                                    <ImageView fx:id="edfImageView" fitHeight="49.0" fitWidth="51.0" layoutX="-23.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../../assets/images/donations/EDF.png" />
-                                        </image>
-                                    </ImageView>
-                                </children>
-                            </Group>
-                            <Group>
-                                <children>
-                                    <Button fx:id="ocButton" mnemonicParsing="false" onAction="#ocOnAction" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="Ocean Conservancy" textAlignment="RIGHT" textFill="WHITE">
+                                    <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="120.0" style="-fx-border-color: #5F81AB; -fx-border-radius: 20;" styleClass="amountBtn" text="\$10" textFill="WHITE">
                                         <font>
-                                            <Font name="Mukta Malar Medium" size="20.0" />
+                                            <Font name="Mukta Malar Medium" size="16.0" />
                                         </font>
                                     </Button>
-                                    <ImageView fx:id="ocImageView" fitHeight="60.0" fitWidth="53.0" layoutX="19.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../../assets/images/donations/OC.png" />
-                                        </image>
-                                    </ImageView>
-                                </children>
-                            </Group>
+                                    <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="120.0" style="-fx-border-color: #5F81AB; -fx-border-radius: 20;" styleClass="amountBtn" text="\$25" textFill="WHITE">
+                                        <font>
+                                            <Font name="Mukta Malar Medium" size="16.0" />
+                                        </font>
+                                    </Button>
+                                    <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="120.0" style="-fx-border-color: #5F81AB; -fx-border-radius: 20;" styleClass="amountBtn" text="\$50" textFill="WHITE">
+                                        <font>
+                                            <Font name="Mukta Malar Medium" size="16.0" />
+                                        </font>
+                                    </Button>
+                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="4.0">
+                                 <children>
+                                        <Label text="\$" textFill="#5f81ab">
+                                            <font>
+                                                <Font size="21.0" />
+                                            </font>
+                                        </Label>
+                                        <TextField fx:id="amountDonate" prefHeight="27.0" prefWidth="159.0" promptText="Enter amount" style="-fx-border-radius: 0; -fx-border-color: #5F81AB; -fx-border-width: 0 0 1 0; -fx-text-fill: #FFFFFF;" HBox.hgrow="ALWAYS">
+                                            <font>
+                                                <Font size="14.0" />
+                                            </font>
+                                        </TextField>
+                                 </children>
+                              </HBox>
+                                  <Button fx:id="donateButton" mnemonicParsing="false" onAction="#donateOnAction" prefHeight="43.0" prefWidth="120.0" style="-fx-background-color: #40B52C; -fx-background-radius: 20;" text="Donate" textFill="WHITE">
+                                      <font>
+                                          <Font name="Mukta Malar Medium" size="16.0" />
+                                      </font>
+                                  </Button>
+                           </children>
+                        </HBox>
                      </children>
-                  </HBox>
-                  <HBox spacing="30.0">
-                     <children>
-                            <Group>
-                                <children>
-                                    <Button fx:id="tncButton" mnemonicParsing="false" onAction="#ncOnAction" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="The Nature Conservancy" textAlignment="CENTER" textFill="WHITE">
-                                        <font>
-                                            <Font name="Mukta Malar Medium" size="20.0" />
-                                        </font>
-                                    </Button>
-                                    <ImageView fx:id="tncImageView" fitHeight="53.0" fitWidth="53.0" layoutX="19.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../../assets/images/donations/TNC.png" />
-                                        </image>
-                                    </ImageView>
-                                </children>
-                            </Group>
-                            <Group>
-                                <children>
-                                    <Button fx:id="nrdcButton" mnemonicParsing="false" onAction="#nrdcOnAction" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="        Nature Resource Defence Council" textAlignment="RIGHT" textFill="WHITE">
-                                        <font>
-                                            <Font name="Mukta Malar Medium" size="20.0" />
-                                        </font>
-                                    </Button>
-                                    <ImageView fx:id="nrdcImageView" fitHeight="53.0" fitWidth="40.0" layoutX="25.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                        <image>
-                                            <Image url="@../../assets/images/donations/NRDC.png" />
-                                        </image>
-                                    </ImageView>
-                                </children>
-                            </Group>
-                     </children>
-                  </HBox>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </VBox>
                </children>
             </VBox>
             </children>
-        </Pane>
-        <Pane layoutX="225.0" layoutY="561.0" prefHeight="89.0" prefWidth="880.0">
-         <children>
-            <VBox layoutX="-140.0" layoutY="-7.0" spacing="10.0">
-               <children>
-                      <Label text="Amount to donate: " textFill="#b5b5b5">
-                          <font>
-                              <Font name="Mukta Malar Regular" size="13.0" />
-                          </font>
-                      </Label>
-                  <HBox alignment="CENTER" spacing="10.0">
-                     <children>
-                              <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="120.0" style="-fx-background-color: #000000; -fx-border-color: #5F81AB; -fx-border-radius: 20;" text="\$5" textFill="WHITE">
-                                  <font>
-                                      <Font name="Mukta Malar Medium" size="16.0" />
-                                  </font>
-                              </Button>
-                              <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="120.0" style="-fx-background-color: #000000; -fx-border-color: #5F81AB; -fx-border-radius: 20;" text="\$10" textFill="WHITE">
-                                  <font>
-                                      <Font name="Mukta Malar Medium" size="16.0" />
-                                  </font>
-                              </Button>
-                              <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="120.0" style="-fx-background-color: #000000; -fx-border-color: #5F81AB; -fx-border-radius: 20;" text="\$25" textFill="WHITE">
-                                  <font>
-                                      <Font name="Mukta Malar Medium" size="16.0" />
-                                  </font>
-                              </Button>
-                              <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="120.0" style="-fx-background-color: #000000; -fx-border-color: #5F81AB; -fx-border-radius: 20;" text="\$50" textFill="WHITE">
-                                  <font>
-                                      <Font name="Mukta Malar Medium" size="16.0" />
-                                  </font>
-                              </Button>
-                            <Label text="\$" textFill="#5f81ab">
-                                <font>
-                                    <Font size="20.0" />
-                                </font>
-                            </Label>
-                            <TextField fx:id="amountDonate" prefHeight="27.0" prefWidth="159.0" promptText="Enter amount" style="-fx-background-color: #000000; -fx-border-radius: 0; -fx-border-color: #5F81AB; -fx-border-width: 0 0 1 0; -fx-text-fill: #FFFFFF;">
-                                <font>
-                                    <Font size="14.0" />
-                                </font>
-                            </TextField>
-                            <Button fx:id="donateButton" mnemonicParsing="false" onAction="#donateOnAction" prefHeight="43.0" prefWidth="120.0" style="-fx-background-color: #40B52C; -fx-background-radius: 20;" text="Donate" textFill="WHITE">
-                                <font>
-                                    <Font name="Mukta Malar Medium" size="16.0" />
-                                </font>
-                            </Button>
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-         </children>
         </Pane>
       <Label fx:id="donateMessage" layoutX="299.0" layoutY="696.0" text="Your donation has been received &lt;3 Thank you !" textAlignment="CENTER" textFill="WHITE">
          <font>

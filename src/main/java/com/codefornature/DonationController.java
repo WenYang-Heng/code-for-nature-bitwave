@@ -62,43 +62,43 @@ public class DonationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        File ciFile = new File("./src/main/resources/assets/images/donations/CI.png");
-        Image ciImage = new Image(ciFile.toURI().toString());
-        ciImageView.setImage(ciImage);
+//        File ciFile = new File("./src/main/resources/assets/images/donations/CI.png");
+//        Image ciImage = new Image(ciFile.toURI().toString());
+//        ciImageView.setImage(ciImage);
+//
+//        File edfFile = new File("./src/main/resources/assets/images/donations/EDF.png");
+//        Image edfImage = new Image(edfFile.toURI().toString());
+//        edfImageView.setImage(edfImage);
+//
+//        File tncFile = new File("./src/main/resources/assets/images/donations/TNC.png");
+//        Image tncImage = new Image(tncFile.toURI().toString());
+//        tncImageView.setImage(tncImage);
+//
+//        File wwfFile = new File("./src/main/resources/assets/images/donations/WWF.png");
+//        Image wwfImage = new Image(wwfFile.toURI().toString());
+//        wwfImageView.setImage(wwfImage);
+//
+//        File ocFile = new File("./src/main/resources/assets/images/donations/OC.png");
+//        Image ocImage = new Image(ocFile.toURI().toString());
+//        ocImageView.setImage(ocImage);
+//
+//        File nrdcFile = new File("./src/main/resources/assets/images/donations/NRDC.png");
+//        Image nrdcImage = new Image(nrdcFile.toURI().toString());
+//        nrdcImageView.setImage(nrdcImage);
 
-        File edfFile = new File("./src/main/resources/assets/images/donations/EDF.png");
-        Image edfImage = new Image(edfFile.toURI().toString());
-        edfImageView.setImage(edfImage);
-
-        File tncFile = new File("./src/main/resources/assets/images/donations/TNC.png");
-        Image tncImage = new Image(tncFile.toURI().toString());
-        tncImageView.setImage(tncImage);
-
-        File wwfFile = new File("./src/main/resources/assets/images/donations/WWF.png");
-        Image wwfImage = new Image(wwfFile.toURI().toString());
-        wwfImageView.setImage(wwfImage);
-
-        File ocFile = new File("./src/main/resources/assets/images/donations/OC.png");
-        Image ocImage = new Image(ocFile.toURI().toString());
-        ocImageView.setImage(ocImage);
-
-        File nrdcFile = new File("./src/main/resources/assets/images/donations/NRDC.png");
-        Image nrdcImage = new Image(nrdcFile.toURI().toString());
-        nrdcImageView.setImage(nrdcImage);
-
-        Button button1 = ciButton;
-        Button button2 = edfButton;
-        Button button3 = tncButton;
-        Button button4 = wwfButton;
-        Button button5 = ocButton;
-        Button button6 = nrdcButton;
-
-        setButtonClickAction(button1);
-        setButtonClickAction(button2);
-        setButtonClickAction(button3);
-        setButtonClickAction(button4);
-        setButtonClickAction(button5);
-        setButtonClickAction(button6);
+//        Button button1 = ciButton;
+//        Button button2 = edfButton;
+//        Button button3 = tncButton;
+//        Button button4 = wwfButton;
+//        Button button5 = ocButton;
+//        Button button6 = nrdcButton;
+//
+//        setButtonClickAction(button1);
+//        setButtonClickAction(button2);
+//        setButtonClickAction(button3);
+//        setButtonClickAction(button4);
+//        setButtonClickAction(button5);
+//        setButtonClickAction(button6);
     }
     public void ciOnAction(ActionEvent event){
         System.out.println(ciButton.getText());
@@ -157,5 +157,30 @@ public class DonationController implements Initializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void wwfOnAction(ActionEvent actionEvent) {
+        System.out.println(wwfButton.getText());
+        updateBackgroundOnSelect(wwfButton);
+    }
+
+    public void edfOnAction(ActionEvent actionEvent) {
+        System.out.println(edfButton.getText());
+    }
+
+    public void ocOnAction(ActionEvent actionEvent) {
+        System.out.println(ocButton.getText());
+    }
+
+    public void ncOnAction(ActionEvent actionEvent) {
+        System.out.println(tncButton.getText());
+    }
+
+    public void nrdcOnAction(ActionEvent actionEvent) {
+        System.out.println(nrdcButton.getText());
+    }
+
+    public void updateBackgroundOnSelect(Button button){
+        button.setStyle("fx-background-color: green");
     }
 }

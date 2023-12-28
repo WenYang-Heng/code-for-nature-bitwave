@@ -1,13 +1,16 @@
 package com.codefornature;
 
 import com.codefornature.dao.CartDAO;
+import com.codefornature.dao.NewsDAO;
 import com.codefornature.dao.UserDAO;
+import com.codefornature.model.NewsModel;
 import com.codefornature.model.UserModel;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.effect.ColorAdjust;
@@ -17,11 +20,15 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import org.joda.time.DateTimeComparator;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 public class HomeController {
     private UserModel user;
@@ -41,7 +48,7 @@ public class HomeController {
     private Label pointsValue;
     private Button claimRewardButton = null;
 
-    public void setUser(UserModel user) throws SQLException {
+    public void setUser(UserModel user) throws SQLException, IOException {
         this.user = user;
         createDashboardUI();
         createNewsUI();
@@ -119,6 +126,8 @@ public class HomeController {
                     System.out.println("last claim date updated");
                     updatePointsDisplay();
                     updateClaimRewardButtonStatus();
+                    //need to update user.setDate
+                    user.setLast_claim_date(CURRENT_DATE);
                 }
                 else{
                     System.out.println("last claim date not updated");
@@ -184,7 +193,7 @@ public class HomeController {
         }
     }
 
-    public void createNewsUI(){
+    public void createNewsUI() throws IOException {
         //create the containers
         GridPane newsContainer = new GridPane();
 //        newsContainer.setStyle("-fx-border-color: green");
@@ -208,13 +217,19 @@ public class HomeController {
         newsHeader.setAlignment(Pos.CENTER);
         newsHeader.setPadding(new Insets(0, 45, 5, 45));
 
-        for(int i = 0; i < 7; i++){
-            VBox newsChild = createNewsVbox(i);
+
+        NewsDAO newsDAO = new NewsDAO();
+
+        List<NewsModel> newsList = newsDAO.getNews();
+        int i = 0;
+        for(NewsModel news : newsList){
+            VBox newsChild = createNewsVbox(news);
             if(i >= 3) {
                 newsChild.setManaged(false);
                 newsChild.setVisible(false);
             }
             newsContainer.add(newsChild, i, 0);
+            i++;
         }
 
         firstItem = getNodeFromGridPane(newsContainer, 0, 0);
@@ -298,13 +313,13 @@ public class HomeController {
         return button;
     }
 
-    private VBox createNewsVbox(int index){
+    private VBox createNewsVbox(NewsModel news){
         VBox newsChild = new VBox();
         newsChild.setPrefWidth(280);
         newsChild.setStyle("-fx-border-color: white");
 
         //create date and time
-        HBox date = createNewsTimeStamp(rootPath + "icons/calendar.png", "6 November 2023");
+        HBox date = createNewsTimeStamp(rootPath + "icons/calendar.png", news.getDate());
         HBox time = createNewsTimeStamp(rootPath + "icons/icons8-time-24.png", "2 Hours Ago");
         Region region = new Region();
         HBox.setHgrow(region, Priority.ALWAYS);
@@ -312,17 +327,28 @@ public class HomeController {
         dateTimeContainer.setPadding(new Insets(0, 0, 5, 0));
 
         //create news image
-        ImageView newsImage = new ImageView(rootPath + "images/news/FWG_2560x1440.jpg");
-        newsImage.setFitWidth(280);
-        newsImage.setFitHeight(250);
+//        ImageView newsImage = new ImageView(rootPath + "images/news/FWG_2560x1440.jpg");
+//        newsImage.setFitWidth(280);
+//        newsImage.setFitHeight(250);
 
         //create news title
-        Label newsTitle = new Label(Integer.toString(index));
+        Hyperlink newsTitle = new Hyperlink(news.getTitle());
+        newsTitle.setBorder(Border.EMPTY);
         newsTitle.getStyleClass().add("newsTitle");
         newsTitle.setPadding(new Insets(10, 5, 0, 5));
+        newsTitle.setOnAction(event -> {
+            System.out.println(newsTitle.getText() + " clicked");
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                URI uri = new URI(news.getNewsUrl());
+                desktop.browse(uri);
+            } catch (URISyntaxException | IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         //adding nodes to respective containers
-        newsChild.getChildren().addAll(dateTimeContainer, newsImage, newsTitle);
+        newsChild.getChildren().addAll(dateTimeContainer, newsTitle);
         return newsChild;
     }
     private HBox createNewsTimeStamp(String iconPath, String details){

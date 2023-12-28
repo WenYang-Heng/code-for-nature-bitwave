@@ -31,10 +31,12 @@ public class Main extends Application {
         }
         System.out.println(user);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main-container.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        MainController mainController = fxmlLoader.getController();
-        mainController.setUser(user);
+        LoginController loginController = fxmlLoader.getController();
+        loginController.setStartingStage(stage);
+//        MainController mainController = fxmlLoader.getController();
+//        mainController.setUser(user);
 //        scene.getStylesheets().add(getClass().getResource("root.css").toExternalForm());
         stage.setTitle("Hello!");
         stage.setScene(scene);

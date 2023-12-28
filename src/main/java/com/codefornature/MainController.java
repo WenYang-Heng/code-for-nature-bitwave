@@ -56,25 +56,25 @@ public class MainController {
         return mainContainer;
     }
 
-    public void toPointShop(ActionEvent actionEvent) throws IOException, SQLException, ParseException {
+    public void toPointShop(ActionEvent actionEvent) throws IOException, SQLException {
         System.out.println("point shop button clicked");
         loadPage("point-shop.fxml");
     }
 
-    public void toHome(ActionEvent actionEvent) throws IOException, SQLException, ParseException {
+    public void toHome(ActionEvent actionEvent) throws IOException, SQLException {
         loadPage("home-view.fxml");
     }
 
-//    public void toDonation(ActionEvent actionEvent) throws IOException, SQLException {
-//        loadPage("donation-view.fxml");
-//    }
+    public void toDonation(ActionEvent actionEvent) throws IOException, SQLException {
+        loadPage("donation-view.fxml");
+    }
 
-    public void setUser(UserModel user) throws IOException, SQLException, ParseException {
+    public void setUser(UserModel user) throws IOException, SQLException {
         this.user = user;
         loadPage("home-view.fxml");
     }
 
-    public void toShoppingCart(ActionEvent actionEvent) throws IOException, SQLException, ParseException {
+    public void toShoppingCart(ActionEvent actionEvent) throws IOException, SQLException {
         loadPage("shopping-cart-view.fxml");
 
     }

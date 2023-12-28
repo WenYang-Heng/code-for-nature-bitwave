@@ -1,17 +1,26 @@
 package com.codefornature;
 
+import com.codefornature.dao.CartDAO;
+import com.codefornature.dao.UserDAO;
+import com.codefornature.model.CartModel;
+import com.codefornature.model.UserModel;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
+
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
@@ -21,6 +30,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
 
@@ -46,11 +56,13 @@ public class LoginController implements Initializable {
 
     @FXML
     private HBox IDHbox,IDHbox2;
+    private Stage homeStage;
+    private Stage startStage;
 
 
 
     @FXML
-    private void login(ActionEvent event){
+    private void login(ActionEvent event) throws IOException, SQLException {
         String ID = userID.getText();
 
         String pw = password.getText();
@@ -63,6 +75,24 @@ public class LoginController implements Initializable {
         }else if(ID.isEmpty()&&pw.isEmpty()){
             myLabel.setText("Kindly enter your username/email and password");
         }
+
+        UserDAO userDAO = new UserDAO();
+        UserModel user = userDAO.getUser("abc123@gmail.com", "test123");
+        CartDAO cartDAO = new CartDAO();
+        if(cartDAO.cartExists(user.getUser_id())){
+            CartModel cart = cartDAO.getCart(user.getUser_id());
+        }
+        System.out.println(user);
+
+        homeStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main-container.fxml"));
+        Scene scene = new Scene(loader.load());
+        MainController mainController = loader.getController();
+        mainController.setUser(user);
+        scene.getStylesheets().add(getClass().getResource("root.css").toExternalForm());
+        homeStage.setScene(scene);
+        startStage.close();
+        homeStage.show();
     }
 
 
@@ -145,6 +175,10 @@ public class LoginController implements Initializable {
             password.setVisible(true);
 
         }
+    }
+
+    public void setStartingStage(Stage stage) {
+        startStage = stage;
     }
 
 

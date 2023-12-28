@@ -39,21 +39,21 @@
                                     </Button>
                                     <ImageView fx:id="ciImageView" fitHeight="56.0" fitWidth="41.0" layoutX="-17.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
-                                            <Image url="@/Users/hui3/Desktop/code-for-nature-bitwave/src/main/resources/assets/images/donations/CI.png" />
+                                            <Image url="@../../assets/images/donations/CI.png" />
                                         </image>
                                     </ImageView>
                                 </children>
                             </Group>
                             <Group>
                                 <children>
-                                    <Button fx:id="wwfButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="      World Wide Fund for Nature" textAlignment="RIGHT" textFill="WHITE">
+                                    <Button fx:id="wwfButton" mnemonicParsing="false" onAction="#wwfOnAction" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="      World Wide Fund for Nature" textAlignment="RIGHT" textFill="WHITE">
                                         <font>
                                             <Font name="Mukta Malar Medium" size="20.0" />
                                         </font>
                                     </Button>
                                     <ImageView fx:id="wwfImageView" fitHeight="56.0" fitWidth="41.0" layoutX="23.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
-                                            <Image url="@/Users/hui3/Desktop/code-for-nature-bitwave/src/main/resources/assets/images/donations/WWF.png" />
+                                            <Image url="@../../assets/images/donations/WWF.png" />
                                         </image>
                                     </ImageView>
                                 </children>
@@ -64,28 +64,28 @@
                      <children>
                             <Group>
                                 <children>
-                                    <Button fx:id="edfButton" layoutX="-43.0" layoutY="-10.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="    Environmental Defence Fund" textAlignment="CENTER" textFill="WHITE">
+                                    <Button fx:id="edfButton" layoutX="-43.0" layoutY="-10.0" mnemonicParsing="false" onAction="#edfOnAction" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="    Environmental Defence Fund" textAlignment="CENTER" textFill="WHITE">
                                         <font>
                                             <Font name="Mukta Malar Medium" size="20.0" />
                                         </font>
                                     </Button>
                                     <ImageView fx:id="edfImageView" fitHeight="49.0" fitWidth="51.0" layoutX="-23.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
-                                            <Image url="@/Users/hui3/Desktop/code-for-nature-bitwave/src/main/resources/assets/images/donations/EDF.png" />
+                                            <Image url="@../../assets/images/donations/EDF.png" />
                                         </image>
                                     </ImageView>
                                 </children>
                             </Group>
                             <Group>
                                 <children>
-                                    <Button fx:id="ocButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="Ocean Conservancy" textAlignment="RIGHT" textFill="WHITE">
+                                    <Button fx:id="ocButton" mnemonicParsing="false" onAction="#ocOnAction" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="Ocean Conservancy" textAlignment="RIGHT" textFill="WHITE">
                                         <font>
                                             <Font name="Mukta Malar Medium" size="20.0" />
                                         </font>
                                     </Button>
                                     <ImageView fx:id="ocImageView" fitHeight="60.0" fitWidth="53.0" layoutX="19.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
-                                            <Image url="@/Users/hui3/Desktop/code-for-nature-bitwave/src/main/resources/assets/images/donations/OC.png" />
+                                            <Image url="@../../assets/images/donations/OC.png" />
                                         </image>
                                     </ImageView>
                                 </children>
@@ -96,28 +96,28 @@
                      <children>
                             <Group>
                                 <children>
-                                    <Button fx:id="tncButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="The Nature Conservancy" textAlignment="CENTER" textFill="WHITE">
+                                    <Button fx:id="tncButton" mnemonicParsing="false" onAction="#ncOnAction" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="The Nature Conservancy" textAlignment="CENTER" textFill="WHITE">
                                         <font>
                                             <Font name="Mukta Malar Medium" size="20.0" />
                                         </font>
                                     </Button>
                                     <ImageView fx:id="tncImageView" fitHeight="53.0" fitWidth="53.0" layoutX="19.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
-                                            <Image url="@/Users/hui3/Desktop/code-for-nature-bitwave/src/main/resources/assets/images/donations/TNC.png" />
+                                            <Image url="@../../assets/images/donations/TNC.png" />
                                         </image>
                                     </ImageView>
                                 </children>
                             </Group>
                             <Group>
                                 <children>
-                                    <Button fx:id="nrdcButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="        Nature Resource Defence Council" textAlignment="RIGHT" textFill="WHITE">
+                                    <Button fx:id="nrdcButton" mnemonicParsing="false" onAction="#nrdcOnAction" prefHeight="70.0" prefWidth="410.0" style="-fx-background-color: #1C2835; -fx-background-radius: 10;" text="        Nature Resource Defence Council" textAlignment="RIGHT" textFill="WHITE">
                                         <font>
                                             <Font name="Mukta Malar Medium" size="20.0" />
                                         </font>
                                     </Button>
                                     <ImageView fx:id="nrdcImageView" fitHeight="53.0" fitWidth="40.0" layoutX="25.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                                         <image>
-                                            <Image url="@/Users/hui3/Desktop/code-for-nature-bitwave/src/main/resources/assets/images/donations/NRDC.png" />
+                                            <Image url="@../../assets/images/donations/NRDC.png" />
                                         </image>
                                     </ImageView>
                                 </children>

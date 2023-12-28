@@ -66,6 +66,10 @@ public class UserModel {
         this.total_check_in = total_check_in;
     }
 
+    public void setLast_claim_date(java.util.Date last_claim_date) {
+        this.last_claim_date = last_claim_date;
+    }
+
     public java.util.Date convertDateFormat(java.util.Date date) throws ParseException {
         if(date == null) return null;
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd kk:mm:ss z yyyy");

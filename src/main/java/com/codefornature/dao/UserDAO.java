@@ -38,12 +38,13 @@ public class UserDAO {
                     if(rs.next()){
                         int user_id = rs.getInt("user_id");
                         String email = rs.getString("email");
+                        String username = rs.getString("username");
                         Date date = rs.getDate("register_date");
                         int points = rs.getInt("points");
                         int total_check_in = rs.getInt("total_check_in");
                         Timestamp last_claim_date = rs.getTimestamp("last_claim_date");
 
-                        user = new UserModel(user_id, email, date, points, total_check_in, last_claim_date);
+                        user = new UserModel(user_id, email, username, date, points, total_check_in, last_claim_date);
                     }
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
@@ -103,7 +104,7 @@ public class UserDAO {
     }
 
     public Boolean updatePoints(int user_id, int points) throws SQLException {
-        String query = "UPDATE user SET points = ? WHERE user_id = ?";
+        String query = "UPDATE user SET points = points + ? WHERE user_id = ?";
         int rowsUpdated;
         try(Connection con = ConnectionManager.getConnection()){
             try(PreparedStatement ps = con.prepareStatement(query)){

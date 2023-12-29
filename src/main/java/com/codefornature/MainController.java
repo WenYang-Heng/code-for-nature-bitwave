@@ -44,7 +44,10 @@ public class MainController {
                 ShoppingCartController shoppingCartController = loader.getController();
                 shoppingCartController.setUser(user);
                 shoppingCartController.setMainContainer(mainContainer);
-
+                break;
+            case "donation-view.fxml":
+                DonationController donationController = loader.getController();
+                donationController.setUser(user);
         }
         mainContainer.setCenter(root);
     }

@@ -1,5 +1,8 @@
 package com.codefornature;
 
+import com.codefornature.dao.DonationDAO;
+import com.codefornature.dao.UserDAO;
+import com.codefornature.model.UserModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -10,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
@@ -19,6 +23,7 @@ import javafx.scene.control.TextField;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 import java.net.URL;
@@ -35,6 +40,7 @@ import java.util.concurrent.Flow;
 public class DonationController {
     @FXML
     private Button donateButton;
+    private UserModel user;
     @FXML
     private AnchorPane donationContainer;
     @FXML
@@ -42,18 +48,21 @@ public class DonationController {
     @FXML
     private HBox amountContainer;
     @FXML
-    private TextField amountDonate;
+    private TextField donateAmountTxtField;
     @FXML
     private Label donateMessage;
     private String organisation = null;
     private HBox selectedOrganisation = null;
     private Button selectedAmount = null;
-    private Double donateAmount = null;
+    private int donateAmount = 0;
 
     public void initialize(){
         donationContainer.getStylesheets().add(getClass().getResource("/styles/donation.css").toExternalForm());
 
         //retrieve children (hbox) from flowpane first, then retrieve the child of the hbox
+        //-----flowpane
+        //--------hbox
+        //----------label
         for(Node item : organisationItems.getChildren()){
             HBox organisationContainer = (HBox) item;
             Label organisationNameLabel = null;
@@ -87,16 +96,18 @@ public class DonationController {
         if(amountButton.equals(selectedAmount)){
             amountButton.getStyleClass().remove("on-selected");
             selectedAmount = null;
-            setDonateAmount(null);
+            setDonateAmount(0);
         }
         else{
             if(selectedAmount != null){
                 selectedAmount.getStyleClass().remove("on-selected");
             }
+            //clear the text field
+            donateAmountTxtField.setText("");
             selectedAmount = amountButton;
             selectedAmount.getStyleClass().add("on-selected");
             String amountText = selectedAmount.getText().replaceAll("[^\\d.]", "");
-            setDonateAmount(Double.parseDouble(amountText));
+            setDonateAmount(Integer.parseInt(amountText));
             System.out.println(getDonateAmount());
         }
     }
@@ -109,12 +120,16 @@ public class DonationController {
         this.organisation = organisation;
     }
 
-    public Double getDonateAmount(){
+    public int getDonateAmount(){
         return donateAmount;
     }
 
-    public void setDonateAmount(Double donateAmount){
+    public void setDonateAmount(int donateAmount){
         this.donateAmount = donateAmount;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
     }
 
     public void onOrganisationSelected(Label organisationName, HBox organisationContainer){
@@ -139,7 +154,7 @@ public class DonationController {
     private double getDonationAmount() {
         try {
             // Attempt to parse the amount from the TextField
-            return Double.parseDouble(amountDonate.getText());
+            return Double.parseDouble(donateAmountTxtField.getText());
         } catch (NumberFormatException e) {
             // Handle the case where the input is not a valid double
             return 0.0;
@@ -154,16 +169,33 @@ public class DonationController {
         });
     }
 
-    public void donateOnAction(ActionEvent event){
-        donateMessage.setText("Donation has been received.");
+    public void donateOnAction(ActionEvent event) throws SQLException {
+        if(selectedOrganisation == null){
+            donateMessage.setText("No organisation selected");
+        }else if(selectedAmount != null || !donateAmountTxtField.getText().isEmpty()){
+            double amount;
+            if(selectedAmount == null){
+                try{
+                    donateAmount = Integer.parseInt(donateAmountTxtField.getText());
+                } catch (NumberFormatException e){
+                    donateMessage.setText("Please enter number only");
+                    return;
+                }
+            }
+            donateMessage.setText("Donation has been received.");
 
-        if (amountDonate.getText().isEmpty()) {
-            // Handle the case where no amount is entered
-            donateMessage.setText("No amount is entered.");
-        } else {
-            //Perform actions when an amount is entered
-            //writeToFile();
-            //You can use the 'amount' variable for further processing
+            DonationDAO donationDAO = new DonationDAO(donateAmount, organisation, user.getUsername());
+            UserDAO userDAO = new UserDAO();
+            int pointsAwarded = donateAmount * 10;
+            userDAO.updatePoints(user.getUser_id(), pointsAwarded);
+            user.setPoints(user.getPoints() + pointsAwarded);
+            donationDAO.insertDonation(user.getUser_id());
+            donationDAO.writeDonationToFile();
+
+            System.out.printf("%s has donated %d to %s%n", user.getUsername(), donateAmount, organisation);
+        }
+        else{
+            donateMessage.setText("No amount is entered or selected.");
         }
     }
 
@@ -189,4 +221,10 @@ public class DonationController {
         }
     }
 
+    public void onKeyPressed(KeyEvent keyEvent) {
+        if (selectedAmount != null) {
+            selectedAmount.getStyleClass().remove("on-selected");
+            selectedAmount = null;
+        }
+    }
 }

@@ -150,14 +150,14 @@
                                             <Font name="Mukta Malar Medium" size="16.0" />
                                         </font>
                                     </Button>
-                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="4.0">
+                              <HBox prefHeight="100.0" prefWidth="200.0" spacing="4.0" style="-fx-border-width: 0 0 1 0; -fx-border-color: #5F81AB;">
                                  <children>
                                         <Label text="\$" textFill="#5f81ab">
                                             <font>
                                                 <Font size="21.0" />
                                             </font>
                                         </Label>
-                                        <TextField fx:id="amountDonate" prefHeight="27.0" prefWidth="159.0" promptText="Enter amount" style="-fx-border-radius: 0; -fx-border-color: #5F81AB; -fx-border-width: 0 0 1 0; -fx-text-fill: #FFFFFF;" HBox.hgrow="ALWAYS">
+                                        <TextField fx:id="donateAmountTxtField" onKeyPressed="#onKeyPressed" prefHeight="27.0" prefWidth="159.0" promptText="Enter amount" style="-fx-border-radius: 0; -fx-text-fill: #FFFFFF; -fx-background-color: transparent;" HBox.hgrow="ALWAYS">
                                             <font>
                                                 <Font size="14.0" />
                                             </font>

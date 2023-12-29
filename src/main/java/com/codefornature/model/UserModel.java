@@ -1,21 +1,22 @@
 package com.codefornature.model;
 
 import java.sql.Date;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 public class UserModel {
     private int user_id;
     private String email;
+    private String username;
     private Date register_date;
     private int points;
     private int total_check_in;
     private java.util.Date last_claim_date;
 
-    public UserModel(int user_id, String email, Date register_date, int points, int total_check_in, java.util.Date last_claim_date) throws ParseException {
+    public UserModel(int user_id, String email, String username, Date register_date, int points, int total_check_in, java.util.Date last_claim_date) throws ParseException {
         this.user_id = user_id;
         this.email = email;
+        this.username = username;
         this.register_date = register_date;
         this.points = points;
         this.total_check_in = total_check_in;
@@ -29,6 +30,8 @@ public class UserModel {
     public String getEmail() {
         return email;
     }
+
+    public String getUsername() { return username; }
 
     public Date getRegister_date() {
         return register_date;

@@ -1,0 +1,49 @@
+.alertContainer{
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-border-color: "#5F81AB";
+    -fx-padding: 20;
+    -fx-background-color: "#1C2835";
+}
+
+.label{
+    -fx-text-fill: white;
+}
+
+.alert{
+    -fx-spacing: 40;
+}
+
+.alertMessageContainer{
+    -fx-spacing: 10;
+}
+
+.alertType{
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
+
+.alertMessage{
+    -fx-font-size: 16;
+}
+
+.closeButton{
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.green{
+    -fx-border-color: "#1E4B15";
+    -fx-background-color: "#A9E79C";
+    -fx-text-fill: "#1E4B15";
+}
+
+.green .label{
+    -fx-text-fill: "#1E4B15";
+}
+
+.red{
+    -fx-border-color: "#1E4B15";
+    -fx-background-color: "#A9E79C";
+}

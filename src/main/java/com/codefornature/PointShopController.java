@@ -136,6 +136,7 @@ public class PointShopController {
 
         if(quantity == 0){
             System.out.println("Please indicate the quantity of the items");
+            AlertController.showAlert("QUANTITY NOT SPECIFIED","Please indicate the quantity of the items", 0);
             return;
         }
 
@@ -148,7 +149,7 @@ public class PointShopController {
             System.out.println(merch.getMerchandise_name() + " exists, update quantity");
             int quantityInDb = cartDAO.getItemQuantity(merch.getMerchandise_id(), CartModel.getCart_id());
             if(quantityInDb == 5){
-                System.out.println("Maximum quantity for " + merch.getMerchandise_name() + " already in the cart. Cannot add more.");
+                AlertController.showAlert("QUANTITY EXCEEDED","Only 5 items is allowed", 0);
             }
             else{
                 int allowedAdditionalQuantity = 5 - quantityInDb;
@@ -156,21 +157,23 @@ public class PointShopController {
                 // If the requested addition does not exceed the maximum limit
                 if (quantity <= allowedAdditionalQuantity) {
                     cartDAO.updateItemQuantity(merch.getMerchandise_id(), CartModel.getCart_id(), quantityInDb + quantity);
-                    System.out.println("Added " + quantity + " more of " + merch.getMerchandise_name() + " to the cart.");
+                    AlertController.showAlert("CART", "Item is added to the cart", 1);
                 }
                 else{
-                    System.out.println("Cannot add more than 5 items in the cart.");
+                    AlertController.showAlert("QUANTITY EXCEEDED","Cannot add more than 5 items in the cart.", 0);
                 }
             }
         } else {
             // Add new cart item
             System.out.println("Item does not exists, add into database");
             boolean success = cartDAO.addCartItems(CartModel.getCart_id(), merch.getMerchandise_id(), quantity);
+            String message = "Item is not added to cart";
+            int alertType = 0;
             if (success) {
-                System.out.println("Items added to cart");
-            } else {
-                System.out.println("Items not added");
+                message = "Item is added to cart";
+                alertType = 1;
             }
+            AlertController.showAlert("CART", message, alertType);
         }
     }
 

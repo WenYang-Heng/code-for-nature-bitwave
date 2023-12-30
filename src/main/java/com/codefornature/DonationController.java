@@ -191,6 +191,7 @@ public class DonationController {
             user.setPoints(user.getPoints() + pointsAwarded);
             donationDAO.insertDonation(user.getUser_id());
             donationDAO.writeDonationToFile();
+            AlertController.showAlert("DONATION", "Donation successful", 1);
 
             System.out.printf("%s has donated %d to %s%n", user.getUsername(), donateAmount, organisation);
         }

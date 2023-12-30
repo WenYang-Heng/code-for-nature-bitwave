@@ -72,12 +72,14 @@ public class RegisterController {
                 registerMessageLabel.setText("Email already exists. Please use another email!");
             }
             else{
-                if(userDAO.insertUser(email, password, username)){
-                    registerMessageLabel.setText("User has been registered successfully!");
+                boolean isRegistered = userDAO.insertUser(email, password, username);
+                int alertType = 0;
+                String registerMessage = "Registration failed. PLease try again";
+                if(isRegistered){
+                    alertType = 1;
+                    registerMessage = "Registration succesful. Please login";
                 }
-                else{
-                    registerMessageLabel.setText("Registration failed. Please try again.");
-                }
+                AlertController.showAlert("REGISTER", registerMessage, alertType);
             }
         }catch (SQLException e){
             e.printStackTrace();

@@ -30,7 +30,7 @@ public class Main extends Application {
 //        MainController mainController = fxmlLoader.getController();
 //        mainController.setUser(user);
 //        scene.getStylesheets().add(getClass().getResource("root.css").toExternalForm());
-        stage.setTitle("Hello!");
+        stage.setTitle("Login");
         stage.setScene(scene);
         stage.show();
     }

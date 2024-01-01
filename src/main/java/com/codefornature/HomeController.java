@@ -2,6 +2,7 @@ package com.codefornature;
 
 import com.codefornature.dao.CartDAO;
 import com.codefornature.dao.NewsDAO;
+import com.codefornature.dao.TreePlantDAO;
 import com.codefornature.dao.UserDAO;
 import com.codefornature.model.NewsModel;
 import com.codefornature.model.UserModel;
@@ -49,6 +50,7 @@ public class HomeController {
     private String rootPath;
     private int visibleColumns = 3;
     private int pointsAwarded = 1;
+    private int treeCost = 5;
     private Node firstItem;
     private Node lastItem;
     private Button leftBtn;
@@ -183,7 +185,7 @@ public class HomeController {
         plantNowButton.setStyle("-fx-background-radius: 50; -fx-background-color: #40B52C;");
         plantNowButton.setTextFill(javafx.scene.paint.Color.WHITE);
         plantNowButton.setOnAction(event -> {
-
+            onPlantNowClicked();
         });
 
         VBox plantTreeVBox = new VBox(plantTreeLabel, treeIcon, plantNowButton);
@@ -198,6 +200,30 @@ public class HomeController {
         homeDashboard.setAlignment(Pos.CENTER);
         homeDashboard.setPadding(new Insets(45));
         homeContainer.getChildren().add(homeDashboard);
+    }
+
+    private void onPlantNowClicked() {
+        if(user.getPoints() < treeCost){
+            AlertController.showAlert("Insufficient Points", "Not enough points to plant a tree.", 0);
+            return;
+        }
+
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("tree-plant-view.fxml"));
+            Parent root = loader.load();
+            TreePlantController treePlantController = loader.getController();
+            treePlantController.setUser(user);
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setResizable(false);
+            Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
+            stage.setScene(scene);
+            stage.showAndWait();
+            pointsValue.setText(Integer.toString(user.getPoints()));
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     public void updatePointsDisplay() {

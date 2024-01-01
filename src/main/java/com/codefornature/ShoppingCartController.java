@@ -176,7 +176,7 @@ public class ShoppingCartController {
         }
         else{
             //User does not have enough points
-            System.out.println("Not enough points");
+            AlertController.showAlert("Insufficient Points", "Not enough points to purchase these products", 0);
         }
 
     }

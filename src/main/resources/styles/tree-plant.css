@@ -1,0 +1,42 @@
+.tree-plant-container{
+    -fx-background-color: "#1C2835";
+    -fx-padding: 30;
+    -fx-spacing: 10;
+    -fx-background-radius: 20;
+}
+
+.label{
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+}
+
+.name-label{
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: "#B5B5B5";
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+}
+
+.error-message{
+    -fx-text-fill: "#B12F2F";
+    -fx-font-size: 14;
+    -fx-font-weight: normal;
+}
+
+.button-container{
+    -fx-spacing: 20;
+}
+
+.button{
+    -fx-background-radius: 100;
+    -fx-background-color: "#812222";
+    -fx-padding: 5;
+    -fx-font-size: 18;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.plant-button{
+    -fx-background-color: "#40B52C";
+}

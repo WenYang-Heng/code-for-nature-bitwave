@@ -77,17 +77,17 @@ public class OrderController {
     }
 
     public boolean isTextFieldValid() {
-        if (addressTxt.getText().trim().isEmpty()) {
+        if (addressTxt.getText().isEmpty()) {
             return false;
         }
 
-        if (cityTxt.getText().trim().isEmpty()) {
+        if (cityTxt.getText().isEmpty()) {
             return false;
         }
-        if (stateTxt.getText().trim().isEmpty()) {
+        if (stateTxt.getText().isEmpty()) {
             return false;
         }
-        if (postCodeTxt.getText().trim().isEmpty()) {
+        if (postCodeTxt.getText().isEmpty()) {
             return false;
         }
         return true;

@@ -62,6 +62,18 @@ public class HomeController {
         createDashboardUI();
         createNewsUI();
         System.out.println(user.getPoints());
+//        displayTrivia();
+    }
+
+    private void displayTrivia() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("trivia-view.fxml"));
+        Parent root = loader.load();
+        TriviaController triviaController = loader.getController();
+        triviaController.setUser(user);
+        Stage stage = new Stage();
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
     }
 
     public void initialize() throws IOException {

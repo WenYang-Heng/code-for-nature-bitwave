@@ -286,7 +286,7 @@ public class HomeController {
             if(node != null){
                 GridPane.setColumnIndex(node, i + 1);
                 //shifting 3rd node to 4th column
-                if(i == 2 && node.isVisible() == true){
+                if(i == 2 && node.isVisible()){
                     node.setVisible(false);
                     node.setManaged(false);
                 }
@@ -314,7 +314,7 @@ public class HomeController {
             if(node != null){
                 GridPane.setColumnIndex(node, i - 1);
                 //shifting 4th node to 3rd column
-                if(i == 3 && node.isVisible() == false){
+                if(i == 3 && !node.isVisible()){
                     node.setManaged(true);
                     node.setVisible(true);
                 }

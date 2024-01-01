@@ -7,12 +7,16 @@
 }
 
 .newsTitle{
-    -fx-font-size: 15px;
+    -fx-font-size: 16px;
     -fx-text-fill: "#ffffff";
     -fx-underline: true;
     -fx-cursor: hand;
     -fx-wrap-text: true;
-    -fx-line-spacing: -8;
     -fx-max-width: Infinity;
-    -fx-content-display: center;
+}
+
+.newsVbox{
+    -fx-background-color: "#1C2835";
+    -fx-background-radius: 10;
+    -fx-padding: 15;
 }

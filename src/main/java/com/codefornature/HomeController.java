@@ -35,9 +35,8 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.*;
 import java.util.List;
-import java.util.Optional;
 
 public class HomeController {
     private UserModel user;
@@ -247,6 +246,8 @@ public class HomeController {
         NewsDAO newsDAO = new NewsDAO();
 
         List<NewsModel> newsList = newsDAO.getNews();
+        newsList.sort(Comparator.comparing(NewsModel::getDate).reversed());
+        newsList.removeIf(news -> !news.getTitle().toLowerCase().contains("nature"));
         int i = 0;
         for(NewsModel news : newsList){
             VBox newsChild = createNewsVbox(news);
@@ -256,6 +257,7 @@ public class HomeController {
             }
             newsContainer.add(newsChild, i, 0);
             i++;
+            if(i == 4) break;
         }
 
         firstItem = getNodeFromGridPane(newsContainer, 0, 0);
@@ -342,14 +344,14 @@ public class HomeController {
     private VBox createNewsVbox(NewsModel news){
         VBox newsChild = new VBox();
         newsChild.setPrefWidth(280);
-        newsChild.setStyle("-fx-border-color: white");
+        newsChild.getStyleClass().add("newsVbox");
 
         //create date and time
-        HBox date = createNewsTimeStamp(rootPath + "icons/calendar.png", news.getDate());
-        HBox time = createNewsTimeStamp(rootPath + "icons/icons8-time-24.png", "2 Hours Ago");
+        HBox date = createNewsTimeStamp(rootPath + "icons/calendar.png", news.getDate().toString());
+//        HBox time = createNewsTimeStamp(rootPath + "icons/icons8-time-24.png", "2 Hours Ago");
         Region region = new Region();
         HBox.setHgrow(region, Priority.ALWAYS);
-        HBox dateTimeContainer = new HBox(date, region, time);
+        HBox dateTimeContainer = new HBox(date, region);
         dateTimeContainer.setPadding(new Insets(0, 0, 5, 0));
 
         //create news image

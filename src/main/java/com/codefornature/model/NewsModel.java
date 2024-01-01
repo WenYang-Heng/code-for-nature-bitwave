@@ -1,11 +1,13 @@
 package com.codefornature.model;
 
+import java.time.LocalDate;
+
 public class NewsModel {
     private String title;
     private String newsUrl;
-    private String date;
+    private LocalDate date;
 
-    public NewsModel(String title, String newsUrl, String date) {
+    public NewsModel(String title, String newsUrl, LocalDate date) {
         this.title = title;
         this.newsUrl = newsUrl;
         this.date = date;
@@ -27,11 +29,11 @@ public class NewsModel {
         this.newsUrl = newsUrl;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

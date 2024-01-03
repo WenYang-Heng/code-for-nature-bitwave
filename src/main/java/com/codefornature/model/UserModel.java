@@ -49,16 +49,8 @@ public class UserModel {
         return last_claim_date;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
-
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public void setRegister_date(Date register_date) {
-        this.register_date = register_date;
     }
 
     public void setPoints(int points) {

@@ -17,24 +17,12 @@ public class NewsModel {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getNewsUrl() {
         return newsUrl;
     }
 
-    public void setNewsUrl(String newsUrl) {
-        this.newsUrl = newsUrl;
-    }
-
     public LocalDate getDate() {
         return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
     }
 
     @Override

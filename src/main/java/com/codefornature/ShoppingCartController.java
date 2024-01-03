@@ -32,7 +32,10 @@ public class ShoppingCartController {
     private BorderPane mainContainer;
     @FXML
     private VBox shoppingCartContainer;
+    private Label emptyCartLabel = new Label();
     private Label grandTotal;
+    private HBox grandTotalContainer;
+    private Button checkoutBtn = new Button();
     private String rootPath;
     private CartDAO cartDAO = new CartDAO();
     private List<CartItemsModel> cartItems;
@@ -71,52 +74,58 @@ public class ShoppingCartController {
         if(CartModel.getCart_id() == 0){
             System.out.println("no cart");
             //Display a message in the UI indicating that the cart is empty
-            Label emptyCartLabel = new Label("Your cart is empty.");
+            emptyCartLabel.setText("Your cart is empty.");
             emptyCartLabel.getStyleClass().add("empty-cart-message");
+            checkoutBtn.setVisible(false);
+            checkoutBtn.setManaged(false);
             carItemsContainer.getChildren().add(emptyCartLabel);
         }
         else{
             cartItems = cartDAO.getCartItems(CartModel.getCart_id());
-            for(int i = 0; i < cartItems.size(); i++){
-                int cost = cartItems.get(i).getCost();
-                int quantity = cartItems.get(i).getQuantity();
+            for(CartItemsModel item : cartItems){
+                int cost = item.getCost();
+                int quantity = item.getQuantity();
 
                 HBox merchContent = new HBox();
                 merchContent.setSpacing(20);
                 merchContent.setStyle("-fx-background-color: #1C2835; -fx-background-radius: 20;");
                 merchContent.setPadding(new Insets(20));
-                ImageView merchImage = new ImageView(rootPath + "images/" + cartItems.get(i).getImage_name());
+                ImageView merchImage = new ImageView(rootPath + "images/" + item.getImage_name());
                 merchImage.setFitHeight(170);
                 merchImage.setFitWidth(170);
                 VBox merchDetails = new VBox();
-                Label merchName = new Label(cartItems.get(i).getMerchandise_name());
+                Label merchName = new Label(item.getMerchandise_name());
                 merchDetails.setPrefWidth(300);
                 merchDetails.setMaxWidth(300);
                 Button removeItemBtn = new Button("Remove button");
-                int finalIndex = i;
                 removeItemBtn.setOnAction(event -> {
                     carItemsContainer.getChildren().remove(merchContent);
                     try {
-                        cartDAO.removeCartItem(CartModel.getCart_id(), cartItems.get(finalIndex).getMerchandise_id());
+                        grandTotalCost -= item.getCost();
+                        grandTotal.setText(Integer.toString(grandTotalCost));
+                        cartDAO.removeCartItem(CartModel.getCart_id(), item.getMerchandise_id());
                         // Check if the cart is empty after removing the item
                         if (carItemsContainer.getChildren().isEmpty()) {
+                            grandTotalContainer.setVisible(false);
+                            checkoutBtn.setVisible(false);
+                            checkoutBtn.setManaged(false);
+                            emptyCartLabel.setText("Your cart is empty.");
                             cartDAO.removeCart(CartModel.getCart_id());
-                            System.out.println("Cart is now empty and has been deleted from the database.");
+                            CartModel.setCart_id(0);
                         }
                     } catch (SQLException e) {
                         throw new RuntimeException(e);
                     }
                 });
                 merchDetails.getChildren().addAll(merchName, removeItemBtn);
-                merchName.setStyle("fx-background-color: green");
                 merchName.setWrapText(true);
 
-                HBox quantityContainer = createCounterBox(quantity, cartItems.get(i).getCost(), cartItems.get(i).getMerchandise_id());
+                HBox quantityContainer = createCounterBox(quantity, item.getCost(), item.getMerchandise_id());
                 Label merchCost = new Label(Integer.toString(cost));
                 totalItemCost = cost * quantity;
                 grandTotalCost += totalItemCost;
                 Label totalCost = new Label(Integer.toString(totalItemCost));
-                totalCostLabels.put(cartItems.get(i).getMerchandise_id(), totalCost);
+                totalCostLabels.put(item.getMerchandise_id(), totalCost);
                 merchCost.setMinWidth(100);
                 merchCost.setAlignment(Pos.CENTER);
                 totalCost.setMinWidth(100);
@@ -130,7 +139,7 @@ public class ShoppingCartController {
         }
         scrollPane.setContent(carItemsContainer);
 
-        HBox grandTotalContainer = new HBox();
+        grandTotalContainer = new HBox();
         Label grandTotalLabel = new Label("Grand Total:");
         grandTotal = new Label(Integer.toString(grandTotalCost));
         grandTotal.setMinWidth(100);
@@ -139,8 +148,11 @@ public class ShoppingCartController {
         grandTotalContainer.setPadding(new Insets(20, 0, 0, 0));
         grandTotalContainer.setAlignment(Pos.CENTER_RIGHT);
         grandTotalContainer.getChildren().addAll(grandTotalLabel, grandTotal);
+        if(grandTotalCost == 0){
+            grandTotalContainer.setVisible(false);
+        }
 
-        Button checkoutBtn = new Button("Checkout");
+        checkoutBtn.setText("Checkout");
         checkoutBtn.setOnAction(event -> {
             try {
                 onCheckoutClicked();
@@ -152,11 +164,6 @@ public class ShoppingCartController {
         HBox checkoutBtnContainer = new HBox(checkoutBtn);
         checkoutBtnContainer.setAlignment(Pos.CENTER_RIGHT);
         checkoutBtnContainer.setPadding(new Insets(20, 20, 0 , 0));
-
-        if(cartItems == null){
-            checkoutBtn.setVisible(false);
-            checkoutBtn.setManaged(false);
-        }
 
         shoppingCartContainer.getChildren().addAll(cartHeader, scrollPane, grandTotalContainer, checkoutBtnContainer);
         shoppingCartContainer.getStylesheets().add(getClass().getResource("/styles/shopping-cart.css").toExternalForm());
@@ -170,7 +177,7 @@ public class ShoppingCartController {
             OrderController orderController = loader.getController();
             orderController.setCartItems(cartItems);
             orderController.setUser(user);
-            orderController.setGrandTotal(getGrandTotalCost());
+            orderController.setGrandTotal(grandTotalCost);
             orderController.setMainContainer(mainContainer);
             mainContainer.setCenter(root);
         }
@@ -181,19 +188,10 @@ public class ShoppingCartController {
 
     }
 
-    public int getGrandTotalCost() {
-        return grandTotalCost;
-    }
-
-    public void setGrandTotalCost(int grandTotalCost) {
-        this.grandTotalCost = grandTotalCost;
-    }
-
     private HBox createCounterBox(int quantity, int cost, int merch_id) {
         String iconUrl = "@../../assets/icons/";
         Button minusButton = createImageButton(iconUrl + "minus.png");
         Label counterLabel = new Label(Integer.toString(quantity));
-        counterLabel.setStyle("-fx-text-fill: #ffffff");
         Button plusButton = createImageButton(iconUrl + "plus.png");
 
         minusButton.setOnAction(event -> {
@@ -202,8 +200,8 @@ public class ShoppingCartController {
                 counterLabel.setText(Integer.toString(--count));
                 int total = cost * count;
                 totalCostLabels.get(merch_id).setText(Integer.toString(total));
-                setGrandTotalCost(grandTotalCost - cost);
-                grandTotal.setText(Integer.toString(getGrandTotalCost()));
+                grandTotalCost -= cost;
+                grandTotal.setText(Integer.toString(grandTotalCost));
             }
         });
 
@@ -213,8 +211,8 @@ public class ShoppingCartController {
                 counterLabel.setText(Integer.toString(++count));
                 int total = cost * count;
                 totalCostLabels.get(merch_id).setText(Integer.toString(total));
-                setGrandTotalCost(grandTotalCost + cost);
-                grandTotal.setText(Integer.toString(getGrandTotalCost()));
+                grandTotalCost += cost;
+                grandTotal.setText(Integer.toString(grandTotalCost));
             }
         });
 

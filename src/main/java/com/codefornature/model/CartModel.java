@@ -17,12 +17,8 @@ public class CartModel {
         return user_id;
     }
 
-    public void setCart_id(int cart_id) {
-        this.cart_id = cart_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public static void setCart_id(int cartId) {
+        cart_id = cartId;
     }
 
     @Override

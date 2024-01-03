@@ -211,7 +211,8 @@ public class PointShopController {
 
         plusButton.setOnAction(event -> {
             int count = Integer.parseInt(counterLabel.getText());
-            counterLabel.setText(Integer.toString(++count));
+            if(count < 5)
+                counterLabel.setText(Integer.toString(++count));
         });
 
         HBox counterBox = new HBox(minusButton, counterLabel, plusButton);

@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
@@ -27,6 +28,15 @@ import java.util.List;
 public class OrderController {
     @FXML
     public ImageView backIcon;
+    @FXML
+    private Label addressErrorMessage;
+    @FXML
+    private Label cityErrorMessage;
+    @FXML
+    private Label stateErrorMessage;
+    @FXML
+    private Label postCodeErrorMessage;
+
     @FXML
     public TextField addressTxt;
     @FXML
@@ -59,17 +69,18 @@ public class OrderController {
             String currentOrderDate = convertDateFormat(new java.util.Date());
             System.out.println("Order Date: " + currentOrderDate);
 
-            orderDAO = new OrderDAO();
-            orderDAO.createOrder(address, currentOrderDate, CartModel.getUser_id());
+            orderDAO = new OrderDAO(address, currentOrderDate, user);
+            orderDAO.createOrder();
             OrderModel order = orderDAO.getOrder(user.getUser_id(), currentOrderDate);
             orderDAO.addItemsToOrder(cartItems, order.getOrder_id());
+            orderDAO.writeOrdersToFile(cartItems);
             UserDAO userDAO = new UserDAO();
             int pointsLeftOver = user.getPoints() - getGrandTotalCost();
-            if(pointsLeftOver >= 0){
-                user.setPoints(pointsLeftOver);
-                userDAO.updatePoints(user.getUser_id(), pointsLeftOver);
-            }
+            System.out.println();
+            user.setPoints(pointsLeftOver);
+            userDAO.updatePoints(user.getUser_id(), -grandTotalCost);
             removeCart();
+            AlertController.showAlert("Order", "Order is successfully made", 1);
             loadPage();
         } else {
             System.out.println("Text field invalid");
@@ -77,20 +88,31 @@ public class OrderController {
     }
 
     public boolean isTextFieldValid() {
+        boolean isValid = true;
         if (addressTxt.getText().isEmpty()) {
-            return false;
+            addressErrorMessage.setText("Address is empty!");
+            isValid = false;
         }
 
         if (cityTxt.getText().isEmpty()) {
-            return false;
+            cityErrorMessage.setText("City is empty!");
+            isValid = false;
         }
         if (stateTxt.getText().isEmpty()) {
-            return false;
+            stateErrorMessage.setText("State is empty!");
+            isValid = false;
         }
         if (postCodeTxt.getText().isEmpty()) {
-            return false;
+            postCodeErrorMessage.setText("Post Code is empty");
+            isValid = false;
         }
-        return true;
+        else{
+            if(!postCodeTxt.getText().matches("\\d{5}")){
+                postCodeErrorMessage.setText("Post Code should be in 5 digits!");
+                isValid = false;
+            }
+        }
+        return isValid;
     }
 
     private String combineAddress() {

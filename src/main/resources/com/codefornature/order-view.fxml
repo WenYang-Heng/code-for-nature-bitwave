@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #0C1117;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.OrderController">
+<VBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" style="-fx-background-color: #0C1117;" stylesheets="@../../styles/order.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.OrderController">
    <children>
       <HBox prefHeight="25.0" prefWidth="1000.0" spacing="20.0">
          <children>
@@ -56,6 +56,7 @@
                         <Font size="20.0" />
                      </font>
                   </TextField>
+                  <Label fx:id="addressErrorMessage" styleClass="error-message" />
                </children>
             </VBox>
             <VBox prefHeight="55.0" prefWidth="800.0" spacing="5.0">
@@ -73,6 +74,7 @@
                         <Font size="20.0" />
                      </font>
                   </TextField>
+                  <Label fx:id="cityErrorMessage" styleClass="error-message" />
                </children>
             </VBox>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="40.0">
@@ -92,6 +94,7 @@
                               <Font size="20.0" />
                            </font>
                         </TextField>
+                        <Label fx:id="stateErrorMessage" styleClass="error-message" />
                      </children>
                   </VBox>
                   <VBox prefHeight="55.0" prefWidth="800.0" spacing="5.0">
@@ -109,6 +112,7 @@
                               <Font size="20.0" />
                            </font>
                         </TextField>
+                        <Label fx:id="postCodeErrorMessage" styleClass="error-message" />
                      </children>
                   </VBox>
                </children>

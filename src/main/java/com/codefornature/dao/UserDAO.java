@@ -105,6 +105,7 @@ public class UserDAO {
 
     public Boolean updatePoints(int user_id, int points) throws SQLException {
         String query = "UPDATE user SET points = points + ? WHERE user_id = ?";
+        System.out.println(points + " to be updated");
         int rowsUpdated;
         try(Connection con = ConnectionManager.getConnection()){
             try(PreparedStatement ps = con.prepareStatement(query)){

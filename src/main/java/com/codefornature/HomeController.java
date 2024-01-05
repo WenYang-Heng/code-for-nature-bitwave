@@ -105,7 +105,6 @@ public class HomeController {
 
         HBox pointsHBox = new HBox(pointsContainer, region, coinIcon);
         pointsHBox.setAlignment(Pos.CENTER);
-//        pointsHBox.setStyle("-fx-border-color: #ffffff");
         HBox.setHgrow(pointsHBox, Priority.ALWAYS);
 
         // Daily Rewards Section

@@ -3,8 +3,12 @@ package com.codefornature.dao;
 import com.codefornature.ConnectionManager;
 import com.codefornature.model.CartItemsModel;
 import com.codefornature.model.OrderModel;
+import com.codefornature.model.UserModel;
 import javafx.scene.layout.Region;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -12,15 +16,24 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class OrderDAO {
+    private String address;
+    private String orderDate;
+    private UserModel user;
 
-    public boolean createOrder(String address, String order_date, int user_id ) throws SQLException {
+    public OrderDAO(String address, String orderDate, UserModel user){
+        this.address = address;
+        this.orderDate = orderDate;
+        this.user = user;
+    }
+
+    public boolean createOrder() throws SQLException {
         String query = "INSERT INTO orders(address, order_date, user_id) VALUES(?, ?, ?)";
         int rowsUpdated;
         try(Connection con = ConnectionManager.getConnection()){
             try(PreparedStatement ps = con.prepareStatement(query)){
                 ps.setString(1, address);
-                ps.setString(2, order_date);
-                ps.setInt(3, user_id);
+                ps.setString(2, orderDate);
+                ps.setInt(3, user.getUser_id());
                 rowsUpdated = ps.executeUpdate();
             }
         }
@@ -44,6 +57,17 @@ public class OrderDAO {
                     }
                 }
             }
+        }
+    }
+
+    public void writeOrdersToFile(List<CartItemsModel> cartItems){
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("./src/main/resources/assets/text/MerchandiseOrder.txt", true))) {
+            for (CartItemsModel item : cartItems) {
+                String orderRecord = String.format("User %s orders %d %s to %s%n", user.getUsername(), item.getQuantity(), item.getMerchandise_name(), address);
+                writer.write(orderRecord);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

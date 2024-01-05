@@ -91,6 +91,16 @@ public class UserDAO {
         return rowsUpdated > 0;
     }
 
+    public void resetTotalCheckIn(int user_id) throws SQLException{
+        String query = "UPDATE user SET total_check_in = 0 where user_id = ?";
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setInt(1, user_id);
+                ps.executeUpdate();
+            }
+        }
+    }
+
     public Boolean emailExists(String email) throws SQLException {
         String query = "SELECT 1 FROM user WHERE email = ?";
         try(Connection con = ConnectionManager.getConnection()){

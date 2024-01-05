@@ -79,7 +79,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private void login(ActionEvent event) throws IOException, SQLException {
-        userID.setText("heng@gmail.com");
+        userID.setText("heng2@gamil.com");
         password.setText("test123");
         String ID = userID.getText();
         String pw = password.getText();

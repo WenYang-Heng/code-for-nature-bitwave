@@ -36,6 +36,10 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 
@@ -51,6 +55,7 @@ public class HomeController {
     private int visibleColumns = 3;
     private int pointsAwarded = 1;
     private int treeCost = 5;
+    private boolean isStreakBroken = false;
     private Node firstItem;
     private Node lastItem;
     private Button leftBtn;
@@ -123,13 +128,25 @@ public class HomeController {
         if(lastClaimDate != null){
             System.out.println("Gift claimed on: " + lastClaimDate);
             //Check date and compare
-            if(compareDates(CURRENT_DATE, lastClaimDate) == 0){
+            int value = compareDates(CURRENT_DATE, lastClaimDate);
+            if(value == 0){ //same day
                 System.out.println("You already claimed your reward today. Come back tomorrow!");
                 giftboxIcon = new ImageView(new Image(rootPath + "images/home/gift-box-with-a-bow.png"));
                 updateClaimRewardButtonStatus();
             }
+            else if(value > 0){//Different day, current day is greater than last checked in day
+                //Check if difference in days is more than 1, if yes, streak is broken, reset total checked in days to 0
+                long differenceInDays = calculateDifferenceInDays(lastClaimDate.toString(), CURRENT_DATE.toString());
+                System.out.println("Difference in days: " + differenceInDays);
+                if(differenceInDays > 1 && user.getTotal_check_in() != 0){
+                    //reset the streak
+                    System.out.println("Oops streak broken!");
+                    user.setTotal_check_in(0);
+                    userDAO.resetTotalCheckIn(user.getUser_id());
+                    isStreakBroken = true;
+                }
+            }
         }
-
 
         giftboxIcon.setFitHeight(55);
         giftboxIcon.setFitWidth(51);
@@ -145,12 +162,11 @@ public class HomeController {
             try {
                 if(userDAO.updateLastClaimDate(CURRENT_DATE, user.getUser_id(), pointsAwarded)){
                     System.out.println("last claim date updated");
+                    loadCheckInStreakView();
                     updatePointsDisplay();
                     updateClaimRewardButtonStatus();
                     //need to update user.setDate
                     user.setLast_claim_date(CURRENT_DATE);
-                    String alertMessage = String.format("You are awarded %d point", pointsAwarded);
-                    AlertController.showAlert("POINTS AWARDED", alertMessage, 1);
                 }
                 else{
                     System.out.println("last claim date not updated");
@@ -199,6 +215,22 @@ public class HomeController {
         homeDashboard.setAlignment(Pos.CENTER);
         homeDashboard.setPadding(new Insets(45));
         homeContainer.getChildren().add(homeDashboard);
+    }
+
+    private void loadCheckInStreakView() {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("total-check-in-view.fxml"));
+            Stage stage = new Stage();
+            Scene scene = new Scene(loader.load());
+            TotalCheckInController totalCheckInController = loader.getController();
+            totalCheckInController.setPointsAwarded(pointsAwarded);
+            totalCheckInController.setStreakBroken(isStreakBroken);
+            totalCheckInController.setTotalCheckInDays(user.getTotal_check_in() + 1);
+            stage.setScene(scene);
+            stage.show();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     private void onPlantNowClicked() {
@@ -296,6 +328,13 @@ public class HomeController {
         int value = dateTimeComparator.compare(currentDate, lastClaimDate);
 
         return value;
+    }
+
+    public long calculateDifferenceInDays(String dateString1, String dateString2){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("EEE MMM dd kk:mm:ss z yyyy");
+        LocalDateTime date1 = LocalDateTime.parse(dateString1, dtf);
+        LocalDateTime date2 = LocalDateTime.parse(dateString2, dtf);
+        return Duration.between(date1, date2).toDays();
     }
 
     private void updateCarouselButtonStates(GridPane gridPane){

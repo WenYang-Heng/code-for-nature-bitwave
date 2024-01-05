@@ -1,57 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="139.0" prefWidth="517.0" spacing="10.0" stylesheets="@../../styles/check-in.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" styleClass="root-container" stylesheets="@../../styles/check-in.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.TotalCheckInController">
    <children>
-      <HBox alignment="CENTER" spacing="40.0">
+      <HBox fx:id="streakPointsContainer" alignment="CENTER" spacing="40.0">
          <children>
             <VBox alignment="CENTER">
                <children>
-                  <Label text="1" />
-                  <Circle fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label text="1">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+                  <Circle fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="day-points" />
                </children>
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Label text="1" />
-                  <Circle fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label text="2">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+                  <Circle fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="day-points" />
                </children>
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Label text="1" />
-                  <Circle fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label text="3">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+                  <Circle fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="day-points" />
                </children>
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Label text="1" />
-                  <Circle fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label text="4">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+                  <Circle fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="day-points" />
                </children>
             </VBox>
             <VBox alignment="CENTER">
                <children>
-                  <Label text="1" />
-                  <Circle fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Label text="5">
+                     <font>
+                        <Font name="System Bold" size="20.0" />
+                     </font></Label>
+                  <Circle fill="DODGERBLUE" radius="9.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" styleClass="day-points" />
                </children>
             </VBox>
          </children>
       </HBox>
-      <Label text="1 Day Streak">
+      <Label fx:id="dayLabel" text="1 Day Streak" textFill="WHITESMOKE">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <Label text="Remember to check in each day to not lose your streak!">
+      <Label fx:id="messageLabel" text="Remember to check in each day to not lose your streak!" textFill="WHITESMOKE">
          <font>
             <Font size="15.0" />
          </font>
       </Label>
+      <Label fx:id="rewardMessage" text="Label" textFill="WHITESMOKE" />
+      <Button mnemonicParsing="false" styleClass="continue-button" text="Continue" />
    </children>
 </VBox>

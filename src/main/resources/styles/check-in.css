@@ -1,3 +1,25 @@
-.root{
+.root-container{
+    -fx-padding: 50;
+    -fx-background-color: "#1C2835";
+}
 
+.label{
+    -fx-text-fill: white;
+}
+
+.day-points{
+    -fx-fill: "#94ABC7";
+}
+
+.streak{
+    -fx-fill: "#40B52C";
+}
+
+.continue-button{
+    -fx-background-color: "#40B52C";
+    -fx-background-radius: 30;
+    -fx-padding: 10 30 10 30;
+    -fx-font-size: 20;
+    -fx-text-fill: white;
+    -fx-cursor: hand;
 }

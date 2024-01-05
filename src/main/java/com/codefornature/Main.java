@@ -1,20 +1,12 @@
 package com.codefornature;
 
-import com.codefornature.dao.CartDAO;
-import com.codefornature.dao.UserDAO;
-import com.codefornature.model.CartModel;
-import com.codefornature.model.UserModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.ParseException;
 
 public class Main extends Application {

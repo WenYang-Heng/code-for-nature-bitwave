@@ -75,8 +75,6 @@ public class LoginController implements Initializable {
     private UserDAO userDAO;
     private UserModel user;
 
-
-
     @FXML
     private void login(ActionEvent event) throws IOException, SQLException {
         userID.setText("heng2@gamil.com");

@@ -37,7 +37,7 @@
                <font>
                   <Font size="13.0" />
                </font></Label>
-            <HBox fx:id="IDHbox" prefHeight="46.0" prefWidth="379.0" style="-fx-border-width: 0 0 2 0;" styleClass="textfield" stylesheets="@../../styles/style.css">
+            <HBox fx:id="IDHbox" prefHeight="46.0" prefWidth="379.0" style="-fx-border-width: 0 0 2 0;" styleClass="textfield" stylesheets="@../../styles/login.css">
                <children>
                   <ImageView fx:id="userImageView" fitHeight="34.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: transparent;">
                      <image>
@@ -60,7 +60,7 @@
                   <Insets top="20.0" />
                </VBox.margin>
             </HBox>
-            <HBox fx:id="IDHbox2" prefHeight="46.0" prefWidth="399.0" style="-fx-border-width: 0 0 2 0;" styleClass="textfield" stylesheets="@../../styles/style.css">
+            <HBox fx:id="IDHbox2" prefHeight="46.0" prefWidth="399.0" style="-fx-border-width: 0 0 2 0;" styleClass="textfield" stylesheets="@../../styles/login.css">
                <children>
                   <ImageView fx:id="passwordImageView" fitHeight="34.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-width: 0 0 1 0; -fx-border-color: #b5b5b5; -fx-background-color: transparent;">
                      <image>

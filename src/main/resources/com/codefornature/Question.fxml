@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -16,11 +17,17 @@
 
 <VBox fx:id="triviaContainer" prefWidth="800.0" styleClass="quiz-container" stylesheets="@../../styles/quiz.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.QuizController">
    <children>
-      <Label fx:id="dayLabel" text="DAY 4 Trivia" textFill="WHITE">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
+      <HBox alignment="CENTER_LEFT">
+         <children>
+            <Label fx:id="dayLabel" text="DAY 4 Trivia" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <Button fx:id="showAnswerButton" mnemonicParsing="false" onAction="#onShowAnswerClicked" styleClass="show-answer" text="Show Answer" />
+         </children>
+      </HBox>
       <Label fx:id="questionTitleLabel" graphicTextGap="0.0" text="Our planet has already lost nearly 40% of its forests in the last three centuries. How many football pitches is that a minute?" textFill="WHITESMOKE" wrapText="true">
          <font>
             <Font size="20.0" />

@@ -1,9 +1,6 @@
 package com.codefornature;
 
-import com.codefornature.dao.CartDAO;
-import com.codefornature.dao.NewsDAO;
-import com.codefornature.dao.TreePlantDAO;
-import com.codefornature.dao.UserDAO;
+import com.codefornature.dao.*;
 import com.codefornature.model.NewsModel;
 import com.codefornature.model.UserModel;
 import javafx.animation.ScaleTransition;
@@ -47,10 +44,9 @@ public class HomeController {
     private UserModel user;
     private UserDAO userDAO = new UserDAO();
     private CartDAO cartDAO = new CartDAO();
+    private TriviaDAO triviaDAO = new TriviaDAO();
     @FXML
     VBox homeContainer;
-
-    @FXML Label testLabel;
     private String rootPath;
     private int visibleColumns = 3;
     private int pointsAwarded = 1;
@@ -65,21 +61,43 @@ public class HomeController {
 
     public void setUser(UserModel user) throws SQLException, IOException {
         this.user = user;
+        distributeTrivia();
         createDashboardUI();
         createNewsUI();
         System.out.println(user.getPoints());
-//        displayTrivia();
     }
 
-    private void displayTrivia() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("trivia-view.fxml"));
-        Parent root = loader.load();
-        TriviaController triviaController = loader.getController();
-        triviaController.setUser(user);
-        Stage stage = new Stage();
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+    private void distributeTrivia() throws SQLException {
+        TriviaDAO triviaDAO = new TriviaDAO();
+        List<Trivia> trivia = TriviaDAO.readFile("TriviaSample.txt");
+        int triviaSize = trivia.size();
+
+        //calculate difference between 2 dates, 1/1/2024 - 5/1/2024 = 5 days
+        long daysBetweenRegisterDate = calcCalandarDateDifference();
+
+        //retrieve how many questions already distributed to the user
+        int triviaDistributed = triviaDAO.getNumberOfTriviasDistributed(user.getUser_id());
+
+        //all questions already distributed,no need to add anymore
+        if(triviaDistributed == triviaSize){
+            return;
+        }
+
+        //to account for when user registered, but did not login daily
+        int actualDistributionNum = (int) (daysBetweenRegisterDate - triviaDistributed);
+        int startingNum = 0;
+        int endingNum = triviaSize;
+        System.out.println("Question to be distributed: " + actualDistributionNum);
+        if(actualDistributionNum < triviaSize){
+            startingNum = triviaDistributed;
+            //to ensure that question distributed does not exceed the trivia sample size
+            endingNum = Math.min(startingNum + actualDistributionNum, triviaSize);
+        }
+
+        if(actualDistributionNum > 0){
+            triviaDAO.insertTriviaDistributedRecord(user.getUser_id(), startingNum + 1, endingNum);
+            AlertController.showAlert("Trivia", "New trivias added, complete them to gain points", 1);
+        }
     }
 
     public void initialize() throws IOException {
@@ -335,6 +353,17 @@ public class HomeController {
         LocalDateTime date1 = LocalDateTime.parse(dateString1, dtf);
         LocalDateTime date2 = LocalDateTime.parse(dateString2, dtf);
         return Duration.between(date1, date2).toDays();
+    }
+
+    public long calcCalandarDateDifference() {
+        LocalDate date = LocalDate.now();
+        String inputDate = date.toString() + " 00:00:00";
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime currentDate = LocalDateTime.parse(inputDate, dtf);
+        LocalDateTime registerDate = LocalDateTime.parse(user.getRegister_date() + " 00:00:00", dtf);
+        System.out.println(currentDate);
+        System.out.println(registerDate);
+        return Duration.between(registerDate, currentDate).toDays() + 1;
     }
 
     private void updateCarouselButtonStates(GridPane gridPane){

@@ -6,6 +6,7 @@ import com.codefornature.model.UserModel;
 import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class UserDAO {
@@ -39,7 +40,7 @@ public class UserDAO {
                         int user_id = rs.getInt("user_id");
                         String email = rs.getString("email");
                         String username = rs.getString("username");
-                        Date date = rs.getDate("register_date");
+                        String date = rs.getString("register_date");
                         int points = rs.getInt("points");
                         int total_check_in = rs.getInt("total_check_in");
                         Timestamp last_claim_date = rs.getTimestamp("last_claim_date");

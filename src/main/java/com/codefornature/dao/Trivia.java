@@ -10,16 +10,13 @@ public class Trivia {
     private int num_attempts;
     private boolean done;
     private final String correctAnswer;
-//    private final ChoiceDAO correctChoice;
 
-    public Trivia(String question, String[] list_choice, int num_attempt,
-                  boolean done, String correctAnswer) {
+    public Trivia(String question, String[] list_choice, int num_attempt, boolean done, String correctAnswer) {
         this.question = question;
         this.list_choices = new ArrayList<>(Arrays.asList(list_choice));
         this.num_attempts = 1;
         this.done = false;
         this.correctAnswer = correctAnswer;
-//        this.correctChoice = correctChoice;
     }
 
     public String getQuestion() {

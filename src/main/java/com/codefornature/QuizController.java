@@ -4,21 +4,20 @@ import com.codefornature.dao.Trivia;
 import com.codefornature.dao.TriviaDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Collections;
 import java.util.List;
 
 public class QuizController {
-    private int questionIndex = 1;
+    private int questionIndex;
     @FXML
     private Label dayLabel;
     @FXML
@@ -29,11 +28,13 @@ public class QuizController {
     private Label attemptCount;
     @FXML
     private FlowPane answerFlowPane;
+    @FXML
+    private Button showAnswerButton;
     private String selectedAns;
     private int num_attempt = 2;
+    private boolean isAnswered = false;
     private Button currButton = null;
     private Button correctButton;
-    private Button prevButton = null;
     private List<Trivia> trivia;
     private String rootPath;
     private String correctAns;
@@ -42,17 +43,17 @@ public class QuizController {
     private ImageView correctImageView;
     private ImageView wrongImageView;
 
-    @FXML
-    public void initialize() {
-        loadGUI();
-    }
-
     public void loadGUI(){
-        trivia = TriviaDAO.readFile("TriviaSample.txt");
         rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
+        trivia = TriviaDAO.readFile("TriviaSample.txt");
         dayLabel.setText(String.format("Day %d Trivia", questionIndex + 1));
         questionTitleLabel.setText(trivia.get(questionIndex).getQuestion());
         correctAns = trivia.get(questionIndex).getCorrectAnswer();
+
+        if(!isAnswered){
+            showAnswerButton.setVisible(false);
+            showAnswerButton.setManaged(false);
+        }
 
         //set icons and dimensions
         double imageDimension = 15;
@@ -65,9 +66,15 @@ public class QuizController {
         wrongImageView.setFitWidth(imageDimension);
         wrongImageView.setFitHeight(imageDimension);
 
+
         triviaContainer.getStylesheets().add(getClass().getResource("/styles/quiz.css").toExternalForm());
-        int i = 0;
         //add answers to each button and set an event handler dynamically
+        addAnswersToButton();
+    }
+
+    private void addAnswersToButton() {
+        int i = 0;
+        Collections.shuffle(trivia.get(questionIndex).getChoices());
         for(Node node : answerFlowPane.getChildren()) {
             Button ans = (Button) node;
             ans.setText(trivia.get(questionIndex).getChoices().get(i));
@@ -96,8 +103,8 @@ public class QuizController {
     public void confirmClicked(ActionEvent event) {
 
         if(num_attempt == -1){
-            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-            stage.close();
+            closeWindow(event);
+            return;
         }
 
         String style = "correct";
@@ -109,6 +116,8 @@ public class QuizController {
         }
         else{
             style = "wrong";
+            Collections.shuffle(trivia.get(questionIndex).getChoices());
+            addAnswersToButton();
             currButton.setGraphic(wrongImageView);
             attemptCount.setText(--num_attempt + " Attempts left");
         }
@@ -116,11 +125,15 @@ public class QuizController {
 
         if(num_attempt == 0){
             attemptCount.setText("No more attempts left");
-            correctButton.setGraphic(correctImageView);
-            correctButton.getStyleClass().add("correct");
+            showCorrectAnswer();
             disableAllAnswersOption();
             num_attempt = -1;
         }
+    }
+
+    public void showCorrectAnswer(){
+        correctButton.setGraphic(correctImageView);
+        correctButton.getStyleClass().add("correct");
     }
 
     private void disableAllAnswersOption() {
@@ -132,12 +145,20 @@ public class QuizController {
         }
     }
 
-    public void closedWindow(ActionEvent event) {
+    public void closeWindow(ActionEvent event) {
         Stage stage = (Stage) ((Node)(event.getSource())).getScene().getWindow();
         stage.close();
     }
 
-    public void setQuestionIndex(int questionIndex){
+    public void setQuestionIndex(int questionIndex, boolean isAnswered){
         this.questionIndex = questionIndex;
+        this.isAnswered = isAnswered;
+        loadGUI();
+    }
+
+    public void onShowAnswerClicked(ActionEvent actionEvent) {
+        showCorrectAnswer();
+        disableAllAnswersOption();
+        num_attempt = -1;
     }
 }

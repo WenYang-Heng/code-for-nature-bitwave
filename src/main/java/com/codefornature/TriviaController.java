@@ -24,11 +24,11 @@ public class TriviaController {
     @FXML
     public void initialize(){
         System.out.println("Trivia loaded");
-        loadQuestion();
+//        loadQuestion();
     }
 
     private void loadQuestion() {
-        TriviaDAO triviaDAO = new TriviaDAO(user.getUser_id(), user.getRegister_date());
+//        TriviaDAO triviaDAO = new TriviaDAO(user.getUser_id(), user.getRegister_date());
     }
 
     public void setUser(UserModel user) {

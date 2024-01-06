@@ -10,16 +10,16 @@ public class Trivia {
     private int num_attempts;
     private boolean done;
     private final String correctAnswer;
-    private final ChoiceDAO correctChoice;
+//    private final ChoiceDAO correctChoice;
 
     public Trivia(String question, String[] list_choice, int num_attempt,
-                  boolean done, String correctAnswer, ChoiceDAO correctChoice) {
+                  boolean done, String correctAnswer) {
         this.question = question;
         this.list_choices = new ArrayList<>(Arrays.asList(list_choice));
         this.num_attempts = 1;
         this.done = false;
         this.correctAnswer = correctAnswer;
-        this.correctChoice = correctChoice;
+//        this.correctChoice = correctChoice;
     }
 
     public String getQuestion() {
@@ -50,9 +50,9 @@ public class Trivia {
         return this.correctAnswer;
     }
 
-    public ChoiceDAO getCorrectChoice() {
-        return this.correctChoice;
-    }
+//    public ChoiceDAO getCorrectChoice() {
+//        return this.correctChoice;
+//    }
 
     @Override
     public String toString() {
@@ -62,7 +62,6 @@ public class Trivia {
                 ", num_attempts=" + num_attempts +
                 ", done=" + done +
                 ", correctAnswer='" + correctAnswer + '\'' +
-                ", correctChoice=" + correctChoice +
                 '}';
     }
 }

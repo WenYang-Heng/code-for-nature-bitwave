@@ -18,10 +18,7 @@ import javafx.stage.Stage;
 import java.util.List;
 
 public class QuizController {
-
-    private int questionIndex = 7;
-    @FXML
-    private AnchorPane anchor;
+    private int questionIndex = 1;
     @FXML
     private Label dayLabel;
     @FXML
@@ -33,127 +30,105 @@ public class QuizController {
     @FXML
     private FlowPane answerFlowPane;
     private String selectedAns;
-    private String correctAns = "1";
-    private boolean isConfirm;
     private int num_attempt = 2;
     private Button currButton = null;
     private Button correctButton;
     private Button prevButton = null;
-    @FXML
-    private Button confirmButton;
     private List<Trivia> trivia;
-
-    public Button findCorrectButton(FlowPane answerFlowPane) {
-        for(Node node : answerFlowPane.getChildren()) {
-            if (node instanceof Button) {
-                Button currButton = (Button) node;
-                if (currButton.getText().equals(correctAns)) {
-                    return currButton;
-                }
-            }
-        }
-        return null;
-    }
+    private String rootPath;
+    private String correctAns;
+    private Image correct;
+    private Image wrong;
+    private ImageView correctImageView;
+    private ImageView wrongImageView;
 
     @FXML
     public void initialize() {
-        System.out.println("LOL");
+        loadGUI();
+    }
+
+    public void loadGUI(){
         trivia = TriviaDAO.readFile("TriviaSample.txt");
-
-        dayLabel.setText("Day " + questionIndex + 1 + " Question");
+        rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
+        dayLabel.setText(String.format("Day %d Trivia", questionIndex + 1));
         questionTitleLabel.setText(trivia.get(questionIndex).getQuestion());
+        correctAns = trivia.get(questionIndex).getCorrectAnswer();
 
-        triviaContainer.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        correctButton = findCorrectButton(answerFlowPane);
+        //set icons and dimensions
+        double imageDimension = 15;
+        correct = new Image(rootPath + "/icons/check.png");
+        wrong = new Image(rootPath + "/icons/close.png");
+        correctImageView = new ImageView(correct);
+        wrongImageView = new ImageView(wrong);
+        correctImageView.setFitWidth(imageDimension);
+        correctImageView.setFitHeight(imageDimension);
+        wrongImageView.setFitWidth(imageDimension);
+        wrongImageView.setFitHeight(imageDimension);
+
+        triviaContainer.getStylesheets().add(getClass().getResource("/styles/quiz.css").toExternalForm());
         int i = 0;
+        //add answers to each button and set an event handler dynamically
         for(Node node : answerFlowPane.getChildren()) {
             Button ans = (Button) node;
             ans.setText(trivia.get(questionIndex).getChoices().get(i));
             ans.setWrapText(true);
             final String answerText = ans.getText();
+            if(answerText.equals(correctAns)){
+                correctButton = ans;
+            }
             final Button button = ans;
             ans.setOnAction(event -> {
                 selectAns(answerText, button);
             });
             i++;
         }
-
     }
 
     private void selectAns(String answerText, Button button) {
-        //selectedAns = answerText;
-        //prevButton = button;
-        //button.getStyleClass().add("selectedAnswer");
-        //button.setStyle("-fx-border-color: yellow");
-        //System.out.println(answerText);
-        //currButton = button;
-
         if (currButton != null) {
             currButton.getStyleClass().remove("selectedAnswer");
         }
         currButton = button;
         currButton.getStyleClass().add("selectedAnswer");
         selectedAns = answerText;
-
     }
 
     public void confirmClicked(ActionEvent event) {
-        isConfirm = true;
-        System.out.println("I selected " + selectedAns);
 
-        //if attempt = 0
-        if (num_attempt == 0) {
-            closedWindow(event);
+        if(num_attempt == -1){
+            Stage stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+            stage.close();
         }
 
-        if (num_attempt > 1) {
-            num_attempt -= 1;
-            System.out.println("Number of attempt: " + num_attempt);
-            attemptCount.setText(num_attempt + " attempts left");
+        String style = "correct";
 
-            try {
-                if (selectedAns.equals(correctAns) && isConfirm) {
-                    currButton.setStyle("-fx-border-color: lightgreen;");
-                    Image image = new Image("C:/Users/User/OneDrive/Pictures/Screenshots/black_green_icon.jpg");
-                    ImageView imageView = new ImageView(image);
-                    currButton.setGraphic(imageView);
-                    attemptCount.setText("Congratulations!! Your first option is correct!!");
-                    //Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                    //stage.close();
-                    num_attempt = 0;
-                    confirmButton.setText("Continue ->");
+        if(selectedAns.equals(correctAns)){
+            currButton.setGraphic(correctImageView);
+            num_attempt = -1;
+            disableAllAnswersOption();
+        }
+        else{
+            style = "wrong";
+            currButton.setGraphic(wrongImageView);
+            attemptCount.setText(--num_attempt + " Attempts left");
+        }
+        currButton.getStyleClass().add(style);
 
-                } else if (!selectedAns.equals(correctAns) && isConfirm) {
-                    currButton.setStyle("-fx-border-color: red;");
-                    Image image = new Image("C:/Users/User/OneDrive/Pictures/Screenshots/red_cross_icon.jpg");
-                    ImageView imageView = new ImageView(image);
-                    currButton.setGraphic(imageView);
+        if(num_attempt == 0){
+            attemptCount.setText("No more attempts left");
+            correctButton.setGraphic(correctImageView);
+            correctButton.getStyleClass().add("correct");
+            disableAllAnswersOption();
+            num_attempt = -1;
+        }
+    }
 
-                }
-            } catch (Exception e) {
-                System.out.println("No option is selected, pls try again!");
-                //e.printStackTrace();
+    private void disableAllAnswersOption() {
+        for (Node node : answerFlowPane.getChildren()) {
+            if (node instanceof Button) {
+                node.setDisable(true);
+                node.setStyle("-fx-opacity: 1");
             }
-
-        } else {
-            num_attempt -= 1;
-            System.out.println("Number of attempt: " + num_attempt);
-            attemptCount.setText(num_attempt + " attempts left");
-
-            //Wrong Answer
-            currButton.setStyle("-fx-border-color: red;");
-            Image image1 = new Image("C:/Users/User/OneDrive/Pictures/Screenshots/red_cross_icon.jpg");
-            ImageView imageView1 = new ImageView(image1);
-            currButton.setGraphic(imageView1);
-
-            //Correct Answer
-            correctButton.setStyle("-fx-border-color: lightgreen");
-            Image image2 = new Image("C:/Users/User/OneDrive/Pictures/Screenshots/black_green_icon.jpg");
-            ImageView imageView2 = new ImageView(image2);
-            correctButton.setGraphic(imageView2);
-
-            confirmButton.setText("Continue ->");
-
         }
     }
 

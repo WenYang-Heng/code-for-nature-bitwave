@@ -15,10 +15,10 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException, SQLException, ParseException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Question.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        LoginController loginController = fxmlLoader.getController();
-        loginController.setStartingStage(stage);
+//        LoginController loginController = fxmlLoader.getController();
+//        loginController.setStartingStage(stage);
 //        MainController mainController = fxmlLoader.getController();
 //        mainController.setUser(user);
 //        scene.getStylesheets().add(getClass().getResource("root.css").toExternalForm());

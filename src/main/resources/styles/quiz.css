@@ -1,0 +1,48 @@
+.quiz-container{
+    -fx-padding: 50;
+    -fx-background-color: "#0C1117";
+    -fx-spacing: 10;
+}
+
+.answerFlowPane{
+    -fx-padding: 30 0 0 0;
+}
+
+
+.answerButton {
+    -fx-background-color: transparent;
+    -fx-background-radius: 32px;
+    -fx-border-radius: 10;
+    -fx-border-color: "#5F81AB";
+    -fx-border-width: 1;
+    -fx-pref-width: 340;
+    -fx-pref-height: 70;
+    -fx-text-fill: white;
+    -fx-font-size: 16;
+    -fx-alignment: center;
+}
+
+.answerButton:hover {
+    -fx-border-color: white;
+}
+
+.button {
+    -fx-cursor:hand;
+}
+
+.selectedAnswer {
+    -fx-border-color: white;
+}
+
+.confirmButton{
+    -fx-background-color: "#40B52C";
+    -fx-background-radius: 30;
+}
+
+.correct{
+    -fx-border-color: "#73D960";
+}
+
+.wrong{
+    -fx-border-color: "#C13F3F";
+}

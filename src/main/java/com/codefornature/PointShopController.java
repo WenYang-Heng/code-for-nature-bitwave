@@ -34,7 +34,7 @@ public class PointShopController {
     private List<MerchandiseModel> merchList;
     private Map<Integer, Label> counterLabels = new HashMap<>();
     @FXML
-    FlowPane merchContent;
+    private FlowPane merchContent;
     @FXML private BorderPane mainContainer;
 
     @FXML

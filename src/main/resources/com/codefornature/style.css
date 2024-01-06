@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .textfield{
      -fx-border-color:#b5b5b5;
      -fx-border-width:0 0 2 0;
@@ -6,3 +7,36 @@
 .textfield:focused{
     -fx-border-color:#73d960;
 }
+=======
+.bodynature {
+    -fx-background-image: url('file:C:/Users/User/OneDrive/Pictures/Screenshots/nature_3.jpg');
+    -fx-background-size: 100% 100%
+}
+
+.answerButton {
+    -fx-background-color: black;
+    -fx-background-radius: 32px;
+    -fx-border-radius: 32px;
+    -fx-border-color: orange;
+    -fx-border-width: 3;
+
+}
+
+.answerButton:hover {
+    -fx-border-color: "#8A2BE2";
+}
+
+
+.button {
+    -fx-cursor:hand;
+}
+
+.selectedAnswer {
+    -fx-border-color: yellow;
+}
+
+
+
+
+
+>>>>>>> 789c71596ac4a562c517aab20afb446b9683cfbe

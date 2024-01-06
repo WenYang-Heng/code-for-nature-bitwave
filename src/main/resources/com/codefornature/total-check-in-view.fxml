@@ -68,7 +68,11 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Label fx:id="rewardMessage" text="Label" textFill="WHITESMOKE" />
+      <Label fx:id="rewardMessage" text="Label" textFill="WHITESMOKE">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
       <Button mnemonicParsing="false" styleClass="continue-button" text="Continue" />
    </children>
 </VBox>

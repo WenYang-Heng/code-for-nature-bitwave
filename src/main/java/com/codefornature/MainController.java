@@ -48,6 +48,10 @@ public class MainController {
             case "donation-view.fxml":
                 DonationController donationController = loader.getController();
                 donationController.setUser(user);
+                break;
+            case "quiz-list-view.fxml":
+                QuizListController quizListController = loader.getController();
+                quizListController.setUser(user);
         }
         mainContainer.setCenter(root);
     }
@@ -77,5 +81,9 @@ public class MainController {
     public void toShoppingCart(ActionEvent actionEvent) throws IOException, SQLException {
         loadPage("shopping-cart-view.fxml");
 
+    }
+
+    public void toQuiz(ActionEvent actionEvent) throws SQLException, IOException {
+        loadPage("quiz-list-view.fxml");
     }
 }

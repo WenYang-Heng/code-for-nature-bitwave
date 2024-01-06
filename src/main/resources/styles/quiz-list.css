@@ -1,0 +1,40 @@
+.quiz-list-container{
+    -fx-pref-width: 1000;
+    -fx-pref-height: 800;
+    -fx-padding: 100 150 100 150;
+}
+
+.quiz{
+    -fx-alignment: center;
+    -fx-padding: 10;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: "#F5F5F5";
+}
+
+.quiz:hover{
+    -fx-background-color: "#3F5A78";
+    -fx-border-width: 0;
+    -fx-background-radius: 20;
+    -fx-cursor: hand;
+}
+
+.label{
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+}
+
+.completion-status{
+    -fx-padding: 5 20 5 20;
+    -fx-background-radius: 10;
+    -fx-font-size: 16;
+}
+
+.completed{
+    -fx-background-color: "#D4F3CE";
+    -fx-text-fill: "#246318";
+}
+
+.pending{
+    -fx-background-color : "#EEE995";
+    -fx-text-fill: "#534E0D";
+}

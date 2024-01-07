@@ -16,4 +16,8 @@ public class UserTriviaModel {
     public boolean isAnswered() {
         return isAnswered;
     }
+
+    public void setAnswered(boolean answered) {
+        isAnswered = answered;
+    }
 }

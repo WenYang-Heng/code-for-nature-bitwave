@@ -86,4 +86,18 @@ public class TriviaDAO {
         }
         return triviaList;
     }
+
+    public boolean updateTriviaStatus(int user_id, int trivia_num) throws SQLException {
+        String query = "UPDATE user_trivia SET isAnswered = ? WHERE user_id = ? AND trivia_number = ?";
+        int rowsUpdated;
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setBoolean(1, true);
+                ps.setInt(2, user_id);
+                ps.setInt(3, trivia_num);
+                rowsUpdated = ps.executeUpdate();
+            }
+        }
+        return rowsUpdated > 0;
+    }
 }

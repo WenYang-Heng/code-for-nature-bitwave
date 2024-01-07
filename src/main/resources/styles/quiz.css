@@ -4,6 +4,13 @@
     -fx-spacing: 10;
 }
 
+.show-answer{
+    -fx-background-color: "#5F81AB";
+    -fx-background-radius: 10;
+    -fx-text-fill: white;
+    -fx-font-size: 14;
+}
+
 .answerFlowPane{
     -fx-padding: 30 0 0 0;
 }

@@ -77,7 +77,7 @@ public class LoginController implements Initializable {
 
     @FXML
     private void login(ActionEvent event) throws IOException, SQLException {
-        userID.setText("heng2@gamil.com");
+        userID.setText("heng3@gmail.com");
         password.setText("test123");
         String ID = userID.getText();
         String pw = password.getText();

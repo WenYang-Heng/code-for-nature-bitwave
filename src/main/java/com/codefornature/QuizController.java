@@ -2,6 +2,9 @@ package com.codefornature;
 
 import com.codefornature.dao.Trivia;
 import com.codefornature.dao.TriviaDAO;
+import com.codefornature.dao.UserDAO;
+import com.codefornature.model.UserModel;
+import com.codefornature.model.UserTriviaModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,6 +16,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,16 +36,20 @@ public class QuizController {
     private Button showAnswerButton;
     private String selectedAns;
     private int num_attempt = 2;
+    private int pointsAwarded = 2;
     private boolean isAnswered = false;
     private Button currButton = null;
     private Button correctButton;
     private List<Trivia> trivia;
+    private UserTriviaModel triviaStatus;
+    private TriviaDAO triviaDAO;
     private String rootPath;
     private String correctAns;
     private Image correct;
     private Image wrong;
     private ImageView correctImageView;
     private ImageView wrongImageView;
+    private UserModel user;
 
     public void loadGUI(){
         rootPath = System.getProperty("user.dir") + "/src/main/resources/assets/";
@@ -100,16 +108,18 @@ public class QuizController {
         selectedAns = answerText;
     }
 
-    public void confirmClicked(ActionEvent event) {
+    public void confirmClicked(ActionEvent event) throws SQLException {
+        triviaDAO = new TriviaDAO();
+        String style = "correct";
+        boolean answered = false;
 
         if(num_attempt == -1){
             closeWindow(event);
             return;
         }
 
-        String style = "correct";
-
         if(selectedAns.equals(correctAns)){
+            answered = true;
             currButton.setGraphic(correctImageView);
             num_attempt = -1;
             disableAllAnswersOption();
@@ -120,14 +130,34 @@ public class QuizController {
             addAnswersToButton();
             currButton.setGraphic(wrongImageView);
             attemptCount.setText(--num_attempt + " Attempts left");
+            pointsAwarded--;
         }
         currButton.getStyleClass().add(style);
 
         if(num_attempt == 0){
+            answered = true;
             attemptCount.setText("No more attempts left");
             showCorrectAnswer();
             disableAllAnswersOption();
             num_attempt = -1;
+        }
+
+        if(answered){
+            triviaStatus.setAnswered(true);
+            triviaDAO.updateTriviaStatus(user.getUser_id(), triviaStatus.getTriviaNumber());
+            if(pointsAwarded > 0 && !isAnswered){
+                UserDAO userDAO = new UserDAO();
+                if(userDAO.updatePoints(user.getUser_id(), pointsAwarded)){
+                    AlertController.showAlert("Points", "You have gained " + pointsAwarded + " points", 1);
+                    user.setPoints(user.getPoints() + pointsAwarded);
+                }
+                else{
+                    AlertController.showAlert("Error", "Something went wrong, points not updated.", 0);
+                }
+            }
+            else{
+                System.out.println("This question was completed previously.");
+            }
         }
     }
 
@@ -150,9 +180,11 @@ public class QuizController {
         stage.close();
     }
 
-    public void setQuestionIndex(int questionIndex, boolean isAnswered){
-        this.questionIndex = questionIndex;
-        this.isAnswered = isAnswered;
+    public void setTriviaStatus(UserTriviaModel triviaStatus, UserModel user){
+        this.user = user;
+        this.triviaStatus = triviaStatus;
+        questionIndex = this.triviaStatus.getTriviaNumber() - 1;
+        isAnswered = this.triviaStatus.isAnswered();
         loadGUI();
     }
 

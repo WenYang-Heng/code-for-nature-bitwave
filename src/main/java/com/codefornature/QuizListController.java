@@ -1,6 +1,5 @@
 package com.codefornature;
 
-import com.codefornature.dao.Trivia;
 import com.codefornature.dao.TriviaDAO;
 import com.codefornature.model.UserModel;
 import com.codefornature.model.UserTriviaModel;
@@ -24,9 +23,9 @@ public class QuizListController {
     private VBox quizListContainer;
     private HBox quiz;
     private Label quizNumber;
-    private Label completionStatus;
     private UserModel user;
     private TriviaDAO triviaDAO;
+    private List<UserTriviaModel> triviaStatusList;
 
     public void setUser(UserModel user) throws SQLException {
         triviaDAO = new TriviaDAO();
@@ -36,38 +35,45 @@ public class QuizListController {
 
     private void createQuizListGUI() throws SQLException {
 
-        List<UserTriviaModel> triviaStatusList = triviaDAO.getTriviasByUser(user.getUser_id());
-        for (UserTriviaModel trivia : triviaStatusList) {
-            quizNumber = new Label("Day " + trivia.getTriviaNumber() + " Quiz");
-            completionStatus = new Label(trivia.isAnswered() ? "Completed" : "Pending");
+        triviaStatusList = triviaDAO.getTriviasByUser(user.getUser_id());
+        for (UserTriviaModel triviaStatus : triviaStatusList) {
+            quizNumber = new Label("Day " + triviaStatus.getTriviaNumber() + " Quiz");
+            final Label completionStatus = new Label();
             completionStatus.getStyleClass().add("completion-status");
-            completionStatus.getStyleClass().add(trivia.isAnswered() ? "completed" : "pending");
+            updateCompletionStatus(completionStatus, triviaStatus);
 
             Region region = new Region();
             HBox.setHgrow(region, Priority.ALWAYS);
             quiz = new HBox(quizNumber, region, completionStatus);
             quiz.getStyleClass().add("quiz");
             quiz.setOnMouseClicked(event -> {
-                onQuizClicked(trivia.getTriviaNumber(), trivia.isAnswered());
+                onQuizClicked(triviaStatus, completionStatus);
             });
 
             quizListContainer.getChildren().add(quiz);
         }
     }
 
-    private void onQuizClicked(int triviaNumber, boolean isAnswered) {
+    private void onQuizClicked(UserTriviaModel triviaStatus, Label completionStatus) {
         try{
-            System.out.println(triviaNumber + " clicked");
+            System.out.println(triviaStatus.getTriviaNumber() + " clicked");
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Question.fxml"));
             Parent root = loader.load();
             QuizController quizController = loader.getController();
-            quizController.setQuestionIndex(triviaNumber - 1, isAnswered);
+            quizController.setTriviaStatus(triviaStatus, user);
             Stage stage = new Stage();
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.showAndWait();
+            updateCompletionStatus(completionStatus, triviaStatus);
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    public void updateCompletionStatus(Label completionStatus, UserTriviaModel triviaStatus) {
+        completionStatus.setText(triviaStatus.isAnswered() ? "Completed" : "Pending");
+        completionStatus.getStyleClass().removeAll("completed", "pending");
+        completionStatus.getStyleClass().add(triviaStatus.isAnswered() ? "completed" : "pending");
     }
 }

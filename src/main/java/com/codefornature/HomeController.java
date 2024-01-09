@@ -295,10 +295,11 @@ public class HomeController {
 
     public void createNewsUI() throws IOException {
         //create the containers
-        GridPane newsContainer = new GridPane();
-//        newsContainer.setStyle("-fx-border-color: green");
-        newsContainer.setAlignment(Pos.CENTER);
+        FlowPane newsContainer = new FlowPane();
+//        newsContainer.setStyle("fx-border-color: white");
+        newsContainer.setPadding(new Insets(0, 40, 0, 40));
         newsContainer.setHgap(30);
+        newsContainer.setVgap(30);
         newsContainer.getStyleClass().add("label");
 
         //create news header
@@ -306,15 +307,15 @@ public class HomeController {
         Label newsHeaderTitle = new Label("News");
         Region region = new Region();
         HBox.setHgrow(region, Priority.ALWAYS);
-        leftBtn = createCarouselButtons("left-arrow.png");
-        leftBtn.setOnAction(e -> shiftRight(newsContainer));
-        leftBtn.setDisable(true); // first item is already displayed, no need for user to cycle left
+//        leftBtn = createCarouselButtons("left-arrow.png");
+//        leftBtn.setOnAction(e -> shiftRight(newsContainer));
+//        leftBtn.setDisable(true); // first item is already displayed, no need for user to cycle left
+//
+//        rightBtn = createCarouselButtons("right-arrow.png");
+//        rightBtn.setOnAction(e -> shiftLeft(newsContainer));
 
-        rightBtn = createCarouselButtons("right-arrow.png");
-        rightBtn.setOnAction(e -> shiftLeft(newsContainer));
-
-        newsHeader.getChildren().addAll(newsHeaderTitle, region, leftBtn, rightBtn);
-        newsHeader.setAlignment(Pos.CENTER);
+        newsHeader.getChildren().addAll(newsHeaderTitle);
+//        newsHeader.setAlignment(Pos.CENTER);
         newsHeader.setPadding(new Insets(0, 45, 5, 45));
 
 
@@ -326,17 +327,17 @@ public class HomeController {
         int i = 0;
         for(NewsModel news : newsList){
             VBox newsChild = createNewsVbox(news);
-            if(i >= 3) {
-                newsChild.setManaged(false);
-                newsChild.setVisible(false);
-            }
-            newsContainer.add(newsChild, i, 0);
+//            if(i >= 3) {
+//                newsChild.setManaged(false);
+//                newsChild.setVisible(false);
+//            }
+            newsContainer.getChildren().add(newsChild);
             i++;
-            if(i == 4) break;
+            if(i == 5) break;
         }
 
-        firstItem = getNodeFromGridPane(newsContainer, 0, 0);
-        lastItem = getNodeFromGridPane(newsContainer,newsContainer.getChildren().size() - 1, 0);
+//        firstItem = getNodeFromGridPane(newsContainer, 0, 0);
+//        lastItem = getNodeFromGridPane(newsContainer,newsContainer.getChildren().size() - 1, 0);
 
         homeContainer.getChildren().addAll(newsHeader, newsContainer);
     }
@@ -371,68 +372,68 @@ public class HomeController {
         rightBtn.setDisable(GridPane.getColumnIndex(lastItem) == 2);
     }
 
-    private void shiftRight(GridPane gridPane){
-        Node lastNode = getNodeFromGridPane(gridPane, gridPane.getChildren().size() - 1, 0);
-
-        for(int i = gridPane.getChildren().size() - 2; i >= 0; i--){
-            Node node = getNodeFromGridPane(gridPane, i, 0);
-            if(node != null){
-                GridPane.setColumnIndex(node, i + 1);
-                //shifting 3rd node to 4th column
-                if(i == 2 && node.isVisible()){
-                    node.setVisible(false);
-                    node.setManaged(false);
-                }
-            }
-        }
-
-        if(lastNode != null){
-            GridPane.setColumnIndex(lastNode, 0);
-            lastNode.setVisible(true);
-            lastNode.setManaged(true);
-        }
-
-        updateCarouselButtonStates(gridPane);
-
-    }
-
-    private void shiftLeft(GridPane gridPane){
-
-        Node firstNode = getNodeFromGridPane(gridPane, 0, 0);
-        firstNode.setVisible(false);
-        firstNode.setManaged(false);
-
-        for(int i = 1; i < gridPane.getChildren().size() ; i++){
-            Node node = getNodeFromGridPane(gridPane, i, 0);
-            if(node != null){
-                GridPane.setColumnIndex(node, i - 1);
-                //shifting 4th node to 3rd column
-                if(i == 3 && !node.isVisible()){
-                    node.setManaged(true);
-                    node.setVisible(true);
-                }
-            }
-        }
-
-        if(firstNode != null)
-            GridPane.setColumnIndex(firstNode, gridPane.getChildren().size() - 1);
-
-        updateCarouselButtonStates(gridPane);
-    }
-
-    private Button createCarouselButtons(String iconPath){
-        ImageView imageView = new ImageView(rootPath + "icons/" + iconPath);
-        imageView.setFitWidth(12);
-        imageView.setFitHeight(12);
-        ColorAdjust white = new ColorAdjust();
-        white.setBrightness(1.0);
-        imageView.setEffect(white);
-        Button button = new Button();
-        button.setStyle("-fx-background-color: transparent");
-        button.setGraphic(imageView);
-
-        return button;
-    }
+//    private void shiftRight(GridPane gridPane){
+//        Node lastNode = getNodeFromGridPane(gridPane, gridPane.getChildren().size() - 1, 0);
+//
+//        for(int i = gridPane.getChildren().size() - 2; i >= 0; i--){
+//            Node node = getNodeFromGridPane(gridPane, i, 0);
+//            if(node != null){
+//                GridPane.setColumnIndex(node, i + 1);
+//                //shifting 3rd node to 4th column
+//                if(i == 2 && node.isVisible()){
+//                    node.setVisible(false);
+//                    node.setManaged(false);
+//                }
+//            }
+//        }
+//
+//        if(lastNode != null){
+//            GridPane.setColumnIndex(lastNode, 0);
+//            lastNode.setVisible(true);
+//            lastNode.setManaged(true);
+//        }
+//
+//        updateCarouselButtonStates(gridPane);
+//
+//    }
+//
+//    private void shiftLeft(GridPane gridPane){
+//
+//        Node firstNode = getNodeFromGridPane(gridPane, 0, 0);
+//        firstNode.setVisible(false);
+//        firstNode.setManaged(false);
+//
+//        for(int i = 1; i < gridPane.getChildren().size() ; i++){
+//            Node node = getNodeFromGridPane(gridPane, i, 0);
+//            if(node != null){
+//                GridPane.setColumnIndex(node, i - 1);
+//                //shifting 4th node to 3rd column
+//                if(i == 3 && !node.isVisible()){
+//                    node.setManaged(true);
+//                    node.setVisible(true);
+//                }
+//            }
+//        }
+//
+//        if(firstNode != null)
+//            GridPane.setColumnIndex(firstNode, gridPane.getChildren().size() - 1);
+//
+//        updateCarouselButtonStates(gridPane);
+//    }
+//
+//    private Button createCarouselButtons(String iconPath){
+//        ImageView imageView = new ImageView(rootPath + "icons/" + iconPath);
+//        imageView.setFitWidth(12);
+//        imageView.setFitHeight(12);
+//        ColorAdjust white = new ColorAdjust();
+//        white.setBrightness(1.0);
+//        imageView.setEffect(white);
+//        Button button = new Button();
+//        button.setStyle("-fx-background-color: transparent");
+//        button.setGraphic(imageView);
+//
+//        return button;
+//    }
 
     private VBox createNewsVbox(NewsModel news){
         VBox newsChild = new VBox();
@@ -488,12 +489,12 @@ public class HomeController {
         return hbox;
     }
 
-    private Node getNodeFromGridPane(GridPane gridPane, int col, int row){
-        for(Node node : gridPane.getChildren()){
-            if(GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row){
-                return node;
-            }
-        }
-        return null;
-    }
+//    private Node getNodeFromGridPane(GridPane gridPane, int col, int row){
+//        for(Node node : gridPane.getChildren()){
+//            if(GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row){
+//                return node;
+//            }
+//        }
+//        return null;
+//    }
 }

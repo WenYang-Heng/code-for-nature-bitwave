@@ -73,6 +73,6 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Button mnemonicParsing="false" styleClass="continue-button" text="Continue" />
+      <Button mnemonicParsing="false" onAction="#onContinueClicked" styleClass="continue-button" text="Continue" />
    </children>
 </VBox>

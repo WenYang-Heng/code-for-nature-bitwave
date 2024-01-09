@@ -23,6 +23,10 @@
     -fx-background-color: "transparent";
 }
 
+.amountErrorMessage{
+    -fx-text-fill: "#B12F2F";
+}
+
 .amountBtn:hover{
     -fx-background-color: "#5F81AB";
 }

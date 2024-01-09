@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 
@@ -54,6 +55,12 @@ public class OrderController {
     private UserModel user;
     private BorderPane mainContainer;
     private int grandTotalCost;
+
+    public void initialize(){
+        ColorAdjust white = new ColorAdjust();
+        white.setBrightness(1.0);
+        backIcon.setEffect(white);
+    }
 
     public void setCartItems(List<CartItemsModel> cartItems) {
         this.cartItems = cartItems;

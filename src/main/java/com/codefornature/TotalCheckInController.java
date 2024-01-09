@@ -1,12 +1,14 @@
 package com.codefornature;
 
 import com.codefornature.model.UserModel;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 public class TotalCheckInController {
     @FXML
@@ -69,4 +71,8 @@ public class TotalCheckInController {
         rewardMessage.setText("You are rewarded with " + pointsAwarded + " point!");
     }
 
+    public void onContinueClicked(ActionEvent actionEvent) {
+        Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        stage.close();
+    }
 }

@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
@@ -19,6 +20,7 @@ public class MainController {
     private UserModel user;
     @FXML private BorderPane mainContainer;
     @FXML private VBox sidebar;
+    private Button currentSelectedButton;
 
     @FXML
     public void initialize() throws IOException {
@@ -61,15 +63,18 @@ public class MainController {
     }
 
     public void toPointShop(ActionEvent actionEvent) throws IOException, SQLException {
+        selectedNavButton((Button) actionEvent.getSource());
         System.out.println("point shop button clicked");
         loadPage("point-shop.fxml");
     }
 
     public void toHome(ActionEvent actionEvent) throws IOException, SQLException {
+        selectedNavButton((Button) actionEvent.getSource());
         loadPage("home-view.fxml");
     }
 
     public void toDonation(ActionEvent actionEvent) throws IOException, SQLException {
+        selectedNavButton((Button) actionEvent.getSource());
         loadPage("donation-view.fxml");
     }
 
@@ -79,11 +84,20 @@ public class MainController {
     }
 
     public void toShoppingCart(ActionEvent actionEvent) throws IOException, SQLException {
+        selectedNavButton((Button) actionEvent.getSource());
         loadPage("shopping-cart-view.fxml");
-
     }
 
     public void toQuiz(ActionEvent actionEvent) throws SQLException, IOException {
+        selectedNavButton((Button) actionEvent.getSource());
         loadPage("quiz-list-view.fxml");
+    }
+
+    public void selectedNavButton(Button selectedButton){
+        if (currentSelectedButton != null) {
+            currentSelectedButton.getStyleClass().remove("selected-button");
+        }
+        currentSelectedButton = selectedButton;
+        currentSelectedButton.getStyleClass().add("selected-button");
     }
 }

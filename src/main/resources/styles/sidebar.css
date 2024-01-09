@@ -7,3 +7,7 @@
 #sidebar Button:hover {
     -fx-background-color: #1c2835;
 }
+
+.selected-button{
+    -fx-background-color: #1c2835;
+}

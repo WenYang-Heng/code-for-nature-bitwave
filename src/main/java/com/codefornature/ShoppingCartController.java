@@ -94,10 +94,13 @@ public class ShoppingCartController {
                 merchImage.setFitHeight(170);
                 merchImage.setFitWidth(170);
                 VBox merchDetails = new VBox();
+                Region region = new Region();
+                VBox.setVgrow(region, Priority.ALWAYS);
                 Label merchName = new Label(item.getMerchandise_name());
                 merchDetails.setPrefWidth(300);
                 merchDetails.setMaxWidth(300);
-                Button removeItemBtn = new Button("Remove button");
+                Button removeItemBtn = new Button("Remove Item");
+                removeItemBtn.getStyleClass().add("remove-item");
                 removeItemBtn.setOnAction(event -> {
                     carItemsContainer.getChildren().remove(merchContent);
                     try {
@@ -117,7 +120,7 @@ public class ShoppingCartController {
                         throw new RuntimeException(e);
                     }
                 });
-                merchDetails.getChildren().addAll(merchName, removeItemBtn);
+                merchDetails.getChildren().addAll(merchName, region, removeItemBtn);
                 merchName.setWrapText(true);
 
                 HBox quantityContainer = createCounterBox(quantity, item.getCost(), item.getMerchandise_id());
@@ -141,9 +144,10 @@ public class ShoppingCartController {
 
         grandTotalContainer = new HBox();
         Label grandTotalLabel = new Label("Grand Total:");
+        grandTotalLabel.getStyleClass().add("grand-total");
         grandTotal = new Label(Integer.toString(grandTotalCost));
+        grandTotal.getStyleClass().add("grand-total");
         grandTotal.setMinWidth(100);
-        grandTotal.setStyle("-fx-font-weight: bold");
         grandTotalContainer.setSpacing(20);
         grandTotalContainer.setPadding(new Insets(20, 0, 0, 0));
         grandTotalContainer.setAlignment(Pos.CENTER_RIGHT);

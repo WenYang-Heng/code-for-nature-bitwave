@@ -10,6 +10,7 @@ import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,21 +22,12 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
-
-import java.net.URL;
-
-import java.sql.Connection;
-import java.sql.Statement;
 
 import javafx.scene.layout.HBox;
 
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
-import java.util.concurrent.Flow;
 
 public class DonationController {
     @FXML
@@ -50,7 +42,7 @@ public class DonationController {
     @FXML
     private TextField donateAmountTxtField;
     @FXML
-    private Label donateMessage;
+    private Label amountErrorMessage;
     private String organisation = null;
     private HBox selectedOrganisation = null;
     private Button selectedAmount = null;
@@ -103,6 +95,7 @@ public class DonationController {
                 selectedAmount.getStyleClass().remove("on-selected");
             }
             //clear the text field
+            amountErrorMessage.setText("");
             donateAmountTxtField.setText("");
             selectedAmount = amountButton;
             selectedAmount.getStyleClass().add("on-selected");
@@ -161,28 +154,19 @@ public class DonationController {
         }
     }
 
-    private void setButtonClickAction(Button button) {
-        button.setOnAction(event -> {
-            String buttonText = button.getText();
-            double amount = getDonationAmount();
-            writeToFile(buttonText, amount);
-        });
-    }
-
     public void donateOnAction(ActionEvent event) throws SQLException {
         if(selectedOrganisation == null){
-            donateMessage.setText("No organisation selected");
+            AlertController.showAlert("No organisation selected", "Please select one of the organisation.", 0);
         }else if(selectedAmount != null || !donateAmountTxtField.getText().isEmpty()){
-            double amount;
             if(selectedAmount == null){
                 try{
                     donateAmount = Integer.parseInt(donateAmountTxtField.getText());
                 } catch (NumberFormatException e){
-                    donateMessage.setText("Please enter number only");
+                    amountErrorMessage.setText("Please enter number only");
                     return;
                 }
             }
-            donateMessage.setText("Donation has been received.");
+            AlertController.showAlert("Donation", "Donation has been received. Thank you.", 1);
 
             DonationDAO donationDAO = new DonationDAO(donateAmount, organisation, user.getUsername());
             UserDAO userDAO = new UserDAO();
@@ -196,29 +180,7 @@ public class DonationController {
             System.out.printf("%s has donated %d to %s%n", user.getUsername(), donateAmount, organisation);
         }
         else{
-            donateMessage.setText("No amount is entered or selected.");
-        }
-    }
-
-    public void createAccountForm(){
-        try{
-            Parent root = FXMLLoader.load(getClass().getResource("donation-view.fxml"));
-            Stage registerStage = new Stage();
-            registerStage.setTitle("Donation");
-            registerStage.setScene(new Scene(root, 1000, 800));
-            registerStage.show();
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    private void writeToFile(String organizationName, double amount) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("donation.txt", true))) {
-            //still need get userID and write to file
-            writer.write(organizationName + "," + amount);
-            writer.newLine();
-        } catch (Exception e) {
-            e.printStackTrace();
+            amountErrorMessage.setText("No amount is entered or selected.");
         }
     }
 
@@ -227,5 +189,6 @@ public class DonationController {
             selectedAmount.getStyleClass().remove("on-selected");
             selectedAmount = null;
         }
+        amountErrorMessage.setText("");
     }
 }

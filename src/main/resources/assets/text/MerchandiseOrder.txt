@@ -1,3 +1,4 @@
 User hwy orders 3 Nature in Flight Mugs to Jalan 2,, KL, Kuala Lumpur, 51200
 User hwy orders 3 Organic Tote Bag to Jalan 2,, KL, Kuala Lumpur, 51200
 User hwy orders 5 Shirt to No. 10, Nilai, Negeri Sembilan, 71800
+User hwy orders 1 Shirt to No.1, Jalan 1, Nilai, Negeri Sembilan, 71800

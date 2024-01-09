@@ -15,7 +15,7 @@
 
 <AnchorPane fx:id="donationContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.DonationController">
     <children>
-        <Pane layoutX="60.0" layoutY="99.0" prefHeight="434.0" prefWidth="885.0">
+        <Pane layoutX="60.0" layoutY="99.0" prefHeight="476.0" prefWidth="885.0">
             <children>
             <VBox id="organizationContainer" layoutX="20.0" spacing="30.0">
                <children>
@@ -171,6 +171,18 @@
                                   </Button>
                            </children>
                         </HBox>
+                        <HBox alignment="TOP_RIGHT">
+                           <children>
+                              <Label fx:id="amountErrorMessage" alignment="TOP_LEFT" prefHeight="17.0" prefWidth="324.0" styleClass="amountErrorMessage" textAlignment="RIGHT">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                        </HBox>
                      </children>
                      <VBox.margin>
                         <Insets top="30.0" />
@@ -180,9 +192,5 @@
             </VBox>
             </children>
         </Pane>
-      <Label fx:id="donateMessage" layoutX="299.0" layoutY="696.0" text="Your donation has been received &lt;3 Thank you !" textAlignment="CENTER" textFill="WHITE">
-         <font>
-            <Font name="Mukta Malar ExtraBold" size="18.0" />
-         </font></Label>
     </children>
 </AnchorPane>

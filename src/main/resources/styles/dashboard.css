@@ -1,0 +1,6 @@
+.points-label{
+    -fx-text-fill: white;
+    -fx-font-size: 22;
+    -fx-font-weight: bold;
+    -fx-padding: 10 0 0 0;
+}

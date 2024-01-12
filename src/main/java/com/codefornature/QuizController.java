@@ -58,6 +58,7 @@ public class QuizController {
         questionTitleLabel.setText(trivia.get(questionIndex).getQuestion());
         correctAns = trivia.get(questionIndex).getCorrectAnswer();
 
+        //visibility of show answer button, if already answered previously, button will be visible, else not displayed
         if(!isAnswered){
             showAnswerButton.setVisible(false);
             showAnswerButton.setManaged(false);
@@ -83,13 +84,18 @@ public class QuizController {
     private void addAnswersToButton() {
         int i = 0;
         Collections.shuffle(trivia.get(questionIndex).getChoices());
+        //Flowpane
+        //----Button
+        //----Button
+        //----Button
+        //----Button
         for(Node node : answerFlowPane.getChildren()) {
             Button ans = (Button) node;
             ans.setText(trivia.get(questionIndex).getChoices().get(i));
             ans.setWrapText(true);
             final String answerText = ans.getText();
             if(answerText.equals(correctAns)){
-                correctButton = ans;
+                correctButton = ans; //store button with the correct answer, show to user when show answer is clicked or no more attempts
             }
             final Button button = ans;
             ans.setOnAction(event -> {
@@ -100,6 +106,7 @@ public class QuizController {
     }
 
     private void selectAns(String answerText, Button button) {
+        //If one of the button is selected, it will not be null, so need to clear the style first, then update new currently selected button, reapply the style again
         if (currButton != null) {
             currButton.getStyleClass().remove("selectedAnswer");
         }
@@ -113,6 +120,7 @@ public class QuizController {
         String style = "correct";
         boolean answered = false;
 
+        //user get it correct or no more attempts
         if(num_attempt == -1){
             closeWindow(event);
             return;
@@ -145,9 +153,10 @@ public class QuizController {
         if(answered){
             triviaStatus.setAnswered(true);
             triviaDAO.updateTriviaStatus(user.getUser_id(), triviaStatus.getTriviaNumber());
+            //check if user got it correct within the attempts limit and this trivia is not answered previously
             if(pointsAwarded > 0 && !isAnswered){
                 UserDAO userDAO = new UserDAO();
-                if(userDAO.updatePoints(user.getUser_id(), pointsAwarded)){
+                if(userDAO.updatePoints(user.getUser_id(), pointsAwarded)){  //return true if database record is added
                     AlertController.showAlert("Points", "You have gained " + pointsAwarded + " points", 1);
                     user.setPoints(user.getPoints() + pointsAwarded);
                 }
@@ -167,6 +176,7 @@ public class QuizController {
     }
 
     private void disableAllAnswersOption() {
+        //loop through each button to disable it
         for (Node node : answerFlowPane.getChildren()) {
             if (node instanceof Button) {
                 node.setDisable(true);

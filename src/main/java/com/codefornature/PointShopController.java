@@ -42,19 +42,15 @@ public class PointShopController {
         String rootPath = System.getProperty("user.dir");
         MerchandiseDAO merchDAO = new MerchandiseDAO();
         merchList = merchDAO.getAllMerchandise();
-//        BufferedReader in = new BufferedReader(new FileReader(rootPath + "/src/main/resources/assets/text/merchandise.txt"));
-//        String line;
         for(int i = 0; i < merchList.size(); i++){
             VBox vbox = new VBox();
             vbox.setPrefSize(252, 268);
             String imageUrl = "@../../assets/images/";
             Label itemName = new Label(merchList.get(i).getMerchandise_name());
-//            String price = in.readLine();
             Label itemPrice = new Label("$" + merchList.get(i).getCost());
             itemName.setStyle("-fx-text-fill: #E4EAF1");
             itemPrice.setStyle("-fx-text-fill: #E4EAF1");
             itemPrice.setFont(new Font(20));
-//            String imageName = in.readLine();
             ImageView merchImage = new ImageView(new Image(imageUrl + merchList.get(i).getImage_name()));
             merchImage.setFitWidth(252);
             merchImage.setFitHeight(200);
@@ -75,7 +71,6 @@ public class PointShopController {
             vbox.setSpacing(10);
             merchContent.getChildren().add(vbox);
         }
-//        in.close();
     }
 
     private Button createStyledButton(String text, MerchandiseModel merch) {

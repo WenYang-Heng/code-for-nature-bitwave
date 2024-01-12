@@ -106,6 +106,7 @@ public class HomeController {
 
     public void createDashboardUI() throws SQLException {
         Label pointsLabel = new Label("Points");
+        pointsLabel.getStyleClass().add("points-label");
         pointsLabel.setTextFill(javafx.scene.paint.Color.WHITE);
         pointsLabel.setFont(new Font("System Bold", 22));
         pointsLabel.setPadding(new Insets(10, 0, 0, 0));
@@ -198,7 +199,6 @@ public class HomeController {
         VBox dailyRewardsVBox = new VBox(dailyRewardsLabel, giftboxIcon, claimRewardButton);
         dailyRewardsVBox.setAlignment(Pos.TOP_CENTER);
         dailyRewardsVBox.setSpacing(15);
-//        dailyRewardsVBox.setStyle("-fx-border-color: #ffffff");
         HBox.setHgrow(dailyRewardsVBox, Priority.ALWAYS);
 
         // Plant a Tree Section
@@ -224,7 +224,6 @@ public class HomeController {
         VBox plantTreeVBox = new VBox(plantTreeLabel, treeIcon, plantNowButton);
         plantTreeVBox.setAlignment(Pos.TOP_CENTER);
         plantTreeVBox.setSpacing(15);
-//        plantTreeVBox.setStyle("-fx-border-color: #ffffff");
         HBox.setHgrow(plantTreeVBox, Priority.ALWAYS);
 
         // Main HBox

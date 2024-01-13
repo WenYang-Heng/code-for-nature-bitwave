@@ -1,13 +1,20 @@
+#sidebar{
+    -fx-spacing: 4;
+}
+
 #sidebar Button{
     -fx-background-color: transparent;
     -fx-text-fill: "#ffffff";
     -fx-font-size: 20px;
+    -fx-cursor: hand;
+    -fx-background-radius: 15;
+    -fx-padding: 10;
 }
 
 #sidebar Button:hover {
     -fx-background-color: #1c2835;
 }
 
-.selected-button{
+#sidebar .selected-button{
     -fx-background-color: #1c2835;
 }

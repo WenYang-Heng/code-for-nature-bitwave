@@ -1,7 +1,3 @@
-.button{
-    -fx-cursor: hand;
-}
-
 .organizationItem{
     -fx-background-color: "#1C2835";
     -fx-background-radius: 10;

@@ -3,10 +3,6 @@
     -fx-font-size: 20px;
 }
 
-.button{
-    -fx-cursor: hand;
-}
-
 .cart-header{
     -fx-font-size: 22px;
 }

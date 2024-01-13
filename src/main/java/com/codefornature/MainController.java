@@ -17,6 +17,8 @@ import java.sql.SQLException;
 import java.text.ParseException;
 
 public class MainController {
+    @FXML
+    private Button homeButton;
     private UserModel user;
     @FXML private BorderPane mainContainer;
     @FXML private VBox sidebar;
@@ -24,9 +26,8 @@ public class MainController {
 
     @FXML
     public void initialize() throws IOException {
-
-        System.out.println("root border pane loaded");
-        sidebar.getStylesheets().add(getClass().getResource("/styles/sidebar.css").toExternalForm());
+        mainContainer.getStylesheets().add(getClass().getResource("/styles/root.css").toExternalForm());
+        selectedNavButton(homeButton);
     }
 
     public void loadPage(String page) throws IOException, SQLException{
@@ -64,11 +65,11 @@ public class MainController {
 
     public void toPointShop(ActionEvent actionEvent) throws IOException, SQLException {
         selectedNavButton((Button) actionEvent.getSource());
-        System.out.println("point shop button clicked");
         loadPage("point-shop.fxml");
     }
 
     public void toHome(ActionEvent actionEvent) throws IOException, SQLException {
+        Button selectedButton = (Button) actionEvent.getSource();
         selectedNavButton((Button) actionEvent.getSource());
         loadPage("home-view.fxml");
     }

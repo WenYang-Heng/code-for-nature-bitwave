@@ -4,21 +4,14 @@ import com.codefornature.dao.CartDAO;
 import com.codefornature.dao.UserDAO;
 import com.codefornature.model.CartModel;
 import com.codefornature.model.UserModel;
-import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.SQLException;
-import java.util.ResourceBundle;
 
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -26,26 +19,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.control.CheckBox;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.util.ResourceBundle;
-
-public class LoginController implements Initializable {
-
-    @FXML
-    private Button loginBtn;
-
-    @FXML
-    private Button loginFgt;
-
-    @FXML
-    private Button loginSignUp;
+public class LoginController {
 
     @FXML
     private Label errorMessageLabel;
@@ -55,93 +33,20 @@ public class LoginController implements Initializable {
 
     @FXML
     private PasswordField password;
-
-    @FXML
-    private ImageView userImageView;
-
-    @FXML
-    private ImageView passwordImageView;
-
-    @FXML
-    private ImageView forestImageView;
-
-    @FXML
-    private ImageView pineImageView;
-
     @FXML
     private HBox IDHbox,IDHbox2;
+    @FXML
+    private CheckBox login_selectshowPassword;
+
+    @FXML
+    private TextField login_showPassword;
     private Stage homeStage;
     private Stage startStage;
     private UserDAO userDAO;
     private UserModel user;
+    private int loginAttempts = 3;
 
-    @FXML
-    private void login(ActionEvent event) throws IOException, SQLException {
-        userID.setText("heng3@gmail.com");
-        password.setText("test123");
-        String ID = userID.getText();
-        String pw = password.getText();
-        if(ID.isEmpty() || pw.isEmpty()){
-            if(ID.isEmpty()){
-                errorMessageLabel.setText("Kindly enter your username or email.");
-            }else if(pw.isEmpty()){
-                errorMessageLabel.setText("Kindly enter your password.");
-            }else if(ID.isEmpty()&&pw.isEmpty()){
-                errorMessageLabel.setText("Kindly enter your username/email and password");
-            }
-            return;
-        }
-
-        userDAO = new UserDAO();
-        user = userDAO.getUser(ID, pw);
-        if(user == null){
-            errorMessageLabel.setText("Your username or password is incorrect. Please try again!");
-            return;
-        }
-
-        CartDAO cartDAO = new CartDAO();
-        if(cartDAO.cartExists(user.getUser_id())){
-            CartModel cart = cartDAO.getCart(user.getUser_id());
-        }
-        System.out.println(user);
-
-        homeStage = new Stage();
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("main-container.fxml"));
-        Scene scene = new Scene(loader.load());
-        MainController mainController = loader.getController();
-        mainController.setUser(user);
-        scene.getStylesheets().add(getClass().getResource("root.css").toExternalForm());
-        homeStage.setScene(scene);
-        startStage.close();
-        homeStage.show();
-    }
-
-
-
-    // You may have other methods and initialization code here
-
-    // For example, a method to initialize the images in the controller
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // Load images and set them to respective ImageViews
-        String absPath = new File("").getAbsolutePath();
-        Image userImage,passwordImage,forestImage,pineImage;
-        passwordImage = forestImage = pineImage = userImage = null;
-        try {
-            userImage = new Image(new FileInputStream(absPath+"\\src\\images\\userbefore.png"));
-            userImageView.setImage(userImage);
-
-            passwordImage = new Image(new FileInputStream(absPath+"\\src\\images\\password.png"));
-            passwordImageView.setImage(passwordImage);
-
-            forestImage = new Image(new FileInputStream(absPath+"\\src\\images\\forestnew.png"));
-            forestImageView.setImage(forestImage);
-
-            pineImage = new Image(new FileInputStream(absPath+"\\src\\images\\pinenew.png"));
-            pineImageView.setImage(pineImage);
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+    public void initialize() {
         userID.setFocusTraversable(false);
         password.setFocusTraversable(false);
         userID.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -166,11 +71,65 @@ public class LoginController implements Initializable {
             }
         });
     }
-    @FXML
-    private CheckBox login_selectshowPassword;
 
     @FXML
-    private TextField login_showPassword;
+    private void login(ActionEvent event) throws IOException, SQLException {
+        userID.setText("heng3@gmail.com");
+        password.setText("test1234");
+        String ID = userID.getText();
+        String pw = password.getText();
+
+        if(ID.isEmpty() || pw.isEmpty()){
+            if(ID.isEmpty()){
+                errorMessageLabel.setText("Kindly enter your username or email.");
+            }else if(pw.isEmpty()){
+                errorMessageLabel.setText("Kindly enter your password.");
+            }else if(ID.isEmpty()&&pw.isEmpty()){
+                errorMessageLabel.setText("Kindly enter your username/email and password");
+            }
+            return;
+        }
+
+        userDAO = new UserDAO();
+
+        if(userDAO.isLocked(ID)){
+            errorMessageLabel.setText("Due to multiple failed login attempts, please reset your password!");
+            return;
+        }
+
+        if(userDAO.emailExists(ID)){
+            user = userDAO.getUser(ID, pw);
+            if(user == null) {
+                errorMessageLabel.setText("Your password is incorrect. Please try again!");
+                loginAttempts--;
+                if(loginAttempts == 0){
+                    System.out.println("Locking account");
+                    userDAO.updateIsLocked(ID);
+                }
+                return;
+            }
+        }
+        else{
+            errorMessageLabel.setText("This email does not exist. Please try again!");
+            return;
+        }
+
+        CartDAO cartDAO = new CartDAO();
+        if(cartDAO.cartExists(user.getUser_id())){
+            CartModel cart = cartDAO.getCart(user.getUser_id());
+        }
+        System.out.println(user);
+
+        homeStage = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("main-container.fxml"));
+        Scene scene = new Scene(loader.load());
+        MainController mainController = loader.getController();
+        mainController.setUser(user);
+        scene.getStylesheets().add(getClass().getResource("root.css").toExternalForm());
+        homeStage.setScene(scene);
+        startStage.close();
+        homeStage.show();
+    }
 
     public void showPassword(){
 
@@ -202,17 +161,4 @@ public class LoginController implements Initializable {
         startStage.setScene(scene);
         startStage.show();
     }
-
-
-
-
-
-    /*@FXML
-    ImageView login1;
-    Image myImage=new Image(getClass().getResourceAsStream("forest.png"));
-
-    public void displayImage(){
-        login1.setImage(myImage);
-
-    } */
 }

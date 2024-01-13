@@ -10,6 +10,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -18,15 +19,15 @@
    <children>
       <ImageView fx:id="pineImageView" fitHeight="477.0" fitWidth="477.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../images/pinenew.png" />
+            <Image url="@../../assets/images/login/pinenew.png" />
          </image>
       </ImageView>
       <ImageView fx:id="forestImageView" fitHeight="286.0" fitWidth="286.0" layoutX="1068.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../images/forestnew.png" />
+            <Image url="@../../assets/images/login/forestnew.png" />
          </image>
       </ImageView>
-      <VBox alignment="TOP_CENTER" layoutX="405.0" layoutY="133.0" prefHeight="582.0" prefWidth="399.0">
+      <VBox alignment="TOP_CENTER" layoutX="405.0" layoutY="133.0" prefHeight="582.0" prefWidth="399.0" stylesheets="@../../styles/login.css">
          <children>
             <Label alignment="TOP_CENTER" text="Welcome" textFill="#73d960">
                <font>
@@ -41,7 +42,7 @@
                <children>
                   <ImageView fx:id="userImageView" fitHeight="34.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: transparent;">
                      <image>
-                        <Image url="@../../../../images/userbefore.png" />
+                        <Image url="@../../assets/images/login/userbefore.png" />
                      </image>
                      <HBox.margin>
                         <Insets right="10.0" top="10.0" />
@@ -64,7 +65,7 @@
                <children>
                   <ImageView fx:id="passwordImageView" fitHeight="34.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-width: 0 0 1 0; -fx-border-color: #b5b5b5; -fx-background-color: transparent;">
                      <image>
-                        <Image url="@../../../../images/password.png" />
+                        <Image url="@../../assets/images/login/password.png" />
                      </image>
                      <HBox.margin>
                         <Insets right="10.0" top="25.0" />
@@ -94,24 +95,24 @@
                   <Insets bottom="10.0" top="20.0" />
                </VBox.margin>
             </HBox>
-            <CheckBox fx:id="login_selectshowPassword" mnemonicParsing="false" onAction="#showPassword" text="Show Password" textFill="#b5b5b5">
-               <font>
-                  <Font size="14.0" />
-               </font>
+            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="625.0">
                <VBox.margin>
-                  <Insets right="270.0" />
+                  <Insets />
                </VBox.margin>
-               <padding>
-                  <Insets top="20.0" />
-               </padding>
-            </CheckBox>
-<!--            <Button fx:id="loginFgt" mnemonicParsing="false" prefHeight="30.0" prefWidth="132.0" style="-fx-background-color: transparent;" text="Forget Password?" textFill="#b5b5b5">-->
-<!--               <VBox.margin>-->
-<!--                  <Insets left="250.0" top="30.0" />-->
-<!--               </VBox.margin>-->
-<!--               <font>-->
-<!--                  <Font size="14.0" />-->
-<!--               </font></Button>-->
+               <children>
+                  <CheckBox fx:id="login_selectshowPassword" mnemonicParsing="false" onAction="#showPassword" text="Show Password" textFill="#b5b5b5">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </CheckBox>
+                  <Region prefHeight="40.0" prefWidth="43.0" HBox.hgrow="ALWAYS" />
+                  <Label styleClass="forgot-password" text="Forget Password?">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
             <Button fx:id="loginBtn" alignment="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="54.0" prefWidth="413.0" style="-fx-background-color: #40B52C; -fx-background-radius: 30;" text="Log In" textFill="WHITE">
                <font>
                   <Font size="20.0" />

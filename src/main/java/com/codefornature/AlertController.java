@@ -31,10 +31,6 @@ public class AlertController {
     @FXML
     private Button closeButton;
 
-//    public void setAlertColor(String color){
-//        alertBox.getStyleClass().add(color);
-//    }
-
     public void setAlertType(String type) {
         alertType.setText(type);
     }

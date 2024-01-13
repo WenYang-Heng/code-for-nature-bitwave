@@ -134,4 +134,29 @@ public class UserDAO {
         return formattedDate;
     }
 
+    public boolean isLocked(String email) throws SQLException {
+        String query = "select is_locked from user where email = ?";
+        boolean isLocked = false;
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setString(1, email);
+                try(ResultSet rs = ps.executeQuery()){
+                    if(rs.next()){
+                        isLocked = rs.getBoolean(1);
+                    }
+                }
+            }
+        }
+        return isLocked;
+    }
+
+    public void updateIsLocked(String email) throws SQLException{
+        String query = "UPDATE user SET is_locked = !is_locked WHERE email = ?";
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setString(1, email);
+                ps.executeUpdate();
+            }
+        }
+    }
 }

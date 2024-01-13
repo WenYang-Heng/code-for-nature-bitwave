@@ -1,3 +1,7 @@
+Button{
+    -fx-cursor: hand;
+}
+
 .textfield{
      -fx-border-color:#b5b5b5;
      -fx-border-width:0 0 2 0;
@@ -5,4 +9,13 @@
 
 .textfield:focused{
     -fx-border-color:#73d960;
+}
+
+.forgot-password{
+    -fx-text-fill: "#b5b5b5";
+}
+
+.forgot-password:hover{
+    -fx-underline: true;
+    -fx-cursor: hand;
 }

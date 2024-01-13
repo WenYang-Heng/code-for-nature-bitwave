@@ -7,10 +7,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -94,6 +96,19 @@ public class MainController {
         loadPage("quiz-list-view.fxml");
     }
 
+    public void toLogout(ActionEvent actionEvent) throws IOException {
+        Stage currentWindow = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        Stage loginWindow = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+        Parent root = loader.load();
+        LoginController loginController = loader.getController();
+        loginController.setStartingStage(loginWindow);
+        Scene scene = new Scene(root);
+        currentWindow.close(); //close current window
+        loginWindow.setScene(scene);
+        loginWindow.show(); //open new window for login
+    }
+
     public void selectedNavButton(Button selectedButton){
         if (currentSelectedButton != null) {
             currentSelectedButton.getStyleClass().remove("selected-button");
@@ -101,4 +116,5 @@ public class MainController {
         currentSelectedButton = selectedButton;
         currentSelectedButton.getStyleClass().add("selected-button");
     }
+
 }

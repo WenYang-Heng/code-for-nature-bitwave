@@ -88,7 +88,7 @@ public class DonationController {
         if(amountButton.equals(selectedAmount)){
             amountButton.getStyleClass().remove("on-selected");
             selectedAmount = null;
-            setDonateAmount(0);
+            donateAmount = 0;
         }
         else{
             if(selectedAmount != null){
@@ -100,25 +100,9 @@ public class DonationController {
             selectedAmount = amountButton;
             selectedAmount.getStyleClass().add("on-selected");
             String amountText = selectedAmount.getText().replaceAll("[^\\d.]", "");
-            setDonateAmount(Integer.parseInt(amountText));
-            System.out.println(getDonateAmount());
+            donateAmount = Integer.parseInt(amountText);
+            System.out.println(donateAmount);
         }
-    }
-
-    public String getOrganisation() {
-        return organisation;
-    }
-
-    public void setOrganisation(String organisation) {
-        this.organisation = organisation;
-    }
-
-    public int getDonateAmount(){
-        return donateAmount;
-    }
-
-    public void setDonateAmount(int donateAmount){
-        this.donateAmount = donateAmount;
     }
 
     public void setUser(UserModel user) {
@@ -130,7 +114,7 @@ public class DonationController {
         if (organisationContainer.equals(selectedOrganisation)) {
             organisationContainer.getStyleClass().remove("on-selected");
             selectedOrganisation = null;
-            setOrganisation(null);
+            organisation = null;
             System.out.println("Organisation deselected");
         } else {
             //select the organisation
@@ -139,18 +123,8 @@ public class DonationController {
             }
             selectedOrganisation = organisationContainer;
             selectedOrganisation.getStyleClass().add("on-selected");
-            setOrganisation(organisationName.getText());
-            System.out.println(getOrganisation());
-        }
-    }
-
-    private double getDonationAmount() {
-        try {
-            // Attempt to parse the amount from the TextField
-            return Double.parseDouble(donateAmountTxtField.getText());
-        } catch (NumberFormatException e) {
-            // Handle the case where the input is not a valid double
-            return 0.0;
+            organisation = organisationName.getText();
+            System.out.println(organisation);
         }
     }
 
@@ -161,12 +135,15 @@ public class DonationController {
             if(selectedAmount == null){
                 try{
                     donateAmount = Integer.parseInt(donateAmountTxtField.getText());
+                    if (donateAmount <= 0) {
+                        amountErrorMessage.setText("Please enter a positive integer only");
+                        return;
+                    }
                 } catch (NumberFormatException e){
-                    amountErrorMessage.setText("Please enter number only");
+                    amountErrorMessage.setText("Invalid amount.");
                     return;
                 }
             }
-            AlertController.showAlert("Donation", "Donation has been received. Thank you.", 1);
 
             DonationDAO donationDAO = new DonationDAO(donateAmount, organisation, user.getUsername());
             UserDAO userDAO = new UserDAO();

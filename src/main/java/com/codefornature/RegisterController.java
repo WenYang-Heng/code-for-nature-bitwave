@@ -20,23 +20,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class RegisterController {
-
-    @FXML
-    private ImageView emailImageView;
-    @FXML
-    private ImageView usernameImageView;
-    @FXML
-    private ImageView passwordImageView;
-    @FXML
-    private ImageView confirmImageView;
-    @FXML
-    private ImageView pineImageView;
-    @FXML
-    private ImageView forestImageView;
-    @FXML
-    private ImageView arrowImageView;
-    @FXML
-    private Button registerButton;
     @FXML
     private Label registerMessageLabel;
     @FXML
@@ -50,8 +33,6 @@ public class RegisterController {
     @FXML
     private TextField usernameTextField;
     @FXML
-    private Button loginButton;
-    @FXML
     private Pane emailPane;
     @FXML
     private Pane usernamePane;
@@ -60,6 +41,15 @@ public class RegisterController {
     @FXML
     private Pane confirmPane;
     private Stage stage;
+
+    @FXML
+    public void initialize() {
+
+        addFocusListener(emailTextField, emailPane);
+        addFocusListener(usernameTextField, usernamePane);
+        addFocusListener(setPasswordField, passwordPane);
+        addFocusListener(confirmPasswordField, confirmPane);
+    }
 
     private void register() {
         String email = emailTextField.getText();
@@ -86,13 +76,6 @@ public class RegisterController {
         }
     }
 
-    @FXML
-    public void initialize() {
-        addFocusListener(emailTextField, emailPane);
-        addFocusListener(usernameTextField, usernamePane);
-        addFocusListener(setPasswordField, passwordPane);
-        addFocusListener(confirmPasswordField, confirmPane);
-    }
 
     private void addFocusListener(TextField textField, Pane pane) {
         textField.focusedProperty().addListener((observable, oldValue, newValue) ->
@@ -112,13 +95,12 @@ public class RegisterController {
         if (emailTextField.getText().isEmpty() || usernameTextField.getText().isEmpty() || setPasswordField.getText().isEmpty() || confirmPasswordField.getText().isEmpty()) {
             confirmPasswordLabel.setText("Kindly complete all the blanks.");
         } else if (!setPasswordField.getText().equals(confirmPasswordField.getText())){
-            confirmPasswordLabel.setText("");
+            confirmPasswordLabel.setText("Ensure password entered is correct.");
         }else{
             System.out.println("Fields are valid. Continue to register");
             register();
         }
     }
-
 
     @FXML
     private void onLoginClicked(ActionEvent event) throws IOException {

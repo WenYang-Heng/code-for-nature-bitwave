@@ -71,7 +71,6 @@ public class MainController {
     }
 
     public void toHome(ActionEvent actionEvent) throws IOException, SQLException {
-        Button selectedButton = (Button) actionEvent.getSource();
         selectedNavButton((Button) actionEvent.getSource());
         loadPage("home-view.fxml");
     }

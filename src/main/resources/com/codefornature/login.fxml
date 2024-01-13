@@ -106,7 +106,7 @@
                      </font>
                   </CheckBox>
                   <Region prefHeight="40.0" prefWidth="43.0" HBox.hgrow="ALWAYS" />
-                  <Label styleClass="forgot-password" text="Forget Password?">
+                  <Label onMouseClicked="#onForgetPasswordClicked" styleClass="forgot-password" text="Forget Password?">
                      <font>
                         <Font size="14.0" />
                      </font>

@@ -20,6 +20,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.CheckBox;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
@@ -75,7 +76,7 @@ public class LoginController {
     @FXML
     private void login(ActionEvent event) throws IOException, SQLException {
         userID.setText("heng3@gmail.com");
-        password.setText("test1234");
+        password.setText("test456");
         String ID = userID.getText();
         String pw = password.getText();
 
@@ -151,12 +152,16 @@ public class LoginController {
     }
 
     public void onSignUpClicked(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("register-view.fxml"));
+        loadPage("register-view.fxml");
+    }
+
+    public void onForgetPasswordClicked(MouseEvent mouseEvent) throws IOException {
+        loadPage("forget-password-view.fxml");
+    }
+
+    public void loadPage(String page) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(page));
         Parent root = loader.load();
-        //get the source of this event and cast it to a node, and then cast it to stage
-        startStage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        RegisterController registerController = loader.getController();
-        registerController.setStage(startStage);
         Scene scene = new Scene(root);
         startStage.setScene(scene);
         startStage.show();

@@ -159,4 +159,31 @@ public class UserDAO {
             }
         }
     }
+
+    public boolean isPasswordIdentical(String email, String password) throws SQLException{
+        String query = "SELECT 1 FROM user where email = ? AND password = ?";
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setString(1, email);
+                ps.setString(2, password);
+                try(ResultSet rs = ps.executeQuery()){
+                    return rs.next();
+                }
+            }
+        }
+    }
+
+    public boolean updatePassword(String email, String password) throws SQLException{
+        String query = "UPDATE user SET password = ? WHERE email = ?";
+        int rowsUpdated;
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setString(1, password);
+                ps.setString(2, email);
+                rowsUpdated = ps.executeUpdate();
+            }
+        }
+        return rowsUpdated > 0;
+    }
+
 }

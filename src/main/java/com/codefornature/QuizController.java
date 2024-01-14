@@ -37,7 +37,7 @@ public class QuizController {
     @FXML
     private Label errorMessage;
     private String selectedAns;
-    private int num_attempt = 2;
+    private int num_attempt;
     private int pointsAwarded = 2;
     private boolean isAnswered = false;
     private Button currButton = null;
@@ -65,6 +65,10 @@ public class QuizController {
             showAnswerButton.setVisible(false);
             showAnswerButton.setManaged(false);
         }
+        else{
+            num_attempt = 2;
+        }
+        attemptCount.setText(num_attempt + " Attempts left");
 
         //set icons and dimensions
         double imageDimension = 15;
@@ -144,6 +148,7 @@ public class QuizController {
             style = "wrong";
             currButton.setGraphic(wrongImageView);
             attemptCount.setText(--num_attempt + " Attempts left");
+            triviaStatus.setAttempts(num_attempt);
             pointsAwarded--;
         }
         currButton.getStyleClass().add(style);
@@ -159,6 +164,7 @@ public class QuizController {
         if(answered){
             triviaStatus.setAnswered(true);
             triviaDAO.updateTriviaStatus(user.getUser_id(), triviaStatus.getTriviaNumber());
+            triviaStatus.setAttempts(0);
             //check if user got it correct within the attempts limit and this trivia is not answered previously
             if(pointsAwarded > 0 && !isAnswered){
                 UserDAO userDAO = new UserDAO();
@@ -201,6 +207,10 @@ public class QuizController {
         this.triviaStatus = triviaStatus;
         questionIndex = this.triviaStatus.getTriviaNumber() - 1;
         isAnswered = this.triviaStatus.isAnswered();
+        num_attempt = this.triviaStatus.getAttempts();
+        if(num_attempt == 1){
+            pointsAwarded--;
+        }
         loadGUI();
     }
 

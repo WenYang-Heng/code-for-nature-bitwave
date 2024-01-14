@@ -52,6 +52,7 @@ public class LoginController {
     private int loginAttempts = 3;
 
     public void initialize() {
+
         userID.setFocusTraversable(false);
         password.setFocusTraversable(false);
         userID.focusedProperty().addListener(new ChangeListener<Boolean>() {
@@ -81,6 +82,9 @@ public class LoginController {
     private void login(ActionEvent event) throws IOException, SQLException {
         String ID = userID.getText();
         String pw = password.getText();
+
+        ID = "heng@gmail.com";
+        pw = "test123";
 
         if(ID.isEmpty() || pw.isEmpty()){
             if(ID.isEmpty()){

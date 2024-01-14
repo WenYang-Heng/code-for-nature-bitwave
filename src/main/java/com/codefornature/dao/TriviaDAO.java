@@ -77,8 +77,9 @@ public class TriviaDAO {
                 try(ResultSet rs = ps.executeQuery()){
                     while(rs.next()){
                         int triviaNum = rs.getInt("trivia_number");
+                        int attempts = rs.getInt("attempts");
                         boolean isAnswered = rs.getBoolean("isAnswered");
-                        UserTriviaModel trivia = new UserTriviaModel(triviaNum, isAnswered);
+                        UserTriviaModel trivia = new UserTriviaModel(triviaNum, isAnswered, attempts);
                         triviaList.add(trivia);
                     }
                 }
@@ -88,16 +89,29 @@ public class TriviaDAO {
     }
 
     public boolean updateTriviaStatus(int user_id, int trivia_num) throws SQLException {
-        String query = "UPDATE user_trivia SET isAnswered = ? WHERE user_id = ? AND trivia_number = ?";
+        String query = "UPDATE user_trivia SET isAnswered = ?, attempts = ? WHERE user_id = ? AND trivia_number = ?";
         int rowsUpdated;
         try(Connection con = ConnectionManager.getConnection()){
             try(PreparedStatement ps = con.prepareStatement(query)){
                 ps.setBoolean(1, true);
-                ps.setInt(2, user_id);
-                ps.setInt(3, trivia_num);
+                ps.setInt(2, 0);
+                ps.setInt(3, user_id);
+                ps.setInt(4, trivia_num);
                 rowsUpdated = ps.executeUpdate();
             }
         }
         return rowsUpdated > 0;
+    }
+
+    public static void updateAttempts(int user_id, int trivia_num, int attempts) throws SQLException {
+        String query = "UPDATE user_trivia SET attempts = ? WHERE user_id = ? AND trivia_number = ?";
+        try(Connection con = ConnectionManager.getConnection()){
+            try(PreparedStatement ps = con.prepareStatement(query)){
+                ps.setInt(1, attempts);
+                ps.setInt(2, user_id);
+                ps.setInt(3, trivia_num);
+                ps.executeUpdate();
+            }
+        }
     }
 }

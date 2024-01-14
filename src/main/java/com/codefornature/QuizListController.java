@@ -5,12 +5,13 @@ import com.codefornature.model.UserModel;
 import com.codefornature.model.UserTriviaModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -43,23 +44,32 @@ public class QuizListController {
         triviaStatusList = triviaDAO.getTriviasByUser(user.getUser_id()); //get all trivias that is currently available
         for (UserTriviaModel triviaStatus : triviaStatusList) { //loop through the list to display available trivias
             quizNumber = new Label("Day " + triviaStatus.getTriviaNumber() + " Quiz");
-            final Label completionStatus = new Label();
+            final Label attempts = new Label();
+            final HBox completionStatus = new HBox();
+            Label status = new Label();
+            status.getStyleClass().add("status");
+            completionStatus.setAlignment(Pos.CENTER);
+            completionStatus.getChildren().add(status);
             completionStatus.getStyleClass().add("completion-status"); //general design style, rounded corners, padding
-            updateCompletionStatus(completionStatus, triviaStatus);
 
-            Region region = new Region(); //put space between something
-            HBox.setHgrow(region, Priority.ALWAYS);
-            quiz = new HBox(quizNumber, region, completionStatus);
+            updateCompletionStatus(completionStatus, triviaStatus, attempts);
+
+            HBox attemptsContainer = new HBox(attempts);
+            HBox.setHgrow(attemptsContainer, Priority.ALWAYS);
+            attemptsContainer.setAlignment(Pos.CENTER);
+
+            quiz = new HBox(quizNumber, attemptsContainer, completionStatus);
             quiz.getStyleClass().add("quiz");
             quiz.setOnMouseClicked(event -> {
-                onQuizClicked(triviaStatus, completionStatus);
+                onQuizClicked(triviaStatus, completionStatus, attempts);
             });
 
             quizListContainer.getChildren().add(quiz);
         }
     }
 
-    private void onQuizClicked(UserTriviaModel triviaStatus, Label completionStatus) {
+    private void onQuizClicked(UserTriviaModel triviaStatus, HBox completionStatus, Label attempts) {
+        int prevAttempts = triviaStatus.getAttempts();
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Question.fxml"));
             Parent root = loader.load();
@@ -71,15 +81,26 @@ public class QuizListController {
             scene.setFill(Color.TRANSPARENT);
             stage.setScene(scene);
             stage.showAndWait();
-            updateCompletionStatus(completionStatus, triviaStatus);
-        } catch (IOException e){
+            if(triviaStatus.getAttempts() > 0 && prevAttempts != triviaStatus.getAttempts()){
+                //user has not completed the question, but has attempted
+                TriviaDAO.updateAttempts(user.getUser_id(), triviaStatus.getTriviaNumber(), triviaStatus.getAttempts());
+            }
+            updateCompletionStatus(completionStatus, triviaStatus, attempts);
+        } catch (IOException | SQLException e){
             e.printStackTrace();
         }
     }
 
-    public void updateCompletionStatus(Label completionStatus, UserTriviaModel triviaStatus) {
-        completionStatus.setText(triviaStatus.isAnswered() ? "Completed" : "Pending");
+    public void updateCompletionStatus(HBox completionStatus, UserTriviaModel triviaStatus, Label attempts) {
+        Label status = null;
+        attempts.setText("Attempts: " + triviaStatus.getAttempts());
+        for(Node node : completionStatus.getChildren()){
+            status = (Label) node;
+        }
+        status.setText(triviaStatus.isAnswered() ? "Completed" : "Pending");
         completionStatus.getStyleClass().removeAll("completed", "pending"); //due to css order, have to clear either one of the styles first before applying a new style
+        status.getStyleClass().removeAll("completed", "pending");
         completionStatus.getStyleClass().add(triviaStatus.isAnswered() ? "completed" : "pending");
+        status.getStyleClass().add(triviaStatus.isAnswered() ? "completed" : "pending");
     }
 }

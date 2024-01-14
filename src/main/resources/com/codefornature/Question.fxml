@@ -2,21 +2,25 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<!--       <ImageView fitHeight="427.0" fitWidth="623.0" pickOnBounds="true" preserveRatio="true">-->
-<!--           &lt;!&ndash; Your image path or URL &ndash;&gt;-->
-<!--           <image>-->
-<!--               <javafx.scene.image.Image url="C:/Users/User/OneDrive/Pictures/Screenshots/nature_3.jpg" />-->
-<!--           </image>-->
-<!--       </ImageView>-->
-
-<VBox fx:id="triviaContainer" prefWidth="800.0" styleClass="quiz-container" stylesheets="@../../styles/quiz.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.QuizController">
+<VBox fx:id="triviaContainer" alignment="TOP_RIGHT" prefWidth="792.0" styleClass="quiz-container" stylesheets="@../../styles/quiz.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.QuizController">
    <children>
+      <Button mnemonicParsing="false" onAction="#closeWindow" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icons/close.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
       <HBox alignment="CENTER_LEFT">
          <children>
             <Label fx:id="dayLabel" text="DAY 4 Trivia" textFill="WHITE">
@@ -50,8 +54,10 @@
             </Label>
          </children>
       </HBox>
-      <HBox alignment="TOP_RIGHT">
+      <HBox alignment="CENTER_LEFT">
          <children>
+            <Label fx:id="errorMessage" styleClass="error-message" />
+            <Region HBox.hgrow="ALWAYS" />
           <Button fx:id="confirmButton" mnemonicParsing="false" onAction="#confirmClicked" prefHeight="40.0" prefWidth="128.0" styleClass="confirmButton" text="Confirm -&gt;" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="18.0" />

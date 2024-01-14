@@ -12,7 +12,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -35,6 +37,9 @@ public class QuizListController {
 
     private void createQuizListGUI() throws SQLException {
 
+        Label quizTitle = new Label("Trivias");
+        quizTitle.getStyleClass().add("quiz-title");
+        quizListContainer.getChildren().add(quizTitle);
         triviaStatusList = triviaDAO.getTriviasByUser(user.getUser_id()); //get all trivias that is currently available
         for (UserTriviaModel triviaStatus : triviaStatusList) { //loop through the list to display available trivias
             quizNumber = new Label("Day " + triviaStatus.getTriviaNumber() + " Quiz");
@@ -61,7 +66,9 @@ public class QuizListController {
             QuizController quizController = loader.getController();
             quizController.setTriviaStatus(triviaStatus, user);
             Stage stage = new Stage();
+            stage.initStyle(StageStyle.TRANSPARENT);
             Scene scene = new Scene(root);
+            scene.setFill(Color.TRANSPARENT);
             stage.setScene(scene);
             stage.showAndWait();
             updateCompletionStatus(completionStatus, triviaStatus);

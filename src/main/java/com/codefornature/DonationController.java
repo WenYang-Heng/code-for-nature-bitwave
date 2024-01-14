@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
@@ -47,6 +48,7 @@ public class DonationController {
     private HBox selectedOrganisation = null;
     private Button selectedAmount = null;
     private int donateAmount = 0;
+    private BorderPane mainContainer;
 
     public void initialize(){
         donationContainer.getStylesheets().add(getClass().getResource("/styles/donation.css").toExternalForm());

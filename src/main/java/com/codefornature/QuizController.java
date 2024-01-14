@@ -34,6 +34,8 @@ public class QuizController {
     private FlowPane answerFlowPane;
     @FXML
     private Button showAnswerButton;
+    @FXML
+    private Label errorMessage;
     private String selectedAns;
     private int num_attempt = 2;
     private int pointsAwarded = 2;
@@ -110,6 +112,7 @@ public class QuizController {
         if (currButton != null) {
             currButton.getStyleClass().remove("selectedAnswer");
         }
+        errorMessage.setText("");
         currButton = button;
         currButton.getStyleClass().add("selectedAnswer");
         selectedAns = answerText;
@@ -123,6 +126,11 @@ public class QuizController {
         //user get it correct or no more attempts
         if(num_attempt == -1){
             closeWindow(event);
+            return;
+        }
+
+        if(selectedAns == null){
+            errorMessage.setText("Please select one of the answers!");
             return;
         }
 

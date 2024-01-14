@@ -1,6 +1,9 @@
 .quiz-container{
-    -fx-padding: 50;
+    -fx-padding: 20 40 20 40;
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
     -fx-background-color: "#0C1117";
+    -fx-border-color: "#5F81AB";
     -fx-spacing: 10;
 }
 
@@ -43,6 +46,11 @@
 .confirmButton{
     -fx-background-color: "#40B52C";
     -fx-background-radius: 30;
+}
+
+.error-message{
+    -fx-text-fill: "#B12F2F";
+    -fx-font-size: 14;
 }
 
 .correct{

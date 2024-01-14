@@ -75,13 +75,6 @@ public class LoginController {
                 }
             }
         });
-
-//        titleBar.setOnMousePressed(pressEvent -> {
-//            titleBar.setOnMouseDragged(dragEvent -> {
-//                startStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
-//                startStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
-//            });
-//        });
     }
 
     @FXML

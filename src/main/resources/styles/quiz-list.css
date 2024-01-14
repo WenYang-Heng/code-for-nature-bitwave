@@ -23,6 +23,10 @@
     -fx-font-size: 20;
 }
 
+.quiz-title{
+    -fx-font-size: 24;
+}
+
 .completion-status{
     -fx-padding: 5 20 5 20;
     -fx-background-radius: 10;

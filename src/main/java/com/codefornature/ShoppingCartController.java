@@ -51,31 +51,17 @@ public class ShoppingCartController {
         VBox carItemsContainer = new VBox();
         carItemsContainer.setPrefHeight(500);
         carItemsContainer.setSpacing(20);
-        HBox cartHeader = new HBox();
-        Label merchHeader = new Label("Merchandise");
-        Label quantityHeader =  new Label("Quantity");
-        Label costHeader = new Label("Cost");
-        Label totalHeader = new Label("Total");
-        Region region1 = new Region();
-        Region region2 = new Region();
-        Region region3 = new Region();
-        region1.setPrefWidth(380); //space between merchandise and quantity
-        region2.setPrefWidth(120); //space between quantity and cost
-        region3.setPrefWidth(70); //space between cost and total
-        cartHeader.getChildren().addAll(merchHeader, region1, quantityHeader, region2, costHeader, region3, totalHeader);
-        cartHeader.setPadding(new Insets(20, 20, 5, 20));
-        cartHeader.getStyleClass().add("cart-header");
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setFitToHeight(true);
         scrollPane.setFitToWidth(true);
 
+        emptyCartLabel.setText("Your cart is empty.");
+        emptyCartLabel.getStyleClass().add("empty-cart-message");
 
         if(CartModel.getCart_id() == 0){
             System.out.println("no cart");
             //Display a message in the UI indicating that the cart is empty
-            emptyCartLabel.setText("Your cart is empty.");
-            emptyCartLabel.getStyleClass().add("empty-cart-message");
             checkoutBtn.setVisible(false);
             checkoutBtn.setManaged(false);
             carItemsContainer.getChildren().add(emptyCartLabel);
@@ -83,6 +69,15 @@ public class ShoppingCartController {
         else{
             cartItems = cartDAO.getCartItems(CartModel.getCart_id());
             for(CartItemsModel item : cartItems){
+                Label merchHeader = new Label("Merchandise");
+                Label quantityHeader =  new Label("Quantity");
+                Label costHeader = new Label("Cost");
+                Label totalHeader = new Label("Total");
+
+                merchHeader.getStyleClass().add("cart-header");
+                quantityHeader.getStyleClass().add("cart-header");
+                costHeader.getStyleClass().add("cart-header");
+                totalHeader.getStyleClass().add("cart-header");
                 int cost = item.getCost();
                 int quantity = item.getQuantity();
 
@@ -96,7 +91,10 @@ public class ShoppingCartController {
                 VBox merchDetails = new VBox();
                 Region region = new Region();
                 VBox.setVgrow(region, Priority.ALWAYS);
+
                 Label merchName = new Label(item.getMerchandise_name());
+                VBox merchNameContainer = new VBox(merchHeader, merchName);
+
                 merchDetails.setPrefWidth(300);
                 merchDetails.setMaxWidth(300);
                 Button removeItemBtn = new Button("Remove Item");
@@ -112,7 +110,7 @@ public class ShoppingCartController {
                             grandTotalContainer.setVisible(false);
                             checkoutBtn.setVisible(false);
                             checkoutBtn.setManaged(false);
-                            emptyCartLabel.setText("Your cart is empty.");
+                            carItemsContainer.getChildren().add(emptyCartLabel);
                             cartDAO.removeCart(CartModel.getCart_id());
                             CartModel.setCart_id(0);
                         }
@@ -120,23 +118,30 @@ public class ShoppingCartController {
                         throw new RuntimeException(e);
                     }
                 });
-                merchDetails.getChildren().addAll(merchName, region, removeItemBtn);
+                merchDetails.getChildren().addAll(merchNameContainer, region, removeItemBtn);
                 merchName.setWrapText(true);
 
                 HBox quantityContainer = createCounterBox(quantity, item.getCost(), item.getMerchandise_id());
+                VBox quantityBox = new VBox(quantityHeader, quantityContainer);
+
                 Label merchCost = new Label(Integer.toString(cost));
+                VBox merchCostContainer = new VBox(costHeader, merchCost);
+                merchCostContainer.setMinWidth(100);
+                merchCostContainer.setAlignment(Pos.TOP_CENTER);
+
                 totalItemCost = cost * quantity;
                 grandTotalCost += totalItemCost;
+
                 Label totalCost = new Label(Integer.toString(totalItemCost));
+                VBox totalCostContainer = new VBox(totalHeader, totalCost);
+                totalCostContainer.setMinWidth(100);
+                totalCostContainer.setAlignment(Pos.TOP_CENTER);
+
                 totalCostLabels.put(item.getMerchandise_id(), totalCost);
-                merchCost.setMinWidth(100);
-                merchCost.setAlignment(Pos.CENTER);
-                totalCost.setMinWidth(100);
-                totalCost.setAlignment(Pos.CENTER);
                 Region spacer = new Region();
                 HBox.setHgrow(spacer, Priority.ALWAYS);
 
-                merchContent.getChildren().addAll(merchImage, merchDetails, quantityContainer, spacer, merchCost, totalCost);
+                merchContent.getChildren().addAll(merchImage, merchDetails, quantityBox, spacer, merchCostContainer, totalCostContainer);
                 carItemsContainer.getChildren().add(merchContent);
             }
         }
@@ -169,7 +174,7 @@ public class ShoppingCartController {
         checkoutBtnContainer.setAlignment(Pos.CENTER_RIGHT);
         checkoutBtnContainer.setPadding(new Insets(20, 20, 0 , 0));
 
-        shoppingCartContainer.getChildren().addAll(cartHeader, scrollPane, grandTotalContainer, checkoutBtnContainer);
+        shoppingCartContainer.getChildren().addAll(scrollPane, grandTotalContainer, checkoutBtnContainer);
         shoppingCartContainer.getStylesheets().add(getClass().getResource("/styles/shopping-cart.css").toExternalForm());
     }
 
@@ -221,7 +226,7 @@ public class ShoppingCartController {
         });
 
         HBox counterBox = new HBox(minusButton, counterLabel, plusButton);
-        counterBox.setAlignment(Pos.TOP_CENTER);
+        counterBox.setAlignment(Pos.CENTER);
         return counterBox;
     }
 

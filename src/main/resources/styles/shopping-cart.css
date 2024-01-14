@@ -3,8 +3,13 @@
     -fx-font-size: 20px;
 }
 
+.empty-cart-message{
+    -fx-padding: 15;
+}
+
 .cart-header{
-    -fx-font-size: 22px;
+    -fx-font-size: 18px;
+    -fx-text-fill: "#94ABC7";
 }
 
 .scroll-pane > .viewport{

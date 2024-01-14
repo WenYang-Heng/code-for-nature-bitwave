@@ -202,7 +202,7 @@ public class HomeController {
         dailyRewardsVBox.setSpacing(15);
         HBox.setHgrow(dailyRewardsVBox, Priority.ALWAYS);
 
-        // Plant a Tree Section
+        //Plant a Tree Section
         Label plantTreeLabel = new Label("Plant a Tree");
         plantTreeLabel.setTextFill(javafx.scene.paint.Color.WHITE);
         plantTreeLabel.setFont(new Font("System Bold", 22));
@@ -240,6 +240,9 @@ public class HomeController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("total-check-in-view.fxml"));
             Stage stage = new Stage();
             Scene scene = new Scene(loader.load());
+            stage.initStyle(StageStyle.TRANSPARENT);
+            stage.setResizable(false);
+            scene.setFill(Color.TRANSPARENT);
             TotalCheckInController totalCheckInController = loader.getController();
             totalCheckInController.setPointsAwarded(pointsAwarded);
             totalCheckInController.setStreakBroken(isStreakBroken);

@@ -1,6 +1,9 @@
 .root-container{
     -fx-padding: 50;
     -fx-background-color: "#1C2835";
+    -fx-background-radius: 10;
+    -fx-border-radius: 10;
+    -fx-border-color: "#5F81AB";
 }
 
 .label{

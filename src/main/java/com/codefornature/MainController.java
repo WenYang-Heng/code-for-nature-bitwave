@@ -12,7 +12,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,8 +25,9 @@ public class MainController {
     private Button homeButton;
     private UserModel user;
     @FXML private BorderPane mainContainer;
-    @FXML private VBox sidebar;
+    @FXML private HBox titleBar;
     private Button currentSelectedButton;
+    private Stage mainWindow;
 
     @FXML
     public void initialize() throws IOException {
@@ -101,8 +104,11 @@ public class MainController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
         Parent root = loader.load();
         LoginController loginController = loader.getController();
-        loginController.setStartingStage(loginWindow);
         Scene scene = new Scene(root);
+        loginController.setStartingStage(loginWindow, scene);
+        scene.setFill(Color.TRANSPARENT);
+        loginWindow.initStyle(StageStyle.TRANSPARENT);
+        loginWindow.setResizable(false);
         currentWindow.close(); //close current window
         loginWindow.setScene(scene);
         loginWindow.show(); //open new window for login
@@ -116,4 +122,18 @@ public class MainController {
         currentSelectedButton.getStyleClass().add("selected-button");
     }
 
+    public void minimizeWindow(ActionEvent actionEvent) {
+        mainWindow.setIconified(true);
+    }
+
+    public void closeWindow(ActionEvent actionEvent) {
+        mainWindow.close();
+    }
+
+    public void setStage(Stage mainWindow) {
+        this.mainWindow = mainWindow;
+        mainWindow.initStyle(StageStyle.TRANSPARENT);
+        mainWindow.setResizable(false);
+        WindowDragController.windowDrag(titleBar, mainWindow);
+    }
 }

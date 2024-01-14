@@ -13,7 +13,9 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -40,7 +42,9 @@ public class RegisterController {
     private Pane passwordPane;
     @FXML
     private Pane confirmPane;
-    private Stage stage;
+    @FXML
+    private HBox titleBar;
+    private Stage startStage;
 
     @FXML
     public void initialize() {
@@ -106,17 +110,25 @@ public class RegisterController {
     private void onLoginClicked(ActionEvent event) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
         Parent root = loader.load();
-        //get the source of this event and cast it to a node, and then cast it to stage
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
         LoginController loginController = loader.getController();
-        loginController.setStartingStage(stage);
         Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        loginController.setStartingStage(startStage, scene);
+        startStage.setScene(scene);
+        startStage.show();
     }
 
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    public void setStage(Stage stage, Scene scene) {
+        this.startStage = stage;
+        scene.setFill(Color.TRANSPARENT);
+        WindowDragController.windowDrag(titleBar, startStage);
+    }
+
+    public void minimizeWindow(ActionEvent actionEvent) {
+        startStage.setIconified(true);
+    }
+
+    public void closeWindow(ActionEvent actionEvent) {
+        startStage.close();
     }
 }
 

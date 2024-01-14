@@ -134,8 +134,6 @@ public class QuizController {
         }
         else{
             style = "wrong";
-            Collections.shuffle(trivia.get(questionIndex).getChoices());
-            addAnswersToButton();
             currButton.setGraphic(wrongImageView);
             attemptCount.setText(--num_attempt + " Attempts left");
             pointsAwarded--;

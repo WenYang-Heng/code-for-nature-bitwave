@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -33,8 +34,11 @@ public class ForgetPasswordController {
     private Label confirmPasswordLabel;
     @FXML
     private Label errorMessageLabel;
+    @FXML
+    private HBox titleBar;
     private String email;
     private String password;
+    private Stage startStage;
 
     public void initialize() {
         addFocusListener(emailTextField, emailPane);
@@ -48,8 +52,8 @@ public class ForgetPasswordController {
         //get the source of this event and cast it to a node, and then cast it to stage
         Stage stage = (Stage) ((Node)actionEvent.getSource()).getScene().getWindow();
         LoginController loginController = loader.getController();
-        loginController.setStartingStage(stage);
         Scene scene = new Scene(root);
+        loginController.setStartingStage(stage, scene);
         stage.setScene(scene);
         stage.show();
     }
@@ -102,5 +106,19 @@ public class ForgetPasswordController {
 
     private void updateBorder(Pane pane, boolean focused) {
         pane.setStyle("-fx-border-color: " + (focused ? "transparent transparent #73d960 transparent; -fx-border-width: 0 0 3 0;" : "transparent transparent #b5b5b5 transparent; -fx-border-width: 0 0 3 0;"));
+    }
+
+    public void setStage(Stage startStage, Scene scene) {
+        this.startStage = startStage;
+//        scene.setFill(Color.TRANSPARENT);
+        WindowDragController.windowDrag(titleBar, this.startStage);
+    }
+
+    public void minimizeWindow(ActionEvent actionEvent) {
+        startStage.setIconified(true);
+    }
+
+    public void closeWindow(ActionEvent actionEvent) {
+        startStage.close();
     }
 }

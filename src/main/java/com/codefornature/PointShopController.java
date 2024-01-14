@@ -134,22 +134,18 @@ public class PointShopController {
             AlertController.showAlert("QUANTITY NOT SPECIFIED","Please indicate the quantity of the items", 0);
             return;
         }
-
-        System.out.println(user.getUser_id());
         getCart();
-
         System.out.printf("Add %d %s%n", quantity, merch.getMerchandise_name());
         if (cartDAO.itemExist(merch.getMerchandise_id(), CartModel.getCart_id())) {
-            // Update existing item quantity
-            System.out.println(merch.getMerchandise_name() + " exists, update quantity");
+            //If item already in the card, update existing item quantity
             int quantityInDb = cartDAO.getItemQuantity(merch.getMerchandise_id(), CartModel.getCart_id());
-            if(quantityInDb == 5){
+            if(quantityInDb == 5){//
                 AlertController.showAlert("QUANTITY EXCEEDED","Only 5 items is allowed", 0);
             }
             else{
-                int allowedAdditionalQuantity = 5 - quantityInDb;
+                int allowedAdditionalQuantity = 5 - quantityInDb; //calc remaining quantity that can be added
 
-                // If the requested addition does not exceed the maximum limit
+                //Checks quantity to be added does not exceed the quantity in the cart
                 if (quantity <= allowedAdditionalQuantity) {
                     cartDAO.updateItemQuantity(merch.getMerchandise_id(), CartModel.getCart_id(), quantityInDb + quantity);
                     AlertController.showAlert("CART", "Item is added to the cart", 1);
@@ -159,7 +155,7 @@ public class PointShopController {
                 }
             }
         } else {
-            // Add new cart item
+            //Item is not in the card, add into database
             System.out.println("Item does not exists, add into database");
             boolean success = cartDAO.addCartItems(CartModel.getCart_id(), merch.getMerchandise_id(), quantity);
             String message = "Item is not added to cart";

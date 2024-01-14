@@ -2,11 +2,14 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #0C1117;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.MainController">
+<BorderPane fx:id="mainContainer" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #0C1117; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.MainController">
    <left>
       <VBox fx:id="sidebar" prefHeight="800.0" prefWidth="200.0" style="-fx-border-width: 0 2 0 0; -fx-border-color: #BCCBDC;" stylesheets="@../../styles/sidebar.css" BorderPane.alignment="CENTER">
          <children>
@@ -26,4 +29,28 @@
          </padding>
       </VBox>
    </left>
+   <top>
+      <HBox fx:id="titleBar" alignment="TOP_RIGHT" prefHeight="27.0" prefWidth="1200.0" styleClass="title-bar" stylesheets="@../../styles/title-bar.css" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#minimizeWindow">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/icons/minimize.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#closeWindow">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../assets/icons/close.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+   </top>
 </BorderPane>

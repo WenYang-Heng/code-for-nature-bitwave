@@ -129,13 +129,13 @@ public class DonationController {
     }
 
     public void donateOnAction(ActionEvent event) throws SQLException {
-        if(selectedOrganisation == null){
+        if(selectedOrganisation == null){//check if user has selected an organisation
             AlertController.showAlert("No organisation selected", "Please select one of the organisation.", 0);
-        }else if(selectedAmount != null || !donateAmountTxtField.getText().isEmpty()){
-            if(selectedAmount == null){
+        }else if(selectedAmount != null || !donateAmountTxtField.getText().isEmpty()){//after checking if organisation is selected, it checks if amount is specified via selection or input
+            if(selectedAmount == null){//if amount is not selected, that means amount is entered via input (textfield)
                 try{
-                    donateAmount = Integer.parseInt(donateAmountTxtField.getText());
-                    if (donateAmount <= 0) {
+                    donateAmount = Integer.parseInt(donateAmountTxtField.getText());//ensure only integer number is entered, else an error will be thrown
+                    if (donateAmount <= 0) {//ensure only positive numbers
                         amountErrorMessage.setText("Please enter a positive integer only");
                         return;
                     }
@@ -145,13 +145,14 @@ public class DonationController {
                 }
             }
 
+            //Database operation
             DonationDAO donationDAO = new DonationDAO(donateAmount, organisation, user.getUsername());
             UserDAO userDAO = new UserDAO();
             int pointsAwarded = donateAmount * 10;
-            userDAO.updatePoints(user.getUser_id(), pointsAwarded);
-            user.setPoints(user.getPoints() + pointsAwarded);
-            donationDAO.insertDonation(user.getUser_id());
-            donationDAO.writeDonationToFile();
+            userDAO.updatePoints(user.getUser_id(), pointsAwarded);//update points in database
+            user.setPoints(user.getPoints() + pointsAwarded);//update points in current operation, to ensure gui updated
+            donationDAO.insertDonation(user.getUser_id());//insert record into database
+            donationDAO.writeDonationToFile();//insert record into text file
             AlertController.showAlert("DONATION", "Donation successful", 1);
 
             System.out.printf("%s has donated %d to %s%n", user.getUsername(), donateAmount, organisation);

@@ -3,6 +3,9 @@
     -fx-padding: 30;
     -fx-spacing: 10;
     -fx-background-radius: 20;
+    -fx-border-radius: 10;
+    -fx-border-width: 2;
+    -fx-border-color: "#5F81AB";
 }
 
 .label{

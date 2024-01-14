@@ -1,0 +1,15 @@
+.window{
+    -fx-background-radius: 10;
+}
+
+.title-bar{
+    -fx-background-color: "#121E2A";
+    -fx-padding: 3 10 3 10;
+    -fx-border-radius: 10 10 0 0;
+    -fx-background-radius: 10 10 0 0;
+}
+
+.button{
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}

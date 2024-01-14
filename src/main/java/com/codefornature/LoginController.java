@@ -22,10 +22,14 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.CheckBox;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class LoginController {
 
+    @FXML
+    private HBox titleBar;
     @FXML
     private Label errorMessageLabel;
 
@@ -71,12 +75,17 @@ public class LoginController {
                 }
             }
         });
+
+//        titleBar.setOnMousePressed(pressEvent -> {
+//            titleBar.setOnMouseDragged(dragEvent -> {
+//                startStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
+//                startStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+//            });
+//        });
     }
 
     @FXML
     private void login(ActionEvent event) throws IOException, SQLException {
-        userID.setText("heng3@gmail.com");
-        password.setText("test456");
         String ID = userID.getText();
         String pw = password.getText();
 
@@ -124,9 +133,10 @@ public class LoginController {
         homeStage = new Stage();
         FXMLLoader loader = new FXMLLoader(getClass().getResource("main-container.fxml"));
         Scene scene = new Scene(loader.load());
+        scene.setFill(Color.TRANSPARENT);
         MainController mainController = loader.getController();
+        mainController.setStage(homeStage);
         mainController.setUser(user);
-        scene.getStylesheets().add(getClass().getResource("root.css").toExternalForm());
         homeStage.setScene(scene);
         startStage.close();
         homeStage.show();
@@ -147,8 +157,10 @@ public class LoginController {
         }
     }
 
-    public void setStartingStage(Stage stage) {
+    public void setStartingStage(Stage stage, Scene scene) {
         startStage = stage;
+        scene.setFill(Color.TRANSPARENT);
+        WindowDragController.windowDrag(titleBar, startStage);
     }
 
     public void onSignUpClicked(ActionEvent event) throws IOException {
@@ -163,7 +175,24 @@ public class LoginController {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(page));
         Parent root = loader.load();
         Scene scene = new Scene(root);
+        if(page.equals("register-view.fxml")){
+            RegisterController registerController = loader.getController();
+            registerController.setStage(startStage, scene);
+        }
+        else{
+            ForgetPasswordController forgetPasswordController = loader.getController();
+            forgetPasswordController.setStage(startStage, scene);
+        }
         startStage.setScene(scene);
+        scene.setFill(Color.TRANSPARENT);
         startStage.show();
+    }
+
+    public void minimizeWindow(ActionEvent actionEvent) {
+        startStage.setIconified(true);
+    }
+
+    public void closeWindow(ActionEvent actionEvent) {
+        startStage.close();
     }
 }

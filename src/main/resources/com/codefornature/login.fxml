@@ -15,116 +15,146 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #0C1117;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.LoginController">
+<VBox styleClass="window" stylesheets="@../../styles/title-bar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.codefornature.LoginController">
    <children>
-      <ImageView fx:id="pineImageView" fitHeight="477.0" fitWidth="477.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../assets/images/login/pinenew.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="forestImageView" fitHeight="286.0" fitWidth="286.0" layoutX="1068.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../assets/images/login/forestnew.png" />
-         </image>
-      </ImageView>
-      <VBox alignment="TOP_CENTER" layoutX="405.0" layoutY="133.0" prefHeight="582.0" prefWidth="399.0" stylesheets="@../../styles/login.css">
+      <HBox fx:id="titleBar" alignment="TOP_RIGHT" styleClass="title-bar">
          <children>
-            <Label alignment="TOP_CENTER" text="Welcome" textFill="#73d960">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-            <Label fx:id="errorMessageLabel" prefHeight="54.0" prefWidth="228.0" textAlignment="CENTER" textFill="RED" wrapText="true">
-               <font>
-                  <Font size="13.0" />
-               </font></Label>
-            <HBox fx:id="IDHbox" prefHeight="46.0" prefWidth="379.0" style="-fx-border-width: 0 0 2 0;" styleClass="textfield" stylesheets="@../../styles/login.css">
-               <children>
-                  <ImageView fx:id="userImageView" fitHeight="34.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: transparent;">
+            <Button mnemonicParsing="false" onAction="#minimizeWindow">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../assets/images/login/userbefore.png" />
+                        <Image url="@../../assets/icons/minimize.png" />
                      </image>
-                     <HBox.margin>
-                        <Insets right="10.0" top="10.0" />
-                     </HBox.margin>
                   </ImageView>
-                  <TextField fx:id="userID" prefHeight="30.0" prefWidth="195.0" promptText="Email/Username" style="-fx-border-width: 0 0 2 0; -fx-background-color: transparent; -fx-text-fill: #73d960;">
-                     <HBox.margin>
-                        <Insets top="10.0" />
-                     </HBox.margin>
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </TextField>
-               </children>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox fx:id="IDHbox2" prefHeight="46.0" prefWidth="399.0" style="-fx-border-width: 0 0 2 0;" styleClass="textfield" stylesheets="@../../styles/login.css">
-               <children>
-                  <ImageView fx:id="passwordImageView" fitHeight="34.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-width: 0 0 1 0; -fx-border-color: #b5b5b5; -fx-background-color: transparent;">
+               </graphic>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#closeWindow">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../assets/images/login/password.png" />
+                        <Image url="@../../assets/icons/close.png" />
                      </image>
-                     <HBox.margin>
-                        <Insets right="10.0" top="25.0" />
-                     </HBox.margin>
                   </ImageView>
-                  <StackPane prefHeight="150.0" prefWidth="234.0">
-                     <children>
-                        <TextField fx:id="login_showPassword" prefWidth="195.0" promptText="Password" style="-fx-border-width: 0 0 0 0; -fx-background-color: transparent; -fx-border-color: #b5b5b5; -fx-text-fill: #73d960;" visible="false">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <StackPane.margin>
-                              <Insets top="25.0" />
-                           </StackPane.margin></TextField>
-                        <PasswordField fx:id="password" prefHeight="30.0" prefWidth="195.0" promptText="Password" style="-fx-border-width: 0 0 1 0; -fx-background-color: transparent; -fx-text-fill: #73d960;">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                           <StackPane.margin>
-                              <Insets top="25.0" />
-                           </StackPane.margin>
-                        </PasswordField>
-                     </children>
-                  </StackPane>
-               </children>
-               <VBox.margin>
-                  <Insets bottom="10.0" top="20.0" />
-               </VBox.margin>
-            </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="625.0">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
+               </graphic>
+            </Button>
+         </children>
+      </HBox>
+      <AnchorPane prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: #0C1117;">
+         <children>
+            <ImageView fx:id="pineImageView" fitHeight="477.0" fitWidth="477.0" layoutY="326.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/images/login/pinenew.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="forestImageView" fitHeight="286.0" fitWidth="286.0" layoutX="1068.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/images/login/forestnew.png" />
+               </image>
+            </ImageView>
+            <VBox alignment="TOP_CENTER" layoutX="405.0" layoutY="133.0" prefHeight="582.0" prefWidth="399.0" stylesheets="@../../styles/login.css">
                <children>
-                  <CheckBox fx:id="login_selectshowPassword" mnemonicParsing="false" onAction="#showPassword" text="Show Password" textFill="#b5b5b5">
+                  <Label alignment="TOP_CENTER" text="Welcome" textFill="#73d960">
                      <font>
-                        <Font size="14.0" />
-                     </font>
-                  </CheckBox>
-                  <Region prefHeight="40.0" prefWidth="43.0" HBox.hgrow="ALWAYS" />
-                  <Label onMouseClicked="#onForgetPasswordClicked" styleClass="forgot-password" text="Forget Password?">
-                     <font>
-                        <Font size="14.0" />
+                        <Font size="36.0" />
                      </font>
                   </Label>
+                  <Label fx:id="errorMessageLabel" prefHeight="54.0" prefWidth="228.0" textAlignment="CENTER" textFill="RED" wrapText="true">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <HBox fx:id="IDHbox" prefHeight="46.0" prefWidth="379.0" style="-fx-border-width: 0 0 2 0;" styleClass="textfield" stylesheets="@../../styles/login.css">
+                     <children>
+                        <ImageView fx:id="userImageView" fitHeight="34.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-background-color: transparent;">
+                           <image>
+                              <Image url="@../../assets/images/login/userbefore.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="10.0" top="10.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <TextField fx:id="userID" prefHeight="30.0" prefWidth="195.0" promptText="Email/Username" style="-fx-border-width: 0 0 2 0; -fx-background-color: transparent; -fx-text-fill: #73d960;">
+                           <HBox.margin>
+                              <Insets top="10.0" />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox fx:id="IDHbox2" prefHeight="46.0" prefWidth="399.0" style="-fx-border-width: 0 0 2 0;" styleClass="textfield" stylesheets="@../../styles/login.css">
+                     <children>
+                        <ImageView fx:id="passwordImageView" fitHeight="34.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-width: 0 0 1 0; -fx-border-color: #b5b5b5; -fx-background-color: transparent;">
+                           <image>
+                              <Image url="@../../assets/images/login/password.png" />
+                           </image>
+                           <HBox.margin>
+                              <Insets right="10.0" top="25.0" />
+                           </HBox.margin>
+                        </ImageView>
+                        <StackPane prefHeight="150.0" prefWidth="234.0">
+                           <children>
+                              <TextField fx:id="login_showPassword" prefWidth="195.0" promptText="Password" style="-fx-border-width: 0 0 0 0; -fx-background-color: transparent; -fx-border-color: #b5b5b5; -fx-text-fill: #73d960;" visible="false">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <StackPane.margin>
+                                    <Insets top="25.0" />
+                                 </StackPane.margin>
+                              </TextField>
+                              <PasswordField fx:id="password" prefHeight="30.0" prefWidth="195.0" promptText="Password" style="-fx-border-width: 0 0 1 0; -fx-background-color: transparent; -fx-text-fill: #73d960;">
+                                 <font>
+                                    <Font size="14.0" />
+                                 </font>
+                                 <StackPane.margin>
+                                    <Insets top="25.0" />
+                                 </StackPane.margin>
+                              </PasswordField>
+                           </children>
+                        </StackPane>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="625.0">
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <children>
+                        <CheckBox fx:id="login_selectshowPassword" mnemonicParsing="false" onAction="#showPassword" text="Show Password" textFill="#b5b5b5">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </CheckBox>
+                        <Region prefHeight="40.0" prefWidth="43.0" HBox.hgrow="ALWAYS" />
+                        <Label onMouseClicked="#onForgetPasswordClicked" styleClass="forgot-password" text="Forget Password?">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+                  <Button fx:id="loginBtn" alignment="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="54.0" prefWidth="413.0" style="-fx-background-color: #40B52C; -fx-background-radius: 30;" text="Log In" textFill="WHITE">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </Button>
                </children>
-            </HBox>
-            <Button fx:id="loginBtn" alignment="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="54.0" prefWidth="413.0" style="-fx-background-color: #40B52C; -fx-background-radius: 30;" text="Log In" textFill="WHITE">
+            </VBox>
+            <Button fx:id="loginSignUp" layoutX="1033.0" layoutY="23.0" mnemonicParsing="false" onAction="#onSignUpClicked" prefHeight="43.0" prefWidth="122.0" style="-fx-background-color: transparent;" text="Sign Up→" textFill="#73d960">
                <font>
                   <Font size="20.0" />
                </font>
-               <VBox.margin>
-                  <Insets top="20.0" />
-               </VBox.margin></Button>
+            </Button>
          </children>
-      </VBox>
-      <Button fx:id="loginSignUp" layoutX="1033.0" layoutY="23.0" mnemonicParsing="false" onAction="#onSignUpClicked" prefHeight="43.0" prefWidth="122.0" style="-fx-background-color: transparent;" text="Sign Up→" textFill="#73d960">
-         <font>
-            <Font size="20.0" />
-         </font></Button>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</VBox>

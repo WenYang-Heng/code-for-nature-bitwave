@@ -70,6 +70,7 @@ public class QuizListController {
 
     private void onQuizClicked(UserTriviaModel triviaStatus, HBox completionStatus, Label attempts) {
         int prevAttempts = triviaStatus.getAttempts();
+        System.out.println("prev attempt: " + prevAttempts);
         try{
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Question.fxml"));
             Parent root = loader.load();
@@ -81,7 +82,7 @@ public class QuizListController {
             scene.setFill(Color.TRANSPARENT);
             stage.setScene(scene);
             stage.showAndWait();
-            if(triviaStatus.getAttempts() > 0 && prevAttempts != triviaStatus.getAttempts()){
+            if(prevAttempts != 0 && triviaStatus.getAttempts() > 0){
                 //user has not completed the question, but has attempted
                 TriviaDAO.updateAttempts(user.getUser_id(), triviaStatus.getTriviaNumber(), triviaStatus.getAttempts());
             }

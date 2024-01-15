@@ -17,6 +17,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -78,8 +79,6 @@ public class QuizController {
         wrongImageView = new ImageView(wrong);
         correctImageView.setFitWidth(imageDimension);
         correctImageView.setFitHeight(imageDimension);
-        wrongImageView.setFitWidth(imageDimension);
-        wrongImageView.setFitHeight(imageDimension);
 
 
         triviaContainer.getStylesheets().add(getClass().getResource("/styles/quiz.css").toExternalForm());
@@ -89,7 +88,7 @@ public class QuizController {
 
     private void addAnswersToButton() {
         int i = 0;
-        Collections.shuffle(trivia.get(questionIndex).getChoices());
+//        Collections.shuffle(trivia.get(questionIndex).getChoices());
         //Flowpane
         //----Button
         //----Button
@@ -101,14 +100,14 @@ public class QuizController {
             ans.setWrapText(true);
             final String answerText = ans.getText();
             if(answerText.equals(correctAns)){
-                correctButton = ans; //store button with the correct answer, show to user when show answer is clicked or no more attempts
+                correctButton = ans;
             }
-            final Button button = ans;
             ans.setOnAction(event -> {
-                selectAns(answerText, button);
+                selectAns(answerText, ans);
             });
             i++;
         }
+        shuffleButton();
     }
 
     private void selectAns(String answerText, Button button) {
@@ -138,19 +137,31 @@ public class QuizController {
             return;
         }
 
+        ImageView icon;
         if(selectedAns.equals(correctAns)){
+            icon = new ImageView(correct);
             answered = true;
-            currButton.setGraphic(correctImageView);
             num_attempt = -1;
             disableAllAnswersOption();
         }
         else{
             style = "wrong";
-            currButton.setGraphic(wrongImageView);
+            icon = new ImageView(wrong);
             attemptCount.setText(--num_attempt + " Attempts left");
-            triviaStatus.setAttempts(num_attempt);
+            if(!isAnswered)
+                triviaStatus.setAttempts(num_attempt);
             pointsAwarded--;
+            currButton.setDisable(true);
+            currButton.setStyle("-fx-opacity: 1");
+            selectedAns = null;
+            if(num_attempt > 0)
+                shuffleButton();
         }
+
+        icon.setFitHeight(15);
+        icon.setFitWidth(15);
+        currButton.setGraphic(icon);
+
         currButton.getStyleClass().add(style);
 
         if(num_attempt == 0){
@@ -218,5 +229,15 @@ public class QuizController {
         showCorrectAnswer();
         disableAllAnswersOption();
         num_attempt = -1;
+    }
+
+    public void shuffleButton(){
+        List<Node> buttons = new ArrayList<>();
+        for(Node node : answerFlowPane.getChildren()){
+            buttons.add(node);
+        }
+        Collections.shuffle(buttons);
+        answerFlowPane.getChildren().clear();
+        answerFlowPane.getChildren().addAll(buttons);
     }
 }

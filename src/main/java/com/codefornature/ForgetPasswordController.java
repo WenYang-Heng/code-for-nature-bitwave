@@ -1,6 +1,7 @@
 package com.codefornature;
 
 import com.codefornature.dao.UserDAO;
+import com.codefornature.utils.WindowDrag;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -111,7 +112,7 @@ public class ForgetPasswordController {
     public void setStage(Stage startStage, Scene scene) {
         this.startStage = startStage;
 //        scene.setFill(Color.TRANSPARENT);
-        WindowDragController.windowDrag(titleBar, this.startStage);
+        WindowDrag.windowDrag(titleBar, this.startStage);
     }
 
     public void minimizeWindow(ActionEvent actionEvent) {

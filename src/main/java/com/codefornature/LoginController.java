@@ -4,6 +4,7 @@ import com.codefornature.dao.CartDAO;
 import com.codefornature.dao.UserDAO;
 import com.codefornature.model.CartModel;
 import com.codefornature.model.UserModel;
+import com.codefornature.utils.WindowDrag;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -13,7 +14,6 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -24,7 +24,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 public class LoginController {
 
@@ -157,7 +156,7 @@ public class LoginController {
     public void setStartingStage(Stage stage, Scene scene) {
         startStage = stage;
         scene.setFill(Color.TRANSPARENT);
-        WindowDragController.windowDrag(titleBar, startStage);
+        WindowDrag.windowDrag(titleBar, startStage);
     }
 
     public void onSignUpClicked(ActionEvent event) throws IOException {

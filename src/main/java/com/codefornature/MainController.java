@@ -1,16 +1,14 @@
 package com.codefornature;
 
 import com.codefornature.model.UserModel;
+import com.codefornature.utils.WindowDrag;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -18,7 +16,6 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
 
 public class MainController {
     @FXML
@@ -134,6 +131,6 @@ public class MainController {
         this.mainWindow = mainWindow;
         mainWindow.initStyle(StageStyle.TRANSPARENT);
         mainWindow.setResizable(false);
-        WindowDragController.windowDrag(titleBar, mainWindow);
+        WindowDrag.windowDrag(titleBar, mainWindow);
     }
 }

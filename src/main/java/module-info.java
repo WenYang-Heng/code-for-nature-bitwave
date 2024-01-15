@@ -14,4 +14,6 @@ module com.codefornature {
     opens com.codefornature.model to javafx.fxml;
     exports com.codefornature.dao;
     opens com.codefornature.dao to javafx.fxml;
+    exports com.codefornature.utils;
+    opens com.codefornature.utils to javafx.fxml;
 }

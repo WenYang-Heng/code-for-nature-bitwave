@@ -83,8 +83,8 @@ public class LoginController {
         String ID = userID.getText();
         String pw = password.getText();
 
-        ID = "heng@gmail.com";
-        pw = "test123";
+        ID = "heng3@gmail.com";
+        pw = "test456";
 
         if(ID.isEmpty() || pw.isEmpty()){
             if(ID.isEmpty()){
